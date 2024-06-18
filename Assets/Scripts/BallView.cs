@@ -7,10 +7,10 @@ namespace Assets.Scripts
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "BlueGoal")
-                MatchView.Instance.BlueScore++;
+                MatchData.BlueScore++;
 
             if (other.gameObject.tag == "RedGoal")
-                MatchView.Instance.RedScore++;
+                MatchData.RedScore++;
         }
     }
 }

@@ -1296,9 +1296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854cc86e65571a940a69137c64be6876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  document: {fileID: 1489321083}
-  _redGoal: {fileID: 0}
-  _blueGoal: {fileID: 0}
 --- !u!114 &732369159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1323,6 +1320,7 @@ MonoBehaviour:
   _selectedPlayer: {fileID: 1292932374}
   _ball: {fileID: 1469377050}
   _speed: 15
+  document: {fileID: 1489321083}
 --- !u!1 &837618468
 GameObject:
   m_ObjectHideFlags: 0

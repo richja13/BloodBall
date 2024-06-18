@@ -6,8 +6,6 @@ namespace Assets.Scripts
 {
     internal static class MovementController
     {
-        static float _kickPower;
-
         internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
         internal static Transform FindClosestPlayer(List<GameObject> players, Transform target, out float distance)

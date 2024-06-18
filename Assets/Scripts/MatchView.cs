@@ -8,39 +8,20 @@ namespace Assets.Scripts
     {
         public static MatchView Instance;
 
-        [SerializeField]
-        UIDocument document;
-
-        [SerializeField]
-        GameObject _redGoal;
-
-        [SerializeField]
-        GameObject _blueGoal;
-
-        internal float RedScore;
-        internal float BlueScore;
-
-        double _time;
-
-        Label UItime;
-
-        Label UIScore;
-
         void Awake() => Instance = this;   
 
-        void OnEnable()
+        void Update()
         {
-            _time = 0;
-            UItime = document.rootVisualElement.Q<Label>(className: "time");
-            UIScore = document.rootVisualElement.Q<Label>(className: "score");
+            MatchData.UIScore.text = $"{MatchData.BlueScore}:{MatchData.RedScore}";
+            MatchData.Time += Time.deltaTime * 4;
+            var timespan = TimeSpan.FromSeconds(MatchData.Time);
+            MatchData.UItime.text = string.Format("{0:00}:{1:00}", timespan.TotalMinutes, timespan.Seconds);
         }
 
-        private void Update()
+        internal void LoadPowerBar(ProgressBar powerBar, float highValue, float kickForce)
         {
-            UIScore.text = $"{BlueScore}:{RedScore}";
-            _time  += Time.deltaTime * 4;
-            var timespan = TimeSpan.FromSeconds(_time);
-            UItime.text = string.Format("{0:00}:{1:00}", timespan.TotalMinutes, timespan.Seconds);
+            powerBar.highValue = highValue;
+            powerBar.value = kickForce;
         }
     }
 }

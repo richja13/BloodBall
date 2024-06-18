@@ -6,8 +6,8 @@ public class MovementView : MonoBehaviour
 {
     bool _shoot = false;
     bool _pass = false;
-    float _kickPower = 1;
-    const float MAX_KICK_POWER = 6;
+    float _kickPower = 2;
+    const float MAX_KICK_POWER = 4;
 
     delegate void KickBall(float power, Vector3 direction);
     event KickBall kickBall;
@@ -47,19 +47,28 @@ public class MovementView : MonoBehaviour
             Pass();
     }
 
-    void LoadKickForce() => _kickPower += (_kickPower < MAX_KICK_POWER) ? Time.deltaTime * 3 : 0;
+    void LoadKickForce()
+    {
+        if (!MovementData.PlayerHasBall)
+            return;
 
-    void Shoot()
+        _kickPower += (_kickPower < MAX_KICK_POWER) ? Time.deltaTime * 3 : 0;
+        MatchView.Instance.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, _kickPower);
+    }
+
+    async void Shoot()
     {
         _shoot = false;
+
+        MatchView.Instance.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, 0);
 
         if (!MovementData.PlayerHasBall)
             return;
 
         Debug.Log($"Kick power: {_kickPower}");
         
-        kickBall?.Invoke(10 * _kickPower, MovementData.SelectedPlayer.transform.forward);
-        _kickPower = 1;
+        kickBall?.Invoke(10 * _kickPower + 5, MovementData.SelectedPlayer.transform.forward);
+        _kickPower = 0;
     }
 
     async void Pass()
