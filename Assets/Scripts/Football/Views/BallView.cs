@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Core.Data;
+using UnityEngine;
 
-namespace Assets.Scripts
+namespace Football.Views
 {
     internal class BallView : MonoBehaviour
     {

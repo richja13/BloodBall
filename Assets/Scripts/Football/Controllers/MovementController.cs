@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Football.Data;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Football.Controllers
 {
     internal static class MovementController
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Core.Data;
 
-namespace Assets.Scripts
+namespace Core.Views
 {
     internal class MatchView : MonoBehaviour
     {
