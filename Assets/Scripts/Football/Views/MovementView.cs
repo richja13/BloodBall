@@ -4,6 +4,7 @@ using Football.Controllers;
 using Football.Data;
 using Core.Data;
 using Core;
+using System.Collections.Generic;
 
 namespace Football.Views
 {
@@ -26,7 +27,9 @@ namespace Football.Views
 
             MovementData.SelectedPlayer.transform.position += MovementController.Movement(x, y, MovementData.BasicSpeed);
 
-            MovementData.SelectedPlayer.transform.rotation = ((x + y) != 0) ? Quaternion.Euler(0, MovementController.RotationY(x, y), 0) : MovementData.SelectedPlayer.transform.rotation;
+            MovementData.SelectedPlayer.transform.rotation = ((x + y) != 0) ? 
+                Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.Euler(0,MovementController.RotationY(x, y), 0), Time.deltaTime * 5) :
+                MovementData.SelectedPlayer.transform.rotation;
 
             if (MovementData.PlayerHasBall)
                 MovementData.Ball.transform.localPosition = new Vector3(0, -0.5f, 0.85f);
@@ -41,6 +44,9 @@ namespace Football.Views
 
             if (Input.GetMouseButtonDown(1))
                 _pass = true;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                ChangePlayer();
         }
 
         void FixedUpdate()
@@ -61,7 +67,7 @@ namespace Football.Views
             CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, _kickPower);
         }
 
-        async void Shoot()
+        void Shoot()
         {
             _shoot = false;
 
@@ -83,7 +89,10 @@ namespace Football.Views
             if (!MovementData.PlayerHasBall)
                 return;
 
-            var closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeamPlayers, MovementData.SelectedPlayer.transform, out var distance);
+            List<GameObject> playerModels = new();
+            MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
+
+            var closestPlayer = MovementController.FindClosestPlayer(MovementData.TestPlayers, MovementData.SelectedPlayer.transform, out var distance);
             MovementData.SelectedPlayer.transform.LookAt(closestPlayer);
             MovementData.Ball.transform.LookAt(MovementData.SelectedPlayer.transform);
             var vector = new Vector3(closestPlayer.position.x - MovementData.SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - MovementData.SelectedPlayer.transform.position.z) / 10;
@@ -99,6 +108,15 @@ namespace Football.Views
                 await Task.Delay(10);
             }
 
+            MovementData.SelectedPlayer = closestPlayer.gameObject;
+        }
+
+        void ChangePlayer()
+        {
+            List<GameObject> playerModels = new();
+            MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
+
+            var closestPlayer = MovementController.FindClosestPlayer(MovementData.TestPlayers, MovementData.SelectedPlayer.transform, out var distance);
             MovementData.SelectedPlayer = closestPlayer.gameObject;
         }
     }

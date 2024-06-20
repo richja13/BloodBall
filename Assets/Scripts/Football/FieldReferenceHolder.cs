@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using Football.Views;
 using Core.Data;
 using Football.Data;
+using Core.Config;
 
 namespace Football
 {
@@ -13,10 +14,13 @@ namespace Football
         public MovementView MovementView;
 
         [SerializeField]
-        List<GameObject> _blueTeamPlayers;
+        List<GameObject> _testPlayers;
 
         [SerializeField]
-        List<GameObject> _redTeamPlayers;
+        List<PlayerConfig> _blueTeamPlayers;
+
+        [SerializeField]
+        List<PlayerConfig> _redTeamPlayers;
 
         [SerializeField]
         GameObject _selectedPlayer;
@@ -28,7 +32,13 @@ namespace Football
         float _speed;
 
         [SerializeField]
-        UIDocument document;
+        UIDocument _document;
+
+        [SerializeField]
+        List<Transform> _leftSpawnPoints;
+
+        [SerializeField]
+        List<Transform> _rightSpawnPoints;
 
         void OnEnable()
         {
@@ -38,13 +48,16 @@ namespace Football
             MovementData.Ball = _ball;
             MovementData.BasicSpeed = _speed;
             MovementData.BlueTeamPlayers = _blueTeamPlayers;
+            MovementData.TestPlayers = _testPlayers;
 
             //MatchData
             MatchData.Time = 0;
-            MatchData.UItime = document.rootVisualElement.Q<Label>(className: "time");
-            MatchData.UIScore = document.rootVisualElement.Q<Label>(className: "score");
-            MatchData.RedTeamBar = document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
-            MatchData.BlueTeamBar = document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
+            MatchData.UItime = _document.rootVisualElement.Q<Label>(className: "time");
+            MatchData.UIScore = _document.rootVisualElement.Q<Label>(className: "score");
+            MatchData.RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
+            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
+            MatchData.LeftSpawnPoints = _leftSpawnPoints;
+            MatchData.RightSpawnPoints = _rightSpawnPoints;
         }
     }
 }

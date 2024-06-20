@@ -49,7 +49,10 @@ namespace Football.Controllers
 
             await Task.Delay(700);
 
-            var closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeamPlayers, MovementData.Ball.transform, out var distance);
+            //List<GameObject> playerModels = new();
+            //MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
+
+            var closestPlayer = FindClosestPlayer(MovementData.TestPlayers, MovementData.Ball.transform, out var distance);
 
             if (distance < 2.5f)
             {

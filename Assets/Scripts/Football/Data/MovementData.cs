@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Config;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Football.Data
@@ -7,9 +8,11 @@ namespace Football.Data
     {
         internal static GameObject SelectedPlayer;
 
-        internal static List<GameObject> BlueTeamPlayers;
+        internal static List<PlayerConfig> BlueTeamPlayers;
 
-        internal static List<GameObject> RedTeamPlayers;
+        internal static List<PlayerConfig> RedTeamPlayers;
+
+        internal static List<GameObject> TestPlayers;
 
         internal static GameObject Ball;
 

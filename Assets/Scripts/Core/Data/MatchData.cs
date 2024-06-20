@@ -1,4 +1,6 @@
 ﻿using UnityEngine.UIElements;
+using UnityEngine;
+using System.Collections.Generic;
 
 namespace Core.Data
 {
@@ -17,5 +19,9 @@ namespace Core.Data
         public static ProgressBar RedTeamBar;
 
         public static ProgressBar BlueTeamBar;
+
+        public static List<Transform> LeftSpawnPoints;
+
+        public static List<Transform> RightSpawnPoints;
     }
 }
