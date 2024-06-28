@@ -94,14 +94,8 @@ namespace Football.Views
 
             var players = MovementController.FieldOfView(MovementData.FovObject, MovementData.SelectedPlayer.transform);
 
-            foreach (var player in players)
-                Debug.Log(player.gameObject.name);
-
             if (players is null || players.Count <= 0)
-            {
-                Debug.Log("Players null");
                 return;
-            }
 
             var closestPlayer = MovementController.FindClosestPlayer(players, MovementData.SelectedPlayer.transform, out var distance);
             MovementData.SelectedPlayer.transform.LookAt(closestPlayer);
