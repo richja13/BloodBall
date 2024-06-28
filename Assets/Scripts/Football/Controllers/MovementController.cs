@@ -1,5 +1,7 @@
-﻿using Football.Data;
+﻿using Codice.CM.Common;
+using Football.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -85,6 +87,65 @@ namespace Football.Controllers
                 return 0;
             else
                 return 180;
+        }
+
+        internal static List<GameObject> FieldOfView(GameObject obj, Transform selectedPlayer)
+        {
+            obj.transform.parent = selectedPlayer;
+            obj.transform.localPosition = new Vector3(0, 0.7f, 0);
+            obj.transform.rotation = selectedPlayer.rotation;
+
+            Mesh newMesh = new();
+            obj.GetComponent<MeshFilter>().mesh = newMesh;
+
+            float fov = 90;
+            Vector3 origin = Vector3.zero;
+            int rayCount = 50;
+            float angle = 45f;
+            float angleIncrease = fov / rayCount;
+            float viewDistance = 50f;
+
+            Vector3[] vertices = new Vector3[rayCount + 1 + 1];
+            Vector2[] uv = new Vector2[vertices.Length];
+            int[] triangles = new int[rayCount * 3];
+
+            vertices[0] = origin;
+
+            int vertexIndex = 1;
+            int triangleIndex = 0;
+            List<GameObject> fovPlayers = new();
+
+            for (int i = 0; i <= rayCount; i++)
+            {
+                //Get vector from angle
+                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (Vector3.forward);
+
+
+                Vector3 vertex = origin + castDirection * viewDistance;
+                vertices[vertexIndex] = vertex;
+
+                RaycastHit[] raycastHits = Physics.RaycastAll(origin, castDirection, viewDistance);
+                foreach (var player in raycastHits.Where(players => players.transform.gameObject.tag == "RedPlayer" && players.transform != selectedPlayer.transform))
+                    fovPlayers.Add(player.transform.gameObject);
+
+                if (i > 0)
+                {
+                    triangles[triangleIndex + 0] = 0;
+                    triangles[triangleIndex + 1] = vertexIndex - 1;
+                    triangles[triangleIndex + 2] = vertexIndex;
+
+                    triangleIndex += 3;
+                }
+
+                vertexIndex++;
+                angle -= angleIncrease;
+            }
+
+            newMesh.vertices = vertices;
+            newMesh.uv = uv;
+            newMesh.triangles = triangles;
+
+            return fovPlayers;
         }
     }
 }

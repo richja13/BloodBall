@@ -11,6 +11,7 @@ namespace Football.Controllers
             for(int i = 0; i < MatchData.RightSpawnPoints.Count; i++)
             {
               var player = Object.Instantiate(MovementData.RedTeamPlayers[0].PlayerModel, MatchData.RightSpawnPoints[i]);
+                MovementData.TestPlayers.Add(player);
             }
         }
     }

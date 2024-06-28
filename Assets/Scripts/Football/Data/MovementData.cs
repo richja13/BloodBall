@@ -8,11 +8,15 @@ namespace Football.Data
     {
         internal static GameObject SelectedPlayer;
 
+        internal static GameObject FovObject;
+
         internal static List<PlayerConfig> BlueTeamPlayers;
 
         internal static List<PlayerConfig> RedTeamPlayers;
 
         internal static List<GameObject> TestPlayers;
+
+        internal static List<Transform> PlayersInView;
 
         internal static GameObject Ball;
 
