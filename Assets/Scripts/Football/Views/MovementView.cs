@@ -5,7 +5,6 @@ using Football.Data;
 using Core.Data;
 using Core;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace Football.Views
 {
@@ -19,31 +18,10 @@ namespace Football.Views
         delegate void KickBall(float power, Vector3 direction);
         event KickBall kickBall;
 
-        void Start() 
-        {
-            kickBall += MovementController.BallAddForce;
-            StartCoroutine(ChangeColor(MovementData.TestPlayers));
-        }
-
-        IEnumerator ChangeColor(List<GameObject> players)
-        {
-            yield return new WaitForSeconds(0.5f);
-
-            foreach (var player in players)
-                player.GetComponent<MeshRenderer>().material.color = Color.red;
-
-            StartCoroutine(ChangeColor(MovementData.TestPlayers));
-        }
+        void Start() => kickBall += MovementController.BallAddForce;
 
         void Update()
         {
-            var players = MovementController.FieldOfView(MovementData.FovObject, MovementData.SelectedPlayer.transform);
-
-            foreach (var player in players)
-                player.GetComponent<MeshRenderer>().material.color = Color.white;
-
-            players = null;
-
             var x = Input.GetAxis("Horizontal");
             var y = Input.GetAxis("Vertical");
 

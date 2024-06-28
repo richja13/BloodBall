@@ -1,5 +1,4 @@
-﻿using Codice.CM.Common;
-using Football.Data;
+﻿using Football.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,9 +50,6 @@ namespace Football.Controllers
 
             await Task.Delay(700);
 
-            //List<GameObject> playerModels = new();
-            //MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
-
             var closestPlayer = FindClosestPlayer(MovementData.TestPlayers, MovementData.Ball.transform, out var distance);
 
             if (distance < 2.5f)
@@ -93,17 +89,13 @@ namespace Football.Controllers
         {
             obj.transform.parent = selectedPlayer;
             obj.transform.localPosition = new Vector3(0, 0.7f, 0);
-            obj.transform.rotation = selectedPlayer.rotation;
 
-            Mesh newMesh = new();
-            obj.GetComponent<MeshFilter>().mesh = newMesh;
-
-            float fov = 90;
-            Vector3 origin = Vector3.zero;
-            int rayCount = 50;
+            float fov = 80f;
+            Vector3 origin = selectedPlayer.transform.position;
+            int rayCount = 25;
             float angle = 45f;
             float angleIncrease = fov / rayCount;
-            float viewDistance = 50f;
+            float viewDistance = 40f;
 
             Vector3[] vertices = new Vector3[rayCount + 1 + 1];
             Vector2[] uv = new Vector2[vertices.Length];
@@ -118,8 +110,9 @@ namespace Football.Controllers
             for (int i = 0; i <= rayCount; i++)
             {
                 //Get vector from angle
-                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (Vector3.forward);
+                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (selectedPlayer.transform.forward);
 
+                Debug.Log("Cast Direction" + castDirection);
 
                 Vector3 vertex = origin + castDirection * viewDistance;
                 vertices[vertexIndex] = vertex;
@@ -140,10 +133,6 @@ namespace Football.Controllers
                 vertexIndex++;
                 angle -= angleIncrease;
             }
-
-            newMesh.vertices = vertices;
-            newMesh.uv = uv;
-            newMesh.triangles = triangles;
 
             return fovPlayers;
         }
