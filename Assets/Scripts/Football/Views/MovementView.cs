@@ -18,6 +18,8 @@ namespace Football.Views
         delegate void KickBall(float power, Vector3 direction);
         event KickBall kickBall;
 
+        void OnEnable() => SpawnController.SpawnPlayers();
+
         void Start() => kickBall += MovementController.BallAddForce;
 
         void Update()
@@ -122,7 +124,7 @@ namespace Football.Views
             List<GameObject> playerModels = new();
             MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
 
-            var closestPlayer = MovementController.FindClosestPlayer(MovementData.TestPlayers, MovementData.SelectedPlayer.transform, out var distance);
+            var closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, MovementData.SelectedPlayer.transform, out var distance);
             MovementData.SelectedPlayer = closestPlayer.gameObject;
         }
     }

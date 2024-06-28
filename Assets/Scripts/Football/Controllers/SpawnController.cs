@@ -10,8 +10,14 @@ namespace Football.Controllers
         {
             for(int i = 0; i < MatchData.RightSpawnPoints.Count; i++)
             {
-                var player = Object.Instantiate(MovementData.RedTeamPlayers[0].PlayerModel, MatchData.RightSpawnPoints[i]);
-                MovementData.TestPlayers.Add(player);
+                var redPlayer = Object.Instantiate(MovementData.RedTeamPlayers[0].PlayerModel, MatchData.RightSpawnPoints[i]);
+                MovementData.RedTeam.Add(redPlayer);
+
+                if(i is 0)
+                    MovementData.SelectedPlayer = redPlayer;
+
+                var bluePlayer = Object.Instantiate(MovementData.BlueTeamPlayers[0].PlayerModel, MatchData.LeftSpawnPoints[i]);
+                MovementData.BlueTeam.Add(bluePlayer);
             }
         }
     }

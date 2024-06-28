@@ -15,16 +15,10 @@ namespace Football
         public MovementView MovementView;
 
         [SerializeField]
-        List<GameObject> _testPlayers;
-
-        [SerializeField]
         List<PlayerConfig> _blueTeamPlayers;
 
         [SerializeField]
         List<PlayerConfig> _redTeamPlayers;
-
-        [SerializeField]
-        GameObject _selectedPlayer;
 
         [SerializeField]
         GameObject _ball;
@@ -44,15 +38,13 @@ namespace Football
         [SerializeField]
         GameObject _fovObject;
 
-        void OnEnable()
+        void Awake()
         {
             //Movement Data
-            MovementData.SelectedPlayer = _selectedPlayer;
             MovementData.RedTeamPlayers = _redTeamPlayers;
+            MovementData.BlueTeamPlayers = _blueTeamPlayers;
             MovementData.Ball = _ball;
             MovementData.BasicSpeed = _speed;
-            MovementData.BlueTeamPlayers = _blueTeamPlayers;
-            MovementData.TestPlayers = _testPlayers;
             MovementData.FovObject = _fovObject;
 
             //MatchData
@@ -63,8 +55,6 @@ namespace Football
             MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
-
-            SpawnController.SpawnPlayers();
         }
     }
 }

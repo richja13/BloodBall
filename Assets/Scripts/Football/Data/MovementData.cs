@@ -14,7 +14,9 @@ namespace Football.Data
 
         internal static List<PlayerConfig> RedTeamPlayers;
 
-        internal static List<GameObject> TestPlayers;
+        internal static List<GameObject> RedTeam = new();
+
+        internal static List<GameObject> BlueTeam = new();
 
         internal static List<Transform> PlayersInView;
 
