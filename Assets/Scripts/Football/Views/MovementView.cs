@@ -90,12 +90,18 @@ namespace Football.Views
                 return;
 
             List<GameObject> playerModels = new();
-            MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
+            MovementData.RedTeamPlayers.ForEach(playerModel => playerModels.Add(playerModel.PlayerModel));
 
-            var closestPlayer = MovementController.FindClosestPlayer(MovementData.TestPlayers, MovementData.SelectedPlayer.transform, out var distance);
+            var players = MovementController.FieldOfView(MovementData.FovObject, MovementData.SelectedPlayer.transform);
+
+            if (players is null || players.Count <= 0)
+                return;
+
+            var closestPlayer = MovementController.FindClosestPlayer(players, MovementData.SelectedPlayer.transform, out var distance);
             MovementData.SelectedPlayer.transform.LookAt(closestPlayer);
             MovementData.Ball.transform.LookAt(MovementData.SelectedPlayer.transform);
-            var vector = new Vector3(closestPlayer.position.x - MovementData.SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - MovementData.SelectedPlayer.transform.position.z) / 10;
+            closestPlayer.LookAt(MovementData.SelectedPlayer.transform);
+            var vector = new Vector3(closestPlayer.position.x - MovementData.SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - MovementData.SelectedPlayer.transform.position.z) / 13;
             kickBall?.Invoke(15, vector);
 
             var a = 0;

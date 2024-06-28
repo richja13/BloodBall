@@ -1,5 +1,6 @@
 ﻿using Football.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -49,9 +50,6 @@ namespace Football.Controllers
 
             await Task.Delay(700);
 
-            //List<GameObject> playerModels = new();
-            //MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
-
             var closestPlayer = FindClosestPlayer(MovementData.TestPlayers, MovementData.Ball.transform, out var distance);
 
             if (distance < 2.5f)
@@ -85,6 +83,58 @@ namespace Football.Controllers
                 return 0;
             else
                 return 180;
+        }
+
+        internal static List<GameObject> FieldOfView(GameObject obj, Transform selectedPlayer)
+        {
+            obj.transform.parent = selectedPlayer;
+            obj.transform.localPosition = new Vector3(0, 0.7f, 0);
+
+            float fov = 80f;
+            Vector3 origin = selectedPlayer.transform.position;
+            int rayCount = 25;
+            float angle = 45f;
+            float angleIncrease = fov / rayCount;
+            float viewDistance = 40f;
+
+            Vector3[] vertices = new Vector3[rayCount + 1 + 1];
+            Vector2[] uv = new Vector2[vertices.Length];
+            int[] triangles = new int[rayCount * 3];
+
+            vertices[0] = origin;
+
+            int vertexIndex = 1;
+            int triangleIndex = 0;
+            List<GameObject> fovPlayers = new();
+
+            for (int i = 0; i <= rayCount; i++)
+            {
+                //Get vector from angle
+                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (selectedPlayer.transform.forward);
+
+                Debug.Log("Cast Direction" + castDirection);
+
+                Vector3 vertex = origin + castDirection * viewDistance;
+                vertices[vertexIndex] = vertex;
+
+                RaycastHit[] raycastHits = Physics.RaycastAll(origin, castDirection, viewDistance);
+                foreach (var player in raycastHits.Where(players => players.transform.gameObject.tag == "RedPlayer" && players.transform != selectedPlayer.transform))
+                    fovPlayers.Add(player.transform.gameObject);
+
+                if (i > 0)
+                {
+                    triangles[triangleIndex + 0] = 0;
+                    triangles[triangleIndex + 1] = vertexIndex - 1;
+                    triangles[triangleIndex + 2] = vertexIndex;
+
+                    triangleIndex += 3;
+                }
+
+                vertexIndex++;
+                angle -= angleIncrease;
+            }
+
+            return fovPlayers;
         }
     }
 }

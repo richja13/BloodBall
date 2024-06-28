@@ -5,6 +5,7 @@ using Football.Views;
 using Core.Data;
 using Football.Data;
 using Core.Config;
+using Football.Controllers;
 
 namespace Football
 {
@@ -40,6 +41,9 @@ namespace Football
         [SerializeField]
         List<Transform> _rightSpawnPoints;
 
+        [SerializeField]
+        GameObject _fovObject;
+
         void OnEnable()
         {
             //Movement Data
@@ -49,6 +53,7 @@ namespace Football
             MovementData.BasicSpeed = _speed;
             MovementData.BlueTeamPlayers = _blueTeamPlayers;
             MovementData.TestPlayers = _testPlayers;
+            MovementData.FovObject = _fovObject;
 
             //MatchData
             MatchData.Time = 0;
@@ -58,6 +63,8 @@ namespace Football
             MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
+
+            SpawnController.SpawnPlayers();
         }
     }
 }
