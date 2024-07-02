@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UIElements;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace Core.Data
 {
