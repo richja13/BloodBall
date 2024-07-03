@@ -5,7 +5,6 @@ using Football.Data;
 using Core.Data;
 using Core;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 
 namespace Football.Views
 {
@@ -33,6 +32,8 @@ namespace Football.Views
         }
         void Update()
         {
+            MatchData.RedPlayerName.text = MovementData.SelectedPlayer.name;
+
             var InputMap = MovementData.Input.GamePlay;
 
             if(InputMap.Shoot.IsPressed())

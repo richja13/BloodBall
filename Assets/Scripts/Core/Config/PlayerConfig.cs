@@ -6,13 +6,15 @@ namespace Core.Config
     public class PlayerConfig : ScriptableObject
     {
         [SerializeField]
-        internal string PlayerNumber;
+        public string PlayerNumber;
 
         [SerializeField]
-        internal string PlayerName;
+        public string PlayerName;
 
         [SerializeField]
         public GameObject PlayerModel;
+
+        public Transform SpawnPoint;
 
         [SerializeField]
         [Range(2, 4)]

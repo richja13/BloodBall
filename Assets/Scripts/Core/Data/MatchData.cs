@@ -21,6 +21,8 @@ namespace Core.Data
 
         public static ProgressBar BlueTeamBar;
 
+        public static Label RedPlayerName;
+
         public static List<Transform> LeftSpawnPoints;
 
         public static List<Transform> RightSpawnPoints;

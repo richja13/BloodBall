@@ -1160,9 +1160,28 @@ MonoBehaviour:
   _speed: 15
   _blueTeamPlayers:
   - {fileID: 11400000, guid: 69b230ae05f43b247a3d3469607998f0, type: 2}
+  - {fileID: 11400000, guid: 5b3a2a0e2400f9e40b9d0f933cba87da, type: 2}
+  - {fileID: 11400000, guid: c447e8af4210f48429352fbfb3c8c0ba, type: 2}
+  - {fileID: 11400000, guid: ed0c48b152a3b1b46b2463b51ffb4137, type: 2}
+  - {fileID: 11400000, guid: c980674a780280542b37e396a448db0a, type: 2}
+  - {fileID: 11400000, guid: c5cded254dcda074d8c71239ac8a2679, type: 2}
+  - {fileID: 11400000, guid: ed2a7aae97d796d4e84d052e302ad7d1, type: 2}
+  - {fileID: 11400000, guid: 52c8ce193b7c55141adfd0da80173e68, type: 2}
+  - {fileID: 11400000, guid: a2411011d8d3f604faa45477922377e9, type: 2}
+  - {fileID: 11400000, guid: 21833e9423ae55743889b36e4800edf6, type: 2}
+  - {fileID: 11400000, guid: b77895d54a70a18448b241e0215fa4f7, type: 2}
   _redTeamPlayers:
   - {fileID: 11400000, guid: e84c2bd89773ffb4c8db43699ad88ea8, type: 2}
   - {fileID: 11400000, guid: f0bc9f92b41b19845a3618fd08729e47, type: 2}
+  - {fileID: 11400000, guid: c300196ece9a77e438b403d6063c432d, type: 2}
+  - {fileID: 11400000, guid: be733df9bb23b8441976a33b72b93d28, type: 2}
+  - {fileID: 11400000, guid: a025eea14173ccb4e910e5627663176d, type: 2}
+  - {fileID: 11400000, guid: a5e0056cd7df9524faf618604b3e4dbb, type: 2}
+  - {fileID: 11400000, guid: 566b522bf314606468dba3206f9c7a24, type: 2}
+  - {fileID: 11400000, guid: 67d8ac6859cc8bc4abe56c4bcb76bd42, type: 2}
+  - {fileID: 11400000, guid: 0037db2a6dad966488e23cb70814da51, type: 2}
+  - {fileID: 11400000, guid: f40026d010fb06c47b3cb44c1a75d97c, type: 2}
+  - {fileID: 11400000, guid: d4a0fdbb32a1a534eadb02ae095ce85f, type: 2}
   _ball: {fileID: 1469377050}
   _document: {fileID: 1489321083}
   _leftSpawnPoints:
