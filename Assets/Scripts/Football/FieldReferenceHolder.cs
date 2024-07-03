@@ -6,6 +6,7 @@ using Core.Data;
 using Football.Data;
 using Core.Config;
 using Football.Controllers;
+using UnityEngine.InputSystem;
 
 namespace Football
 {
@@ -15,6 +16,9 @@ namespace Football
         public MovementView MovementView;
 
         [SerializeField]
+        float _speed;
+
+        [SerializeField]
         List<PlayerConfig> _blueTeamPlayers;
 
         [SerializeField]
@@ -22,9 +26,6 @@ namespace Football
 
         [SerializeField]
         GameObject _ball;
-
-        [SerializeField]
-        float _speed;
 
         [SerializeField]
         UIDocument _document;
@@ -46,6 +47,8 @@ namespace Football
             MovementData.Ball = _ball;
             MovementData.BasicSpeed = _speed;
             MovementData.FovObject = _fovObject;
+            MovementData.Input = new InputActions();
+            MovementData.Input.Enable();
 
             //MatchData
             MatchData.Time = 0;

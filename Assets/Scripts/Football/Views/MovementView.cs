@@ -5,6 +5,7 @@ using Football.Data;
 using Core.Data;
 using Core;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace Football.Views
 {
@@ -13,42 +14,43 @@ namespace Football.Views
         bool _shoot = false;
         bool _pass = false;
         float _kickPower = 2;
+        float _xMovement;
+        float _yMovement;
         const float MAX_KICK_POWER = 4;
 
         delegate void KickBall(float power, Vector3 direction);
         event KickBall kickBall;
-
+    
         void OnEnable() => SpawnController.SpawnPlayers();
 
-        void Start() => kickBall += MovementController.BallAddForce;
-
+        void Start()
+        {
+            var InputMap = MovementData.Input.GamePlay;
+            InputMap.Shoot.canceled += _ => _shoot = true;
+            InputMap.Pass.canceled += _ => _pass = true;
+            InputMap.ChangePlayer.canceled += _ => ChangePlayer();
+            kickBall += MovementController.BallAddForce;
+        }
         void Update()
         {
-            var x = Input.GetAxis("Horizontal");
-            var y = Input.GetAxis("Vertical");
+            var InputMap = MovementData.Input.GamePlay;
 
-            MovementData.SelectedPlayer.transform.position += MovementController.Movement(x, y, MovementData.BasicSpeed);
+            if(InputMap.Shoot.IsPressed())
+                LoadKickForce();
 
-            MovementData.SelectedPlayer.transform.rotation = ((x + y) != 0) ? 
-                Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.Euler(0,MovementController.RotationY(x, y), 0), Time.deltaTime * 5) :
+            _yMovement = InputMap.Move.ReadValue<Vector2>().y;
+            _xMovement = InputMap.Move.ReadValue<Vector2>().x;
+
+            MovementData.SelectedPlayer.transform.position += MovementController.Movement(_xMovement, _yMovement, MovementData.BasicSpeed);
+
+            MovementData.SelectedPlayer.transform.rotation = ((_xMovement + _yMovement) != 0) ? 
+                Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.Euler(0,MovementController.RotationY(_xMovement, _yMovement), 0), Time.deltaTime * 5) :
                 MovementData.SelectedPlayer.transform.rotation;
 
             if (MovementData.PlayerHasBall)
                 MovementData.Ball.transform.localPosition = new Vector3(0, -0.5f, 0.85f);
 
             MovementController.GetBall();
-
-            if (Input.GetMouseButton(0))
-                LoadKickForce();
-
-            if (Input.GetMouseButtonUp(0))
-                _shoot = true;
-
-            if (Input.GetMouseButtonDown(1))
-                _pass = true;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-                ChangePlayer();
         }
 
         void FixedUpdate()

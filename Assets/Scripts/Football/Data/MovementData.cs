@@ -22,6 +22,8 @@ namespace Football.Data
 
         internal static GameObject Ball;
 
+        internal static InputActions Input;
+
         internal static float BasicSpeed;
 
         internal static bool PlayerHasBall = false;
