@@ -27,39 +27,39 @@ namespace Football
     ""maps"": [
         {
             ""name"": ""GamePlay"",
-            ""id"": ""f48ee3ca-e3a3-4610-84c7-0b67372c019a"",
+            ""id"": ""213be08e-a6f6-4560-a6db-9b5d1bd39499"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
-                    ""id"": ""e44ebbd2-fa55-4d9e-a15a-0075123e9912"",
+                    ""id"": ""590e8a75-e460-46ab-9e4e-8496f8a4429e"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Pass"",
-                    ""type"": ""Button"",
-                    ""id"": ""34cef990-b9cd-4392-b406-5bd3b318dad9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Shoot"",
                     ""type"": ""Button"",
-                    ""id"": ""c353d700-5ec5-499c-bfef-c62c15ce1ea8"",
+                    ""id"": ""e1ebd518-db01-4279-8a87-9965d30cff07"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ChangePlayer"",
+                    ""name"": ""Pass"",
                     ""type"": ""Button"",
-                    ""id"": ""abd5f65c-a5f7-454f-a442-76cf74df7575"",
+                    ""id"": ""675fc2be-e242-49aa-a3e8-b1787b10fb6c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change"",
+                    ""type"": ""Button"",
+                    ""id"": ""1652bb45-9cd0-4b1f-bc84-912bd99d3fd1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -69,96 +69,74 @@ namespace Football
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""90e8585b-9f8b-4a49-a05c-78627e14f976"",
+                    ""id"": ""369dc766-d0c8-4819-ade7-7027763fb9d7"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""WASD"",
-                    ""id"": ""80e8fe0b-4ba8-49eb-a8f7-dc3f53913f58"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""e66243a2-e7ce-4574-83f2-e3a12ab89a56"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Up"",
-                    ""id"": ""7624f6db-834b-41e0-b409-b7a03138960b"",
+                    ""id"": ""bc90621b-6f67-4500-8dab-72ef31318885"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""Down"",
-                    ""id"": ""bdbb4612-8f2a-4c55-a0de-320790c4994c"",
+                    ""id"": ""f999e593-9d67-4510-a93f-12b7034e8a19"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""Left"",
-                    ""id"": ""0e646a26-b1cd-4b0b-a3cd-c44eb8a5bea3"",
+                    ""id"": ""3e020a6d-5e53-40d0-959d-dafcb98cd8e9"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""Right"",
-                    ""id"": ""71b7514b-0b63-4a60-9d78-164b0fe1d9ad"",
+                    ""id"": ""5fbbb45a-16eb-4b85-98ae-4fcae0f33a3b"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f0606589-1ee1-4f32-b6ca-04d003d1ded9"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pass"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""41596b1c-f961-439d-8a88-682047b44623"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pass"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""257928c4-caa1-4fbd-84e5-7a420f39e826"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""id"": ""ed402348-8d4d-4611-b63b-25c7572350f4"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -168,7 +146,7 @@ namespace Football
                 },
                 {
                     ""name"": """",
-                    ""id"": ""408e6b80-a09e-4420-8151-53081b3bdb6c"",
+                    ""id"": ""58507896-6473-4e83-b8c2-85883a900e43"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -179,23 +157,45 @@ namespace Football
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1c2c682f-cb70-4bc7-8104-cffb4655044d"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""id"": ""dfaa667d-34cf-434c-8c5f-be2f0b4bb18e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangePlayer"",
+                    ""action"": ""Pass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3325d281-d70f-433c-ac56-c4e654c46f3a"",
+                    ""id"": ""34d66171-8904-46a4-b078-1a652e52e449"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pass"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""950d020a-2a8c-42b2-867c-f7e6ce290b72"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7d0622c-17fb-4150-a3c8-435682fde276"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangePlayer"",
+                    ""action"": ""Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -212,10 +212,10 @@ namespace Football
 }");
             // GamePlay
             m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
-            m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
-            m_GamePlay_Pass = m_GamePlay.FindAction("Pass", throwIfNotFound: true);
+            m_GamePlay_Movement = m_GamePlay.FindAction("Movement", throwIfNotFound: true);
             m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
-            m_GamePlay_ChangePlayer = m_GamePlay.FindAction("ChangePlayer", throwIfNotFound: true);
+            m_GamePlay_Pass = m_GamePlay.FindAction("Pass", throwIfNotFound: true);
+            m_GamePlay_Change = m_GamePlay.FindAction("Change", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -277,18 +277,18 @@ namespace Football
         // GamePlay
         private readonly InputActionMap m_GamePlay;
         private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
-        private readonly InputAction m_GamePlay_Move;
-        private readonly InputAction m_GamePlay_Pass;
+        private readonly InputAction m_GamePlay_Movement;
         private readonly InputAction m_GamePlay_Shoot;
-        private readonly InputAction m_GamePlay_ChangePlayer;
+        private readonly InputAction m_GamePlay_Pass;
+        private readonly InputAction m_GamePlay_Change;
         public struct GamePlayActions
         {
             private @InputActions m_Wrapper;
             public GamePlayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_GamePlay_Move;
-            public InputAction @Pass => m_Wrapper.m_GamePlay_Pass;
+            public InputAction @Movement => m_Wrapper.m_GamePlay_Movement;
             public InputAction @Shoot => m_Wrapper.m_GamePlay_Shoot;
-            public InputAction @ChangePlayer => m_Wrapper.m_GamePlay_ChangePlayer;
+            public InputAction @Pass => m_Wrapper.m_GamePlay_Pass;
+            public InputAction @Change => m_Wrapper.m_GamePlay_Change;
             public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -298,34 +298,34 @@ namespace Football
             {
                 if (instance == null || m_Wrapper.m_GamePlayActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_GamePlayActionsCallbackInterfaces.Add(instance);
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Pass.started += instance.OnPass;
-                @Pass.performed += instance.OnPass;
-                @Pass.canceled += instance.OnPass;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
-                @ChangePlayer.started += instance.OnChangePlayer;
-                @ChangePlayer.performed += instance.OnChangePlayer;
-                @ChangePlayer.canceled += instance.OnChangePlayer;
+                @Pass.started += instance.OnPass;
+                @Pass.performed += instance.OnPass;
+                @Pass.canceled += instance.OnPass;
+                @Change.started += instance.OnChange;
+                @Change.performed += instance.OnChange;
+                @Change.canceled += instance.OnChange;
             }
 
             private void UnregisterCallbacks(IGamePlayActions instance)
             {
-                @Move.started -= instance.OnMove;
-                @Move.performed -= instance.OnMove;
-                @Move.canceled -= instance.OnMove;
-                @Pass.started -= instance.OnPass;
-                @Pass.performed -= instance.OnPass;
-                @Pass.canceled -= instance.OnPass;
+                @Movement.started -= instance.OnMovement;
+                @Movement.performed -= instance.OnMovement;
+                @Movement.canceled -= instance.OnMovement;
                 @Shoot.started -= instance.OnShoot;
                 @Shoot.performed -= instance.OnShoot;
                 @Shoot.canceled -= instance.OnShoot;
-                @ChangePlayer.started -= instance.OnChangePlayer;
-                @ChangePlayer.performed -= instance.OnChangePlayer;
-                @ChangePlayer.canceled -= instance.OnChangePlayer;
+                @Pass.started -= instance.OnPass;
+                @Pass.performed -= instance.OnPass;
+                @Pass.canceled -= instance.OnPass;
+                @Change.started -= instance.OnChange;
+                @Change.performed -= instance.OnChange;
+                @Change.canceled -= instance.OnChange;
             }
 
             public void RemoveCallbacks(IGamePlayActions instance)
@@ -354,10 +354,10 @@ namespace Football
         }
         public interface IGamePlayActions
         {
-            void OnMove(InputAction.CallbackContext context);
-            void OnPass(InputAction.CallbackContext context);
+            void OnMovement(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
-            void OnChangePlayer(InputAction.CallbackContext context);
+            void OnPass(InputAction.CallbackContext context);
+            void OnChange(InputAction.CallbackContext context);
         }
     }
 }

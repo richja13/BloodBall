@@ -13,8 +13,7 @@ namespace Football.Views
         bool _shoot = false;
         bool _pass = false;
         float _kickPower = 2;
-        float _xMovement;
-        float _yMovement;
+        Vector2 _movementVector;
         const float MAX_KICK_POWER = 4;
 
         delegate void KickBall(float power, Vector3 direction);
@@ -27,7 +26,7 @@ namespace Football.Views
             var InputMap = MovementData.Input.GamePlay;
             InputMap.Shoot.canceled += _ => _shoot = true;
             InputMap.Pass.canceled += _ => _pass = true;
-            InputMap.ChangePlayer.canceled += _ => ChangePlayer();
+            InputMap.Change.canceled += _ => ChangePlayer();
             kickBall += MovementController.BallAddForce;
         }
         void Update()
@@ -39,13 +38,14 @@ namespace Football.Views
             if(InputMap.Shoot.IsPressed())
                 LoadKickForce();
 
-            _yMovement = InputMap.Move.ReadValue<Vector2>().y;
-            _xMovement = InputMap.Move.ReadValue<Vector2>().x;
+            _movementVector = InputMap.Movement.ReadValue<Vector2>();
 
-            MovementData.SelectedPlayer.transform.position += MovementController.Movement(_xMovement, _yMovement, MovementData.BasicSpeed);
+            MovementData.SelectedPlayer.transform.position += MovementController.Movement(_movementVector.x, _movementVector.y, MovementData.BasicSpeed);
 
-            MovementData.SelectedPlayer.transform.rotation = ((_xMovement + _yMovement) != 0) ? 
-                Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.Euler(0,MovementController.RotationY(_xMovement, _yMovement), 0), Time.deltaTime * 5) :
+            Debug.Log("Movement vector" + _movementVector);
+
+            MovementData.SelectedPlayer.transform.rotation = (_movementVector.x != 0 || _movementVector.y != 0) ? 
+                Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.LookRotation(new Vector3(_movementVector.x + 0.1f, 0, _movementVector.y + 0.1f)), Time.deltaTime * 5) :
                 MovementData.SelectedPlayer.transform.rotation;
 
             if (MovementData.PlayerHasBall)

@@ -112,8 +112,6 @@ namespace Football.Controllers
                 //Get vector from angle
                 Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (selectedPlayer.transform.forward);
 
-                Debug.Log("Cast Direction" + castDirection);
-
                 Vector3 vertex = origin + castDirection * viewDistance;
                 vertices[vertexIndex] = vertex;
 
