@@ -1210,7 +1210,7 @@ MonoBehaviour:
   - {fileID: 979430619}
   - {fileID: 1180557532}
   _fovObject: {fileID: 2102372074}
-  _fieldObject: {fileID: 0}
+  _fieldObject: {fileID: 1542569544}
 --- !u!114 &732369160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,6 +1224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Offence: 1
+  _fieldHalf: -1
 --- !u!1 &742634602
 GameObject:
   m_ObjectHideFlags: 0
