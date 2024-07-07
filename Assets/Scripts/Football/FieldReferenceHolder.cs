@@ -5,8 +5,6 @@ using Football.Views;
 using Core.Data;
 using Football.Data;
 using Core.Config;
-using Football.Controllers;
-using UnityEngine.InputSystem;
 
 namespace Football
 {
@@ -39,6 +37,9 @@ namespace Football
         [SerializeField]
         GameObject _fovObject;
 
+        [SerializeField]
+        GameObject _fieldObject;
+
         void Awake()
         {
             //Movement Data
@@ -59,6 +60,7 @@ namespace Football
             MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
+            MatchData.FieldObject = _fieldObject;
         }
     }
 }

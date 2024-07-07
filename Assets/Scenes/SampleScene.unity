@@ -1097,6 +1097,7 @@ GameObject:
   - component: {fileID: 732369156}
   - component: {fileID: 732369158}
   - component: {fileID: 732369159}
+  - component: {fileID: 732369160}
   m_Layer: 0
   m_Name: TeamManager
   m_TagString: Untagged
@@ -1209,6 +1210,20 @@ MonoBehaviour:
   - {fileID: 979430619}
   - {fileID: 1180557532}
   _fovObject: {fileID: 2102372074}
+  _fieldObject: {fileID: 0}
+--- !u!114 &732369160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732369155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54a7353fa7c1254cacb174214d68818, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offence: 1
 --- !u!1 &742634602
 GameObject:
   m_ObjectHideFlags: 0

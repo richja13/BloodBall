@@ -1,5 +1,6 @@
 ﻿using Core.Data;
 using Football.Data;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Football.Controllers
@@ -14,6 +15,14 @@ namespace Football.Controllers
                 player.SpawnPoint = MatchData.RightSpawnPoints[i];
                 var redPlayer = Object.Instantiate(player.PlayerModel, player.SpawnPoint);
                 redPlayer.name = player.PlayerName + " " + player.PlayerNumber;
+                PlayerData data = redPlayer.AddComponent<PlayerData>();
+                data.PlayerName = player.PlayerName;
+                data.PlayerNumber = player.PlayerNumber;
+                data.SpawnPoint = player.SpawnPoint;
+                data.MaxKickForce = player.MaxKickForce;
+                data.Agility = player.Agility;
+                data.Durability = player.Durability;
+                data.Speed = player.PlayerSpeed;
                 MovementData.RedTeam.Add(redPlayer);
 
                 if(i is 0)

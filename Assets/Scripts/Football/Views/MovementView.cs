@@ -42,8 +42,6 @@ namespace Football.Views
 
             MovementData.SelectedPlayer.transform.position += MovementController.Movement(_movementVector.x, _movementVector.y, MovementData.BasicSpeed);
 
-            Debug.Log("Movement vector" + _movementVector);
-
             MovementData.SelectedPlayer.transform.rotation = (_movementVector.x != 0 || _movementVector.y != 0) ? 
                 Quaternion.Slerp(MovementData.SelectedPlayer.transform.rotation, Quaternion.LookRotation(new Vector3(_movementVector.x + 0.1f, 0, _movementVector.y + 0.1f)), Time.deltaTime * 5) :
                 MovementData.SelectedPlayer.transform.rotation;
