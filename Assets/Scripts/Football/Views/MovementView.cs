@@ -83,6 +83,7 @@ namespace Football.Views
 
             kickBall?.Invoke(10 * _kickPower + 5, MovementData.SelectedPlayer.transform.forward);
             _kickPower = 0;
+            MatchData.RedTeamHasBall = false;
         }
 
         async void Pass()
@@ -106,8 +107,9 @@ namespace Football.Views
             closestPlayer.LookAt(MovementData.SelectedPlayer.transform);
             var vector = new Vector3(closestPlayer.position.x - MovementData.SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - MovementData.SelectedPlayer.transform.position.z) / 13;
             kickBall?.Invoke(15, vector);
+            MatchData.RedTeamHasBall = false;
 
-            var a = 0;
+/*            var a = 0;
             while (a < 40)
             {
                 a++;
@@ -115,7 +117,7 @@ namespace Football.Views
                 playerVector.y = MovementData.SelectedPlayer.transform.position.y;
                 closestPlayer.transform.position = playerVector;
                 await Task.Delay(10);
-            }
+            }*/
 
             MovementData.SelectedPlayer = closestPlayer.gameObject;
         }

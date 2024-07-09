@@ -2,6 +2,7 @@ using Core.Data;
 using Core.Enums;
 using Football.Data;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AIController : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class AIController : MonoBehaviour
                 
             var data = player.GetComponent<PlayerData>();
 
-            if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 10) || !CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+            if (CheckYPosition(player.transform.position, MovementData.Ball.transform.position, 15))
                 if (Offence)
                     data.state = PlayerState.Attack;
                 else
@@ -41,7 +42,7 @@ public class AIController : MonoBehaviour
                     if (data.Target == Vector3.zero)
                         data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
 
-                    if (CheckVector(player.transform.position, data.Target, 1))
+                    if (CheckVector(player.transform.position, data.Target, 1) || !MatchData.RedTeamHasBall)
                         data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
                     else
                         MovePlayers(data.Target, player.transform);
@@ -55,9 +56,9 @@ public class AIController : MonoBehaviour
 
     }
 
-    void CheckFieldHalf() => _fieldHalf = (_meshBounds.x / 2 > 5) ? -1 : 1;
+    void CheckFieldHalf() => _fieldHalf = (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-    void MovePlayers(Vector3 target, Transform player) => player.Translate(target * Time.deltaTime * 0.65f);
+    void MovePlayers(Vector3 target, Transform player) => player.position = Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * 15f);
 /*
     var meshBound FieldObj.GetComponent<MeshFilter>.mesh.Bounds
 
@@ -97,19 +98,36 @@ public class AIController : MonoBehaviour
             return false;
     }
 
+    bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
+    {
+        if (playerPos.z - target.z < distance)
+            return true;
+        else
+            return false;
+    }
+
     Vector3 GenerateRandomVector(Vector3 playerPosition, Vector3 ballPosition, PlayerState state)
     {
-       Vector3 newVector = new();
-       float maxHeight = playerPosition.z;
-       float maxWidth = 0;
+        Vector3 newVector = new();
+        newVector.y = 0;
+        if(MatchData.RedTeamHasBall)
+        {
+            float maxHeight = playerPosition.z;
+            float maxWidth = 0;
 
-        if (state == PlayerState.Attack)
-            maxWidth = ballPosition.x + 20 * _fieldHalf;
-        else 
-            maxWidth = ballPosition.x - 20 * _fieldHalf;
+            if (state == PlayerState.Attack)
+                maxWidth = ballPosition.x - 20;
+            else
+                maxWidth = ballPosition.x + 20;
 
-        newVector.z = Random.Range(playerPosition.z, maxHeight);
-        newVector.x = Random.Range(ballPosition.x + 5, maxWidth);
+            newVector.z = Random.Range(playerPosition.z, maxHeight);
+            newVector.x = Random.Range(ballPosition.x + 5, maxWidth);
+        }
+        else
+        {
+            if (CheckVector(playerPosition, ballPosition, 10))
+                newVector = ballPosition;
+        }
 
         return newVector;
     }

@@ -1,4 +1,5 @@
-﻿using Football.Data;
+﻿using Core.Data;
+using Football.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,7 @@ namespace Football.Controllers
                 MovementData.PlayerHasBall = true;
                 MovementData.SelectedPlayer = closestPlayer.gameObject;
                 MovementData.Ball.transform.SetParent(MovementData.SelectedPlayer.transform);
+                MatchData.RedTeamHasBall = true;
             }
         }
 

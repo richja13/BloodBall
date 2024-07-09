@@ -27,5 +27,7 @@ namespace Core.Data
         public static List<Transform> RightSpawnPoints;
 
         public static GameObject FieldObject;
+
+        public static bool RedTeamHasBall;
     }
 }
