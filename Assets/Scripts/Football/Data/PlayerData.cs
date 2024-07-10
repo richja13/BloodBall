@@ -20,4 +20,6 @@ public class PlayerData : MonoBehaviour
     public float Durability;
 
     public PlayerState state;
+
+    public PositionOnField FieldPosition;
 }

@@ -7,4 +7,12 @@
         Defence,
         GetBall
     }
+
+    public enum PositionOnField
+    {
+        GoalKeeper,
+        Back,
+        Centre,
+        Forward
+    }
 }

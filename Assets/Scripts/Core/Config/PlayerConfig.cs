@@ -1,3 +1,4 @@
+using Core.Enums;
 using UnityEngine;
 
 namespace Core.Config
@@ -29,5 +30,8 @@ namespace Core.Config
 
         [SerializeField]
         public float Durability;
+
+        [SerializeField]
+        public PositionOnField FieldPosition;
     }
 }

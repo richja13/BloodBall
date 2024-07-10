@@ -23,6 +23,7 @@ namespace Football.Controllers
                 data.Agility = player.Agility;
                 data.Durability = player.Durability;
                 data.Speed = player.PlayerSpeed;
+                data.FieldPosition = player.FieldPosition;
                 MovementData.RedTeam.Add(redPlayer);
 
                 if(i is 0)
