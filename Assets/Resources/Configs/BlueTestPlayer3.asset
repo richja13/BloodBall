@@ -20,3 +20,4 @@ MonoBehaviour:
   MaxKickForce: 6.87
   Agility: 0
   Durability: 0
+  FieldPosition: 2

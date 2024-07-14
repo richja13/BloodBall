@@ -15,4 +15,10 @@
         Centre,
         Forward
     }
+
+    public enum Team
+    {
+        Red,
+        Blue
+    }
 }

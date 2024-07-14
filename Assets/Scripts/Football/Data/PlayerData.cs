@@ -22,4 +22,6 @@ public class PlayerData : MonoBehaviour
     public PlayerState state;
 
     public PositionOnField FieldPosition;
+
+    public Team playerTeam;
 }

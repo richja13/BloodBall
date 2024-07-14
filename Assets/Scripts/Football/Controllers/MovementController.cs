@@ -1,4 +1,5 @@
 ﻿using Core.Data;
+using Core.Enums;
 using Football.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace Football.Controllers
         internal static Transform FindClosestPlayer(List<GameObject> players, Transform target, out float distance)
         {
             float smallestDistance = 1000;
-            Transform closestPlayer = MovementData.SelectedPlayer.transform;
+
+            Transform closestPlayer = MovementData.RedSelectedPlayer.transform;
 
             foreach (GameObject player in players)
             {
@@ -51,15 +53,28 @@ namespace Football.Controllers
 
             await Task.Delay(700);
 
-            var closestPlayer = FindClosestPlayer(MovementData.RedTeam, MovementData.Ball.transform, out var distance);
+            var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
+            var data = closestPlayer.GetComponent<PlayerData>();
 
             if (distance < 2.5f)
             {
                 MovementData.PlayerHasBall = true;
-                MovementData.SelectedPlayer = closestPlayer.gameObject;
-                MovementData.Ball.transform.SetParent(MovementData.SelectedPlayer.transform);
-                MatchData.RedTeamHasBall = true;
+
+                if (data.playerTeam is Team.Red)
+                {
+                    MovementData.RedSelectedPlayer = closestPlayer.gameObject;
+                    MatchData.RedTeamHasBall = true;
+                }
+                else
+                {
+                    MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
+                    MatchData.BlueTeamHasBall = true;
+                }
+
+                MovementData.Ball.transform.SetParent(closestPlayer.transform);
+
             }
+
         }
 
         internal static float RotationY(float x, float y)

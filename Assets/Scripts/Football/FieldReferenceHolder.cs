@@ -56,6 +56,7 @@ namespace Football
             MatchData.UItime = _document.rootVisualElement.Q<Label>(className: "time");
             MatchData.UIScore = _document.rootVisualElement.Q<Label>(className: "score");
             MatchData.RedPlayerName = _document.rootVisualElement.Q<Label>(className: "redplayername");
+            MatchData.BluePlayerName = _document.rootVisualElement.Q<Label>(className: "blueplayername");
             MatchData.RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
             MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;

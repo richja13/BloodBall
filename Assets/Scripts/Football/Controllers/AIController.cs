@@ -21,7 +21,7 @@ public class AIController : MonoBehaviour
 
     void LoadPlayers()
     {
-        foreach (var player in MovementData.RedTeam)
+        foreach (var player in MovementData.AllPlayers)
         {
             var fieldPosition = player.GetComponent<PlayerData>().FieldPosition;
             if (fieldPosition == PositionOnField.Forward)
@@ -37,7 +37,6 @@ public class AIController : MonoBehaviour
     void Update()
     {
         CheckFieldHalf();
-
         ManageForward();
         ManageCentre();
         ManageBack();
@@ -47,9 +46,9 @@ public class AIController : MonoBehaviour
         else
             Offence = false;
 
-        foreach (var player in MovementData.RedTeam)
+        foreach (var player in MovementData.AllPlayers)
         {
-            if (player.name == MovementData.SelectedPlayer.name)
+            if (player.name == MovementData.RedSelectedPlayer.name || player.name == MovementData.BlueSelectedPlayer.name)
                 continue;
 
             var data = player.GetComponent<PlayerData>();
@@ -82,8 +81,6 @@ public class AIController : MonoBehaviour
                 case PlayerState.Idle:
                     if (!CheckVector(player.transform.position, data.SpawnPoint.position, 5))
                         MovePlayers(data.SpawnPoint.position, player.transform);
-                    else
-                        Debug.Log("IDLE");
                 break;
 
                 case PlayerState.GetBall:
@@ -99,16 +96,26 @@ public class AIController : MonoBehaviour
         {
             var data = player.GetComponent<PlayerData>();
 
-            if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                if (Offence)
-                    data.state = PlayerState.Attack;
+            if (data.playerTeam == Team.Red)
+            {
+                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
                 else
-                    data.state = PlayerState.Defence;
-            else
-                data.state = PlayerState.Idle;
+                    data.state = PlayerState.Idle;
 
-            if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                data.state = PlayerState.GetBall;
+                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
+            else
+            {
+                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (Offence) ? PlayerState.Defence : PlayerState.Attack;
+                else
+                    data.state = PlayerState.Idle;
+
+                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
         }
     }
 
@@ -118,16 +125,22 @@ public class AIController : MonoBehaviour
         {
             var data = player.GetComponent<PlayerData>();
 
-                if (Offence)
-                    data.state = PlayerState.Attack;
-                else
-                    data.state = PlayerState.Defence;
+            if (data.playerTeam == Team.Red)
+            {
+                data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
 
-            if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                data.state = PlayerState.GetBall;
+                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
+            else
+            {
+                data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
+
+                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
         }
     }
-
 
     void ManageBack()
     {
@@ -135,16 +148,27 @@ public class AIController : MonoBehaviour
         {
             var data = player.GetComponent<PlayerData>();
 
-            if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                if (Offence)
-                    data.state = PlayerState.Attack;
+            if (data.playerTeam == Team.Red)
+            {
+                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
                 else
-                    data.state = PlayerState.Defence;
-            else
-                data.state = PlayerState.Idle;
+                    data.state = PlayerState.Idle;
 
-            if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                data.state = PlayerState.GetBall;
+                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
+            else
+            {
+                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (Offence) ? PlayerState.Defence : PlayerState.Attack;
+                else
+                    data.state = PlayerState.Idle;
+
+                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                    data.state = PlayerState.GetBall;
+            }
+
         }
     }
 
@@ -189,6 +213,26 @@ public class AIController : MonoBehaviour
 
             newVector.x = Random.Range(ballPosition.x + 5, maxWidth);
         }
+
+        if(MatchData.BlueTeamHasBall)
+        {
+            float maxHeight = playerPosition.z;
+            float maxWidth = 0;
+
+            if (Mathf.Abs(ballPosition.x) < Mathf.Abs(ballPosition.x))
+                maxWidth = ballPosition.x + 20;
+            else
+                maxWidth = ballPosition.x - 20;
+
+            if (Vector3.Distance(playerPosition, ballPosition) > 5 && Vector3.Distance(playerPosition, ballPosition) < 15)
+                newVector.z = ballPosition.z;
+            else
+                newVector.z = maxHeight;
+
+            newVector.x = Random.Range(ballPosition.x + 5, maxWidth);
+        }
+
+
         return newVector;
     }
 }

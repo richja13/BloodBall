@@ -30,7 +30,7 @@ namespace Football
             ""id"": ""213be08e-a6f6-4560-a6db-9b5d1bd39499"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
+                    ""name"": ""RedMovement"",
                     ""type"": ""Value"",
                     ""id"": ""590e8a75-e460-46ab-9e4e-8496f8a4429e"",
                     ""expectedControlType"": ""Vector2"",
@@ -64,20 +64,18 @@ namespace Football
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BlueMovement"",
+                    ""type"": ""Button"",
+                    ""id"": ""d676c2f2-5179-4cdb-977c-f4fa1ef30294"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""369dc766-d0c8-4819-ade7-7027763fb9d7"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""e66243a2-e7ce-4574-83f2-e3a12ab89a56"",
@@ -85,7 +83,7 @@ namespace Football
                     ""interactions"": """",
                     ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""RedMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -96,7 +94,7 @@ namespace Football
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""RedMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -107,7 +105,7 @@ namespace Football
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""RedMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -118,7 +116,7 @@ namespace Football
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""RedMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -129,7 +127,7 @@ namespace Football
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""RedMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -198,6 +196,17 @@ namespace Football
                     ""action"": ""Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f3c7923-9005-493b-bbd4-d099b722c8ae"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""BlueMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -212,10 +221,11 @@ namespace Football
 }");
             // GamePlay
             m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
-            m_GamePlay_Movement = m_GamePlay.FindAction("Movement", throwIfNotFound: true);
+            m_GamePlay_RedMovement = m_GamePlay.FindAction("RedMovement", throwIfNotFound: true);
             m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
             m_GamePlay_Pass = m_GamePlay.FindAction("Pass", throwIfNotFound: true);
             m_GamePlay_Change = m_GamePlay.FindAction("Change", throwIfNotFound: true);
+            m_GamePlay_BlueMovement = m_GamePlay.FindAction("BlueMovement", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -277,18 +287,20 @@ namespace Football
         // GamePlay
         private readonly InputActionMap m_GamePlay;
         private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
-        private readonly InputAction m_GamePlay_Movement;
+        private readonly InputAction m_GamePlay_RedMovement;
         private readonly InputAction m_GamePlay_Shoot;
         private readonly InputAction m_GamePlay_Pass;
         private readonly InputAction m_GamePlay_Change;
+        private readonly InputAction m_GamePlay_BlueMovement;
         public struct GamePlayActions
         {
             private @InputActions m_Wrapper;
             public GamePlayActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Movement => m_Wrapper.m_GamePlay_Movement;
+            public InputAction @RedMovement => m_Wrapper.m_GamePlay_RedMovement;
             public InputAction @Shoot => m_Wrapper.m_GamePlay_Shoot;
             public InputAction @Pass => m_Wrapper.m_GamePlay_Pass;
             public InputAction @Change => m_Wrapper.m_GamePlay_Change;
+            public InputAction @BlueMovement => m_Wrapper.m_GamePlay_BlueMovement;
             public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -298,9 +310,9 @@ namespace Football
             {
                 if (instance == null || m_Wrapper.m_GamePlayActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_GamePlayActionsCallbackInterfaces.Add(instance);
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
+                @RedMovement.started += instance.OnRedMovement;
+                @RedMovement.performed += instance.OnRedMovement;
+                @RedMovement.canceled += instance.OnRedMovement;
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
@@ -310,13 +322,16 @@ namespace Football
                 @Change.started += instance.OnChange;
                 @Change.performed += instance.OnChange;
                 @Change.canceled += instance.OnChange;
+                @BlueMovement.started += instance.OnBlueMovement;
+                @BlueMovement.performed += instance.OnBlueMovement;
+                @BlueMovement.canceled += instance.OnBlueMovement;
             }
 
             private void UnregisterCallbacks(IGamePlayActions instance)
             {
-                @Movement.started -= instance.OnMovement;
-                @Movement.performed -= instance.OnMovement;
-                @Movement.canceled -= instance.OnMovement;
+                @RedMovement.started -= instance.OnRedMovement;
+                @RedMovement.performed -= instance.OnRedMovement;
+                @RedMovement.canceled -= instance.OnRedMovement;
                 @Shoot.started -= instance.OnShoot;
                 @Shoot.performed -= instance.OnShoot;
                 @Shoot.canceled -= instance.OnShoot;
@@ -326,6 +341,9 @@ namespace Football
                 @Change.started -= instance.OnChange;
                 @Change.performed -= instance.OnChange;
                 @Change.canceled -= instance.OnChange;
+                @BlueMovement.started -= instance.OnBlueMovement;
+                @BlueMovement.performed -= instance.OnBlueMovement;
+                @BlueMovement.canceled -= instance.OnBlueMovement;
             }
 
             public void RemoveCallbacks(IGamePlayActions instance)
@@ -354,10 +372,11 @@ namespace Football
         }
         public interface IGamePlayActions
         {
-            void OnMovement(InputAction.CallbackContext context);
+            void OnRedMovement(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
             void OnPass(InputAction.CallbackContext context);
             void OnChange(InputAction.CallbackContext context);
+            void OnBlueMovement(InputAction.CallbackContext context);
         }
     }
 }

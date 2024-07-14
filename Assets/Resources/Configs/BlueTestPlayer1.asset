@@ -15,7 +15,9 @@ MonoBehaviour:
   PlayerNumber: 9
   PlayerName: Valeri
   PlayerModel: {fileID: 4880544291343250951, guid: b0b882b164a6ac64eaa19b403510cfa1, type: 3}
+  SpawnPoint: {fileID: 0}
   PlayerSpeed: 2.7
   MaxKickForce: 7.62
   Agility: 0
   Durability: 0
+  FieldPosition: 3

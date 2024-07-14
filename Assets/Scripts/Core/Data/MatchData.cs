@@ -22,6 +22,8 @@ namespace Core.Data
 
         public static Label RedPlayerName;
 
+        public static Label BluePlayerName;
+
         public static List<Transform> LeftSpawnPoints;
 
         public static List<Transform> RightSpawnPoints;
@@ -29,5 +31,6 @@ namespace Core.Data
         public static GameObject FieldObject;
 
         public static bool RedTeamHasBall;
+        public static bool BlueTeamHasBall;
     }
 }

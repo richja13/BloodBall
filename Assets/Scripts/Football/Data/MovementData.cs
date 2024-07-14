@@ -6,7 +6,9 @@ namespace Football.Data
 {
     internal class MovementData
     {
-        internal static GameObject SelectedPlayer;
+        internal static GameObject RedSelectedPlayer;
+
+        internal static GameObject BlueSelectedPlayer;
 
         internal static GameObject FovObject;
 
@@ -17,6 +19,8 @@ namespace Football.Data
         internal static List<GameObject> RedTeam = new();
 
         internal static List<GameObject> BlueTeam = new();
+
+        internal static List<GameObject> AllPlayers = new();
 
         internal static List<Transform> PlayersInView;
 
