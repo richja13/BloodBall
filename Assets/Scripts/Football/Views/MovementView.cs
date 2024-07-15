@@ -76,7 +76,7 @@ namespace Football.Views
                 Shoot();
 
             if (_pass)
-                Pass(Team.Red);
+                Pass();
         }
 
         void LoadKickForce()
@@ -85,26 +85,34 @@ namespace Football.Views
                 return;
 
             _kickPower += (_kickPower < MAX_KICK_POWER) ? Time.deltaTime * 3 : 0;
-            CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, _kickPower);
+
+            if(MatchData.RedTeamHasBall)
+                CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, _kickPower);
+            else
+                CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, _kickPower);
         }
 
         void Shoot()
         {
             _shoot = false;
 
-            CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, 0);
+            if(MatchData.RedTeamHasBall)
+                CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, 0);
+            else
+                CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, 0);
 
             if (!MovementData.PlayerHasBall)
                 return;
 
-            Debug.Log($"Kick power: {_kickPower}");
+            var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
 
-            kickBall?.Invoke((10 * _kickPower) + 15, MovementData.RedSelectedPlayer.transform.forward);
+            kickBall?.Invoke((10 * _kickPower) + 15, SelectedPlayer.transform.forward);
             _kickPower = 0;
             MatchData.RedTeamHasBall = false;
+            MatchData.BlueTeamHasBall = false;
         }
 
-        async void Pass(Team team)
+        async void Pass()
         {
             _pass = false;
 
@@ -114,7 +122,7 @@ namespace Football.Views
             List<GameObject> playerModels = new();
             MovementData.RedTeamPlayers.ForEach(playerModel => playerModels.Add(playerModel.PlayerModel));
 
-            var SelectedPlayer = (team == Team.Red) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
+            var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
 
             var players = MovementController.FieldOfView(MovementData.FovObject, SelectedPlayer.transform);
 
@@ -128,6 +136,7 @@ namespace Football.Views
             var vector = new Vector3(closestPlayer.position.x - SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - SelectedPlayer.transform.position.z) / 13;
             kickBall?.Invoke(15, vector);
             MatchData.RedTeamHasBall = false;
+            MatchData.BlueTeamHasBall = false;
 
             await Task.Delay((int)distance * 80);
 

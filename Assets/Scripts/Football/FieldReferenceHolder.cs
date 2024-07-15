@@ -58,7 +58,7 @@ namespace Football
             MatchData.RedPlayerName = _document.rootVisualElement.Q<Label>(className: "redplayername");
             MatchData.BluePlayerName = _document.rootVisualElement.Q<Label>(className: "blueplayername");
             MatchData.RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
-            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
+            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
             MatchData.FieldObject = _fieldObject;

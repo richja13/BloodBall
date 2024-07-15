@@ -1,5 +1,6 @@
 using Core.Data;
 using Core.Enums;
+using Football.Controllers;
 using Football.Data;
 using System.Collections.Generic;
 using UnityEngine;
@@ -73,7 +74,15 @@ public class AIController : MonoBehaviour
                             MovePlayers(data.Target, player.transform);
                     else
                     {
-                        //Zrobic krycie zawodnikow
+                        Transform closestPlayer;
+                        float distance;
+                        if (data.playerTeam == Team.Red)
+                            closestPlayer = MovementController.FindClosestPlayer(MovementData.BlueTeam, player.transform, out distance);
+                        else
+                            closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, player.transform, out distance);
+
+                        if(distance > 2)
+                            MovePlayers(closestPlayer.transform.position, player.transform);
                     }
 
                 break;
@@ -168,13 +177,12 @@ public class AIController : MonoBehaviour
                 if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
-
         }
     }
 
     void CheckFieldHalf() => _fieldHalf = (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-    void MovePlayers(Vector3 target, Transform player) => player.position = Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * 15f);
+    void MovePlayers(Vector3 target, Transform player) => player.position = Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * 9f);
 
     bool CheckVector(Vector3 playerPos, Vector3 target, float distance)
     {

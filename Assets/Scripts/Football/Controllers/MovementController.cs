@@ -70,7 +70,6 @@ namespace Football.Controllers
                     MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
                     MatchData.BlueTeamHasBall = true;
                 }
-
                 MovementData.Ball.transform.SetParent(closestPlayer.transform);
 
             }
@@ -133,7 +132,8 @@ namespace Football.Controllers
                 vertices[vertexIndex] = vertex;
 
                 RaycastHit[] raycastHits = Physics.RaycastAll(origin, castDirection, viewDistance);
-                foreach (var player in raycastHits.Where(players => players.transform.gameObject.tag == "RedPlayer" && players.transform != selectedPlayer.transform))
+                foreach (var player in raycastHits.Where(players => players.transform.GetComponent<PlayerData>().playerTeam == selectedPlayer.GetComponent<PlayerData>().playerTeam 
+                && players.transform != selectedPlayer.transform))
                     fovPlayers.Add(player.transform.gameObject);
 
                 if (i > 0)
