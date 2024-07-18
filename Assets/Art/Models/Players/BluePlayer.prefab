@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7628134167883999931}
   - component: {fileID: 4019012951060900368}
   - component: {fileID: 3630145435975487951}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BluePlayer
   m_TagString: BluePlayer
   m_Icon: {fileID: 0}

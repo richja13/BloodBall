@@ -15,8 +15,10 @@ namespace Football.Views
         [SerializeField]
         PlayerInputManager manager;
 
-        bool _shoot = false;
-        bool _pass = false;
+        bool _shootR = false;
+        bool _shootB = false;
+        bool _passR = false;
+        bool _passB = false;
         float _kickPower = 2;
         Vector2 _movementVectorRed;
         Vector2 _movementVectorBlue;
@@ -30,8 +32,35 @@ namespace Football.Views
         void Start()
         {
             var InputMap = MovementData.Input.GamePlay;
-            InputMap.Shoot.canceled += _ => _shoot = true;
-            InputMap.Pass.canceled += _ => _pass = true;
+
+            InputMap.Shoot.started += (context) =>
+            {
+                var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
+                if (team == Team.Red && !MatchData.RedTeamHasBall)
+                    MovementController.BallTackle(MovementData.RedSelectedPlayer.transform);
+
+                if (team == Team.Blue && !MatchData.BlueTeamHasBall)
+                    MovementController.BallTackle(MovementData.BlueSelectedPlayer.transform);
+            };
+
+            InputMap.Shoot.canceled += (context) =>
+            {
+                var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
+                if (team == Team.Red && MatchData.RedTeamHasBall)
+                    _shootR = true;
+                if (team == Team.Blue && MatchData.BlueTeamHasBall)
+                    _shootB = true;
+            };
+
+            InputMap.Pass.canceled += (context) =>
+            {
+                var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
+                if (team == Team.Red && MatchData.RedTeamHasBall)
+                    _passR = true;
+                if (team == Team.Blue && MatchData.BlueTeamHasBall)
+                    _passB = true;
+            };
+
             InputMap.Change.canceled += (context) =>
             {
                 var team = (context.control.device is Keyboard) ? Team.Red : Team.Blue;
@@ -56,13 +85,8 @@ namespace Football.Views
             MovementData.RedSelectedPlayer.transform.position += MovementController.Movement(_movementVectorRed.x, _movementVectorRed.y, MovementData.BasicSpeed);
             MovementData.BlueSelectedPlayer.transform.position += MovementController.Movement(_movementVectorBlue.x, _movementVectorBlue.y, MovementData.BasicSpeed);
 
-            MovementData.RedSelectedPlayer.transform.rotation = (_movementVectorRed.x != 0 || _movementVectorRed.y != 0) ? 
-                Quaternion.Slerp(MovementData.RedSelectedPlayer.transform.rotation, Quaternion.LookRotation(new Vector3(_movementVectorRed.x + 0.1f, 0, _movementVectorRed.y + 0.1f)), Time.deltaTime * 5) :
-                MovementData.RedSelectedPlayer.transform.rotation;
-
-            MovementData.BlueSelectedPlayer.transform.rotation = (_movementVectorBlue.x != 0 || _movementVectorBlue.y != 0) ?
-                Quaternion.Slerp(MovementData.BlueSelectedPlayer.transform.rotation, Quaternion.LookRotation(new Vector3(_movementVectorBlue.x + 0.1f, 0, _movementVectorBlue.y + 0.1f)), Time.deltaTime * 5) :
-                MovementData.BlueSelectedPlayer.transform.rotation;
+            MovementData.RedSelectedPlayer.transform.rotation = MovementController.Rotation(MovementData.RedSelectedPlayer.transform, _movementVectorRed);
+            MovementData.BlueSelectedPlayer.transform.rotation = MovementController.Rotation(MovementData.BlueSelectedPlayer.transform, _movementVectorBlue);
 
             if (MovementData.PlayerHasBall)
                 MovementData.Ball.transform.localPosition = new Vector3(0, -0.5f, 0.85f);
@@ -72,11 +96,17 @@ namespace Football.Views
 
         void FixedUpdate()
         {
-            if (_shoot)
-                Shoot();
+            if (_shootB)
+                Shoot(Team.Blue);
 
-            if (_pass)
-                Pass();
+            if (_shootR)
+                Shoot(Team.Red);
+
+            if (_passR)
+                Pass(Team.Red);
+
+            if (_passB)
+                Pass(Team.Blue);
         }
 
         void LoadKickForce()
@@ -88,33 +118,41 @@ namespace Football.Views
 
             if(MatchData.RedTeamHasBall)
                 CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, _kickPower);
-            else
+
+            if(MatchData.BlueTeamHasBall)
                 CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, _kickPower);
         }
 
-        void Shoot()
+        void Shoot(Team team)
         {
-            _shoot = false;
+            _shootR = false;
+            _shootB = false;
 
-            if(MatchData.RedTeamHasBall)
+            if (MatchData.RedTeamHasBall)
                 CoreViewModel.LoadPowerBar(MatchData.RedTeamBar, MAX_KICK_POWER, 0);
-            else
+            
+            if(MatchData.BlueTeamHasBall)
                 CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, 0);
 
-            if (!MovementData.PlayerHasBall)
-                return;
+         /*   if (!MovementData.PlayerHasBall)
+                return;*/
 
-            var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
+            var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : (MatchData.BlueTeamHasBall) ? MovementData.BlueSelectedPlayer : null;
 
-            kickBall?.Invoke((10 * _kickPower) + 15, SelectedPlayer.transform.forward);
-            _kickPower = 0;
-            MatchData.RedTeamHasBall = false;
-            MatchData.BlueTeamHasBall = false;
+            if (SelectedPlayer?.GetComponent<PlayerData>().playerTeam == team)
+            {
+                kickBall?.Invoke((10 * _kickPower) + 15, SelectedPlayer.transform.forward);
+
+                _kickPower = 0;
+                MatchData.RedTeamHasBall = false;
+                MatchData.BlueTeamHasBall = false;
+            }
         }
 
-        async void Pass()
+        async void Pass(Team team)
         {
-            _pass = false;
+            _passR = false;
+            _passB = false;
 
             if (!MovementData.PlayerHasBall)
                 return;
@@ -132,8 +170,16 @@ namespace Football.Views
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
             SelectedPlayer.transform.LookAt(closestPlayer);
             MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
-            closestPlayer.LookAt(SelectedPlayer.transform);
-            var vector = new Vector3(closestPlayer.position.x - SelectedPlayer.transform.position.x, 0, closestPlayer.position.z - SelectedPlayer.transform.position.z) / 13;
+            //closestPlayer.LookAt(SelectedPlayer.transform);
+
+
+            Vector3 PlayerTarget = closestPlayer.GetComponent<PlayerData>().Target;
+            Vector3 direction = PlayerTarget - closestPlayer.position;
+            float targetSpeed = 10 * Time.deltaTime;
+            Vector3 VelocityVector = (direction.normalized * targetSpeed);
+            Vector3 FutureVector = closestPlayer.position + VelocityVector * 3;
+            var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z) / 13;
+
             kickBall?.Invoke(15, vector);
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;

@@ -1,19 +1,23 @@
+
 using UnityEngine;
 
 namespace Core.Controllers
 {
-    public class MatchController : MonoBehaviour
+    internal static class MatchController
     {
-        // Start is called before the first frame update
-        void Start()
+        internal static bool GenerateRandomProbability(float chance)
         {
+            System.Random rand = new();
 
+            return rand.Next(100) > chance;
         }
 
-        // Update is called once per frame
-        void Update()
+        internal static bool CheckVector(Vector3 playerPos, Vector3 target, float distance)
         {
-
+            if (Vector3.Distance(playerPos, target) < distance)
+                return true;
+            else
+                return false;
         }
     }
 }

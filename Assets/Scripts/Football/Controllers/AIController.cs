@@ -1,3 +1,4 @@
+using Core;
 using Core.Data;
 using Core.Enums;
 using Football.Controllers;
@@ -7,8 +8,8 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    public bool Offence = true;
-    public float _fieldHalf = -1;
+    bool _offence = true;
+    float _fieldHalf = -1;
     Vector3 _meshBounds;
     List<GameObject> _backPlayers = new();
     List<GameObject> _centrePlayers = new();
@@ -43,9 +44,9 @@ public class AIController : MonoBehaviour
         ManageBack();
 
         if (_fieldHalf == -1)
-            Offence = true;
+            _offence = true;
         else
-            Offence = false;
+            _offence = false;
 
         foreach (var player in MovementData.AllPlayers)
         {
@@ -60,7 +61,7 @@ public class AIController : MonoBehaviour
                     if (data.Target == Vector3.zero)
                         data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
 
-                    if (CheckVector(player.transform.position, data.Target, 1))
+                    if (CoreViewModel.CheckVector(player.transform.position, data.Target, 1))
                         data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
                     else
                         MovePlayers(data.Target, player.transform);
@@ -88,12 +89,14 @@ public class AIController : MonoBehaviour
                 break;
 
                 case PlayerState.Idle:
-                    if (!CheckVector(player.transform.position, data.SpawnPoint.position, 5))
+                    if (!CoreViewModel.CheckVector(player.transform.position, data.SpawnPoint.position, 5))
                         MovePlayers(data.SpawnPoint.position, player.transform);
                 break;
 
                 case PlayerState.GetBall:
-                    MovePlayers(MovementData.Ball.transform.position, player.transform);
+                        
+                        if(!MovementController.BallTackle(player.transform))
+                            MovePlayers(MovementData.Ball.transform.position, player.transform);
                 break;
             }
         }
@@ -107,22 +110,22 @@ public class AIController : MonoBehaviour
 
             if (data.playerTeam == Team.Red)
             {
-                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                    data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
+                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
                 else
                     data.state = PlayerState.Idle;
 
-                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
             else
             {
-                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                    data.state = (Offence) ? PlayerState.Defence : PlayerState.Attack;
+                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
                 else
                     data.state = PlayerState.Idle;
 
-                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
         }
@@ -136,16 +139,16 @@ public class AIController : MonoBehaviour
 
             if (data.playerTeam == Team.Red)
             {
-                data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
+                data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
 
-                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
             else
             {
-                data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
+                data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
 
-                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 30))
                     data.state = PlayerState.GetBall;
             }
         }
@@ -159,22 +162,22 @@ public class AIController : MonoBehaviour
 
             if (data.playerTeam == Team.Red)
             {
-                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                    data.state = (Offence) ? PlayerState.Attack : PlayerState.Defence;
+                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
                 else
                     data.state = PlayerState.Idle;
 
-                if (!MatchData.RedTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
             else
             {
-                if (CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
-                    data.state = (Offence) ? PlayerState.Defence : PlayerState.Attack;
+                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 25))
+                    data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
                 else
                     data.state = PlayerState.Idle;
 
-                if (!MatchData.BlueTeamHasBall && CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
                     data.state = PlayerState.GetBall;
             }
         }
@@ -182,15 +185,7 @@ public class AIController : MonoBehaviour
 
     void CheckFieldHalf() => _fieldHalf = (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-    void MovePlayers(Vector3 target, Transform player) => player.position = Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * 9f);
-
-    bool CheckVector(Vector3 playerPos, Vector3 target, float distance)
-    {
-        if (Vector3.Distance(playerPos, target) < distance)
-            return true;
-        else 
-            return false;
-    }
+    void MovePlayers(Vector3 target, Transform player) => player.position = Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * 10f);
 
     bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
     {
@@ -239,8 +234,6 @@ public class AIController : MonoBehaviour
 
             newVector.x = Random.Range(ballPosition.x + 5, maxWidth);
         }
-
-
         return newVector;
     }
 }
