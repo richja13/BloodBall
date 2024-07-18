@@ -15,7 +15,9 @@ MonoBehaviour:
   PlayerNumber: 23
   PlayerName: John
   PlayerModel: {fileID: 442272008872348133, guid: 5ef736f108c83654d9b85d1cf3df0924, type: 3}
+  SpawnPoint: {fileID: 0}
   PlayerSpeed: 4
   MaxKickForce: 5.24
   Agility: 0
   Durability: 0
+  FieldPosition: 2

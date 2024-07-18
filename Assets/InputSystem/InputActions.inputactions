@@ -6,7 +6,7 @@
             "id": "213be08e-a6f6-4560-a6db-9b5d1bd39499",
             "actions": [
                 {
-                    "name": "Movement",
+                    "name": "RedMovement",
                     "type": "Value",
                     "id": "590e8a75-e460-46ab-9e4e-8496f8a4429e",
                     "expectedControlType": "Vector2",
@@ -40,20 +40,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BlueMovement",
+                    "type": "Button",
+                    "id": "d676c2f2-5179-4cdb-977c-f4fa1ef30294",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "369dc766-d0c8-4819-ade7-7027763fb9d7",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "StickDeadzone",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "2D Vector",
                     "id": "e66243a2-e7ce-4574-83f2-e3a12ab89a56",
@@ -61,7 +59,7 @@
                     "interactions": "",
                     "processors": "NormalizeVector2",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "RedMovement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -72,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "RedMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -83,7 +81,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "RedMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -94,7 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "RedMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -105,7 +103,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "RedMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -172,6 +170,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f3c7923-9005-493b-bbd4-d099b722c8ae",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "BlueMovement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

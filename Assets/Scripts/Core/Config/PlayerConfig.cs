@@ -1,3 +1,4 @@
+using Core.Enums;
 using UnityEngine;
 
 namespace Core.Config
@@ -18,16 +19,19 @@ namespace Core.Config
 
         [SerializeField]
         [Range(2, 4)]
-        internal float PlayerSpeed;
+        public float PlayerSpeed;
 
         [SerializeField]
         [Range(4, 10)]
-        internal float MaxKickForce;
+        public float MaxKickForce;
 
         [SerializeField]
-        internal float Agility;
+        public float Agility;
 
         [SerializeField]
-        internal float Durability;
+        public float Durability;
+
+        [SerializeField]
+        public PositionOnField FieldPosition;
     }
 }

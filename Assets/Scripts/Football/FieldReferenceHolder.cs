@@ -5,8 +5,6 @@ using Football.Views;
 using Core.Data;
 using Football.Data;
 using Core.Config;
-using Football.Controllers;
-using UnityEngine.InputSystem;
 
 namespace Football
 {
@@ -39,6 +37,9 @@ namespace Football
         [SerializeField]
         GameObject _fovObject;
 
+        [SerializeField]
+        GameObject _fieldObject;
+
         void Awake()
         {
             //Movement Data
@@ -55,10 +56,12 @@ namespace Football
             MatchData.UItime = _document.rootVisualElement.Q<Label>(className: "time");
             MatchData.UIScore = _document.rootVisualElement.Q<Label>(className: "score");
             MatchData.RedPlayerName = _document.rootVisualElement.Q<Label>(className: "redplayername");
+            MatchData.BluePlayerName = _document.rootVisualElement.Q<Label>(className: "blueplayername");
             MatchData.RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
-            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(className: "BlueTeamProgressBar");
+            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "BlueTeamProgressBar");
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
+            MatchData.FieldObject = _fieldObject;
         }
     }
 }
