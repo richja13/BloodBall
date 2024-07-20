@@ -1190,24 +1190,18 @@ MonoBehaviour:
   - {fileID: 1677110603}
   - {fileID: 192450074}
   - {fileID: 984190403}
-  - {fileID: 897775886}
-  - {fileID: 1145406585}
   - {fileID: 742634603}
   - {fileID: 668278314}
   - {fileID: 673915823}
-  - {fileID: 1316279106}
   - {fileID: 545616667}
   - {fileID: 1476067676}
   _rightSpawnPoints:
   - {fileID: 1799400417}
   - {fileID: 1271372256}
   - {fileID: 881519881}
-  - {fileID: 792595315}
-  - {fileID: 235258972}
   - {fileID: 1287020695}
   - {fileID: 1896694866}
   - {fileID: 1493118126}
-  - {fileID: 1834345608}
   - {fileID: 979430619}
   - {fileID: 1180557532}
   _fovObject: {fileID: 2102372074}
@@ -1224,8 +1218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54a7353fa7c1254cacb174214d68818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offence: 1
-  _fieldHalf: -1
 --- !u!1 &742634602
 GameObject:
   m_ObjectHideFlags: 0

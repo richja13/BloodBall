@@ -45,7 +45,7 @@ namespace Football.Controllers
             MovementData.Ball.transform.parent = null;
             var rigidbody = MovementData.Ball.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(new Vector3(direction.x, 0.2f, direction.z) * power, ForceMode.Impulse);
+            rigidbody.AddForce(direction * power, ForceMode.Impulse);
         }
 
         internal async static void GetBall()

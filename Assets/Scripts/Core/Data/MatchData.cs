@@ -8,6 +8,8 @@ namespace Core.Data
     {
         public static float RedScore;
 
+        public static bool MatchStarted;
+
         public static float BlueScore;
 
         public static double Time;

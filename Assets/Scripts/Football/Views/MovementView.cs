@@ -103,10 +103,10 @@ namespace Football.Views
                 Shoot(Team.Red);
 
             if (_passR)
-                Pass(Team.Red);
+                Pass();
 
             if (_passB)
-                Pass(Team.Blue);
+                Pass();
         }
 
         void LoadKickForce()
@@ -134,14 +134,11 @@ namespace Football.Views
             if(MatchData.BlueTeamHasBall)
                 CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, 0);
 
-         /*   if (!MovementData.PlayerHasBall)
-                return;*/
-
             var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : (MatchData.BlueTeamHasBall) ? MovementData.BlueSelectedPlayer : null;
 
             if (SelectedPlayer?.GetComponent<PlayerData>().playerTeam == team)
             {
-                kickBall?.Invoke((10 * _kickPower) + 15, SelectedPlayer.transform.forward);
+                kickBall?.Invoke((6 * _kickPower) + 30, new Vector3(SelectedPlayer.transform.forward.x, 0.2f,SelectedPlayer.transform.forward.z));
 
                 _kickPower = 0;
                 MatchData.RedTeamHasBall = false;
@@ -149,7 +146,7 @@ namespace Football.Views
             }
         }
 
-        async void Pass(Team team)
+        async void Pass()
         {
             _passR = false;
             _passB = false;
@@ -170,17 +167,15 @@ namespace Football.Views
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
             SelectedPlayer.transform.LookAt(closestPlayer);
             MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
-            //closestPlayer.LookAt(SelectedPlayer.transform);
-
 
             Vector3 PlayerTarget = closestPlayer.GetComponent<PlayerData>().Target;
             Vector3 direction = PlayerTarget - closestPlayer.position;
             float targetSpeed = 10 * Time.deltaTime;
             Vector3 VelocityVector = (direction.normalized * targetSpeed);
             Vector3 FutureVector = closestPlayer.position + VelocityVector * 3;
-            var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z) / 13;
+            var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z).normalized;
 
-            kickBall?.Invoke(15, vector);
+            kickBall?.Invoke(32, vector);
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
 

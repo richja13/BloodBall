@@ -1,4 +1,6 @@
 
+using Core.Data;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Controllers
@@ -18,6 +20,13 @@ namespace Core.Controllers
                 return true;
             else
                 return false;
+        }
+
+
+        internal static async void StartMatch()
+        {
+            await Task.Delay(5000);
+            MatchData.MatchStarted = true;
         }
     }
 }
