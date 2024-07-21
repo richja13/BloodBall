@@ -3,6 +3,7 @@ using Core;
 using Core.Data;
 using Core.Enums;
 using Football.Data;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Football.Controllers
@@ -21,12 +22,15 @@ namespace Football.Controllers
                 hitGoal.Invoke(Team.Red);
         }
 
-        internal static void Goal(Team team)
+        internal static async void Goal(Team team)
         {
             if (team == Team.Red)
                 MatchData.RedScore++;
             else
                 MatchData.BlueScore++;
+            MovementData.Ball.GetComponent<Rigidbody>().velocity /= 5;
+
+            await Task.Delay(2000);
 
             AIController.RestartMatch();
         }

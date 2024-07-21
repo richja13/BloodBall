@@ -141,14 +141,14 @@ public class AIController : MonoBehaviour
             {
                 data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
 
-                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20) && !CoreViewModel.CheckVector(player.transform.position, data.SpawnPoint.position, 30))
                     data.state = PlayerState.GetBall;
             }
             else
             {
                 data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
 
-                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 30))
+                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 30) && !CoreViewModel.CheckVector(player.transform.position, data.SpawnPoint.position, 30))
                     data.state = PlayerState.GetBall;
             }
         }
@@ -160,26 +160,25 @@ public class AIController : MonoBehaviour
         {
             var data = player.GetComponent<PlayerData>();
 
-            if (data.playerTeam == Team.Red)
+            if (!CoreViewModel.CheckVector(player.transform.position, data.SpawnPoint.position, 30))
             {
-                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                if (data.playerTeam == Team.Red)
+                {
                     data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
-                else
-                    data.state = PlayerState.Idle;
 
-                if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                    data.state = PlayerState.GetBall;
+                    if (!MatchData.RedTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                        data.state = PlayerState.GetBall;
+                }
+                else
+                {
+                    data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
+
+                    if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
+                        data.state = PlayerState.GetBall;
+                }
             }
             else
-            {
-                if (CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                    data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
-                else
-                    data.state = PlayerState.Idle;
-
-                if (!MatchData.BlueTeamHasBall && CoreViewModel.CheckVector(player.transform.position, MovementData.Ball.transform.position, 20))
-                    data.state = PlayerState.GetBall;
-            }
+                data.state = PlayerState.Idle;    
         }
     }
 
