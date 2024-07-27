@@ -13,6 +13,15 @@ namespace Football
         [SerializeField]
         public MovementView MovementView;
 
+        public static Transform SelectedRedPlayerMark;
+        public static Transform SelectedBluePlayerMark;
+
+        [SerializeField]
+        Transform _selectedRedPlayerMark;
+
+        [SerializeField]
+        Transform _selectedBluePlayerMark;
+
         [SerializeField]
         float _speed;
 
@@ -42,6 +51,9 @@ namespace Football
 
         void Awake()
         {
+            SelectedRedPlayerMark = _selectedRedPlayerMark;
+            SelectedBluePlayerMark = _selectedBluePlayerMark;
+
             //Movement Data
             MovementData.RedTeamPlayers = _redTeamPlayers;
             MovementData.BlueTeamPlayers = _blueTeamPlayers;

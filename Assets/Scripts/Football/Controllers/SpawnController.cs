@@ -8,7 +8,10 @@ namespace Football.Controllers
     {
         internal static void SpawnPlayers()
         {
-            for(int i = 0; i < MatchData.RightSpawnPoints.Count; i++)
+            MovementData.RedTeamPlayers.Reverse();
+            MovementData.BlueTeamPlayers.Reverse();
+
+            for (int i = 0; i < MatchData.RightSpawnPoints.Count; i++)
             {
                 var player = MovementData.RedTeamPlayers[i];
                 player.SpawnPoint = MatchData.RightSpawnPoints[i];

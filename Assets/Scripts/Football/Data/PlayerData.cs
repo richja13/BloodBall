@@ -9,6 +9,8 @@ public class PlayerData : MonoBehaviour
 
     public Transform SpawnPoint;
 
+    public Transform MarkedPlayer = null;
+
     public Vector3 Target;
 
     public float Speed;

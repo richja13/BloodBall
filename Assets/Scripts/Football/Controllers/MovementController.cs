@@ -41,6 +41,8 @@ namespace Football.Controllers
 
         internal static void BallAddForce(float power, Vector3 direction)
         {
+            MatchData.RedTeamHasBall = false;
+            MatchData.BlueTeamHasBall = false;
             MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
             var rigidbody = MovementData.Ball.GetComponent<Rigidbody>();
@@ -66,23 +68,29 @@ namespace Football.Controllers
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
                     MatchData.RedTeamHasBall = true;
+                    MatchData.BlueTeamHasBall = false;
                 }
                 else
                 {
                     MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
                     MatchData.BlueTeamHasBall = true;
+                    MatchData.RedTeamHasBall = false;
                 }
                 MovementData.Ball.transform.SetParent(closestPlayer.transform);
+                AIController.ManageBack();
             }
         }
 
+        static int tackletimes = 0;
+
         internal static bool BallTackle(Transform player)
         {
-            if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 0.3f))
+            if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 1f))
                 return false;
 
             if (_canTackle)
             {
+                tackletimes++;
                 CanTacke();
                 if (CoreViewModel.GenerateRandomProbability(30))
                 {
@@ -101,6 +109,7 @@ namespace Football.Controllers
                     }
                     MovementData.Ball.transform.SetParent(player.transform);
                 }
+                Debug.Log("Ball tackle + " + tackletimes);
                 return true;
             }
 

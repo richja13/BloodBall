@@ -5,7 +5,9 @@
         Idle,
         Attack,
         Defence,
-        GetBall
+        GetBall,
+        Tackle,
+        Marking,
     }
 
     public enum PositionOnField

@@ -15,8 +15,8 @@ namespace Football.Views
         [SerializeField]
         PlayerInputManager manager;
 
-        bool _shootR = false;
-        bool _shootB = false;
+        static bool _shootR = false;
+        static bool _shootB = false;
         bool _passR = false;
         bool _passB = false;
         float _kickPower = 2;
@@ -33,23 +33,18 @@ namespace Football.Views
         {
             var InputMap = MovementData.Input.GamePlay;
 
-            InputMap.Shoot.started += (context) =>
-            {
-                var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
-                if (team == Team.Red && !MatchData.RedTeamHasBall)
-                    MovementController.BallTackle(MovementData.RedSelectedPlayer.transform);
-
-                if (team == Team.Blue && !MatchData.BlueTeamHasBall)
-                    MovementController.BallTackle(MovementData.BlueSelectedPlayer.transform);
-            };
-
             InputMap.Shoot.canceled += (context) =>
             {
                 var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
                 if (team == Team.Red && MatchData.RedTeamHasBall)
                     _shootR = true;
+                else if(team == Team.Red && !MatchData.RedTeamHasBall)
+                    MovementController.BallTackle(MovementData.RedSelectedPlayer.transform);
+
                 if (team == Team.Blue && MatchData.BlueTeamHasBall)
                     _shootB = true;
+                else if(team == Team.Blue && !MatchData.BlueTeamHasBall)
+                    MovementController.BallTackle(MovementData.BlueSelectedPlayer.transform);
             };
 
             InputMap.Pass.canceled += (context) =>
@@ -71,6 +66,8 @@ namespace Football.Views
         }
         void Update()
         {
+            SelectedPlayerIcon();
+
             MatchData.RedPlayerName.text = MovementData.RedSelectedPlayer.name;
             MatchData.BluePlayerName.text = MovementData.BlueSelectedPlayer.name;
 
@@ -154,9 +151,6 @@ namespace Football.Views
             if (!MovementData.PlayerHasBall)
                 return;
 
-            List<GameObject> playerModels = new();
-            MovementData.RedTeamPlayers.ForEach(playerModel => playerModels.Add(playerModel.PlayerModel));
-
             var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
 
             var players = MovementController.FieldOfView(MovementData.FovObject, SelectedPlayer.transform);
@@ -186,13 +180,23 @@ namespace Football.Views
 
         void ChangePlayer(Team team)
         {
-            List<GameObject> playerModels = new();
-            MovementData.RedTeamPlayers.ForEach(playerModel => { playerModels.Add(playerModel.PlayerModel); });
+            Transform closestPlayer;
+            if (team == Team.Red)
+            {
+                closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, MovementData.Ball.transform, out var distance);
+                MovementData.RedSelectedPlayer = closestPlayer.gameObject;
+            }
+            else
+            {
+                closestPlayer = MovementController.FindClosestPlayer(MovementData.BlueTeam, MovementData.Ball.transform, out var distance);
+                MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
+            }
+        }
 
-            var SelectedPlayer = (team == Team.Red) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
-
-            var closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, SelectedPlayer.transform, out var distance);
-            SelectedPlayer = closestPlayer.gameObject;
+        void SelectedPlayerIcon()
+        {
+            FieldReferenceHolder.SelectedRedPlayerMark.position = MovementData.RedSelectedPlayer.transform.position;
+            FieldReferenceHolder.SelectedBluePlayerMark.position = MovementData.BlueSelectedPlayer.transform.position;
         }
     }
 }
