@@ -1,5 +1,6 @@
 using Core.Enums;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
 {
@@ -26,4 +27,6 @@ public class PlayerData : MonoBehaviour
     public PositionOnField FieldPosition;
 
     public Team playerTeam;
+
+    public Slider HpBar;
 }

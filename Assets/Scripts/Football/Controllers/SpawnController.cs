@@ -1,6 +1,7 @@
 ﻿using Core.Data;
 using Football.Data;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Football.Controllers
 {
@@ -27,6 +28,9 @@ namespace Football.Controllers
                 data.Speed = player.PlayerSpeed;
                 data.FieldPosition = player.FieldPosition;
                 data.playerTeam = Core.Enums.Team.Red;
+                var canvas = redPlayer.transform.Find("Canvas").GetComponent<Canvas>();
+                canvas.worldCamera = Camera.main;
+                data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
                 MovementData.RedTeam.Add(redPlayer);
 
                 if(i is 0)
@@ -46,6 +50,10 @@ namespace Football.Controllers
                 data.Speed = player.PlayerSpeed;
                 data.FieldPosition = player.FieldPosition;
                 data.playerTeam = Core.Enums.Team.Blue;
+                canvas = bluePlayer.transform.Find("Canvas").GetComponent<Canvas>();
+                canvas.worldCamera = Camera.main;
+                data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
+
                 MovementData.BlueTeam.Add(bluePlayer);
 
                 if (i is 0)
