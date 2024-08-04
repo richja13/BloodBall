@@ -12,9 +12,6 @@ namespace Football.Views
 {
     public class MovementView : MonoBehaviour
     {
-        [SerializeField]
-        PlayerInputManager manager;
-
         static bool _shootR = false;
         static bool _shootB = false;
         bool _passR = false;

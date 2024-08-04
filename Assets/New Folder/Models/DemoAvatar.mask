@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DemoAvatar
+  m_Mask: 00000000000000000000000000000000000000000100000000000000010000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Cube.001
+    m_Weight: 1
+  - m_Path: Player
+    m_Weight: 1
+  - m_Path: Player/Torso
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.L/Forearm.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.L/Forearm.L/Hand.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.R
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.R/Forearm.R
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Arm.R/Forearm.R/Hand.R
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Neck
+    m_Weight: 1
+  - m_Path: Player/Torso/Chest/Neck/Head
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.L/Calve.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.L/Calve.L/Foot.L
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.R
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.R/Calve.R
+    m_Weight: 1
+  - m_Path: Player/Torso/Thigh.R/Calve.R/Foot.R
+    m_Weight: 1

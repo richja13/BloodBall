@@ -94,14 +94,14 @@ namespace Football.Controllers
                 CanTacke();
                 if (CoreViewModel.GenerateRandomProbability(30))
                 {
-                    if(player.gameObject.tag == "BluePlayer")
+                    if(player.gameObject.CompareTag("BluePlayer"))
                     {
                         MovementData.BlueSelectedPlayer = player.gameObject;
                         MatchData.BlueTeamHasBall = true;
                         MatchData.RedTeamHasBall = false;
                     }
 
-                    if(player.gameObject.tag == "RedPlayer")
+                    if(player.gameObject.CompareTag("RedPlayer"))
                     {
                         MovementData.RedSelectedPlayer = player.gameObject;
                         MatchData.BlueTeamHasBall = false;

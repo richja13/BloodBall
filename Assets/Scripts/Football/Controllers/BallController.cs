@@ -15,10 +15,10 @@ namespace Football.Controllers
 
         internal static void CheckGoal(Collider other)
         {
-            if (other.gameObject.tag == "BlueGoal")
+            if (other.gameObject.CompareTag("BlueGoal"))
                 hitGoal.Invoke(Team.Blue);
 
-            if (other.gameObject.tag == "RedGoal")
+            if (other.gameObject.CompareTag("RedGoal"))
                 hitGoal.Invoke(Team.Red);
         }
 

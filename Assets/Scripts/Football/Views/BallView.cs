@@ -1,6 +1,4 @@
-﻿using Core.Data;
-using Football.Controllers;
-using Football.Data;
+﻿using Football.Controllers;
 using UnityEngine;
 
 namespace Football.Views
@@ -13,7 +11,7 @@ namespace Football.Views
         {
             BallController.CheckGoal(other);
 
-            if (other.gameObject.tag == "FieldEnd")
+            if (other.gameObject.CompareTag("FieldEnd"))
                 BallController.FieldEndHit(other, transform);
         }
 
