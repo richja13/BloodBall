@@ -6,13 +6,13 @@ public class TestController : MonoBehaviour
     public InputActions actions;
     public Vector2 move;
     public Rigidbody Weapon;
-    public WeaponView view;
+   // public WeaponView view;
     public bool Attack = true;
-    // Start is called before the first frame update
+
     void Start()
     {
-        view = Weapon.gameObject.AddComponent<WeaponView>();
-        view.controller = this;
+        //view = Weapon.gameObject.AddComponent<WeaponView>();
+       // view.controller = this;
         actions = new InputActions();
         actions.Enable();
     }
@@ -28,11 +28,6 @@ public class TestController : MonoBehaviour
         }
         else
             move = a.BlueMovement.ReadValue<Vector2>();
-    }
-
-    public void HitPlayer()
-    {
-        Weapon.detectCollisions = true;
     }
 }
 

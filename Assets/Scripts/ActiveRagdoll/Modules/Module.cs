@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ActiveRagdoll {
+namespace ActiveRagdoll.Modules
+{
     // Author: Sergio Abreu García | https://sergioabreu.me
 
     /// <summary> The active ragdoll functionality is subdivided in modules, so
@@ -20,4 +18,4 @@ namespace ActiveRagdoll {
             }
         }
     }
-} // namespace ActiveRagdoll
+}

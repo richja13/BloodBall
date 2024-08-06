@@ -14,7 +14,7 @@ public class AIController : MonoBehaviour
     static List<GameObject> _backPlayers = new();
     static List<GameObject> _centrePlayers = new();
     static List<GameObject> _forwardPlayers = new();
-    // Start is called before the first frame update
+
     void Start()
     {
         _meshBounds = MatchData.FieldObject.GetComponent<MeshFilter>().mesh.bounds.size;
@@ -36,12 +36,8 @@ public class AIController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log("Blue team has ball " + MatchData.BlueTeamHasBall);
-        Debug.Log("Red team has ball " + MatchData.RedTeamHasBall);
-
         CheckFieldHalf();
         ManageForward();
         ManageCentre();
@@ -71,7 +67,7 @@ public class AIController : MonoBehaviour
                             if (CoreViewModel.CheckVector(player.transform.position, data.Target, 2))
                                 data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
                             else
-                                MovePlayers(data.Target, player.transform, data.Speed);
+                                MovePlayers(data.Target, player.transform.position, data);
                         }
                         else
                         {
@@ -79,7 +75,7 @@ public class AIController : MonoBehaviour
                             float extraDistance = (data.playerTeam == Team.Blue) ? ballDistance / 3 : -ballDistance / 3;
                             data.Target = new Vector3(data.SpawnPoint.position.x + extraDistance, data.SpawnPoint.position.y, data.SpawnPoint.position.z);
 
-                            MovePlayers(data.Target, player.transform, data.Speed);
+                            MovePlayers(data.Target, player.transform.position, data);
                         }
                     }
                     else
@@ -148,7 +144,7 @@ public class AIController : MonoBehaviour
                                 if (CoreViewModel.CheckVector(player.transform.position, data.Target, 2))
                                     data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
                                 else
-                                    MovePlayers(data.Target, player.transform, data.Speed);
+                                    MovePlayers(data.Target, player.transform.position, data);
                             }
                         }
                         else
@@ -157,7 +153,7 @@ public class AIController : MonoBehaviour
                             float extraDistance = (data.playerTeam == Team.Blue) ? ballDistance / 3 : -ballDistance/3;
                             data.Target = new Vector3(data.SpawnPoint.position.x + extraDistance , data.SpawnPoint.position.y, data.SpawnPoint.position.z);
 
-                            MovePlayers(data.Target, player.transform, data.Speed);
+                            MovePlayers(data.Target, player.transform.position, data);
                         }
                     }
                     else
@@ -169,12 +165,12 @@ public class AIController : MonoBehaviour
 
                 case PlayerState.Marking:
                     if (!CoreViewModel.CheckVector(player.transform.position, data.Target, 2))
-                        MovePlayers(data.Target, player.transform, data.Speed);
+                        MovePlayers(data.Target, player.transform.position, data);
                     break;
 
                 case PlayerState.GetBall:
                     if (CoreViewModel.CheckVector(player.transform.position, data.Target, 40))
-                        MovePlayers(MovementData.Ball.transform.position, player.transform, data.Speed);
+                        MovePlayers(MovementData.Ball.transform.position, player.transform.position, data);
                     break;
 
                 case PlayerState.Tackle:
@@ -323,7 +319,7 @@ public class AIController : MonoBehaviour
 
     void CheckFieldHalf() => _fieldHalf = (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-    void MovePlayers(Vector3 target, Transform player, float speed) => player.position = (MatchData.MatchStarted) ? Vector3.MoveTowards(new Vector3(player.position.x, 0.84f, player.position.z), target, Time.deltaTime * speed * 3) : player.position;
+    void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = (target - playerPos).normalized;
 
     bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
     {
@@ -343,16 +339,16 @@ public class AIController : MonoBehaviour
             float maxWidth = 0;
 
             if (Mathf.Abs(ballPosition.x) < Mathf.Abs(ballPosition.x))
-                maxWidth = ballPosition.x + 20;
+                maxWidth = ballPosition.x + 5;
             else
-                maxWidth = ballPosition.x - 20;
+                maxWidth = ballPosition.x - 5;
 
-            if (Vector3.Distance(playerPosition, ballPosition) > 5 && Vector3.Distance(playerPosition, ballPosition) < 15)
+            if (Vector3.Distance(playerPosition, ballPosition) > 2 && Vector3.Distance(playerPosition, ballPosition) < 10)
                 newVector.z = ballPosition.z;
             else
                 newVector.z = maxHeight;
 
-            newVector.x = Random.Range(ballPosition.x + 10, maxWidth);
+            newVector.x = Random.Range(ballPosition.x + 2, maxWidth);
         }
 
         if (MatchData.BlueTeamHasBall)
@@ -361,16 +357,16 @@ public class AIController : MonoBehaviour
             float maxWidth = 0;
 
             if (Mathf.Abs(ballPosition.x) > Mathf.Abs(ballPosition.x))
-                maxWidth = ballPosition.x - 20;
+                maxWidth = ballPosition.x - 5;
             else
-                maxWidth = ballPosition.x + 20;
+                maxWidth = ballPosition.x + 5;
 
-            if (Vector3.Distance(playerPosition, ballPosition) > 5 && Vector3.Distance(playerPosition, ballPosition) < 15)
+            if (Vector3.Distance(playerPosition, ballPosition) > 2 && Vector3.Distance(playerPosition, ballPosition) < 10)
                 newVector.z = ballPosition.z;
             else
                 newVector.z = maxHeight;
 
-            newVector.x = Random.Range(ballPosition.x - 10, maxWidth);
+            newVector.x = Random.Range(ballPosition.x - 2, maxWidth);
         }
         return newVector;
     }
@@ -381,7 +377,7 @@ public class AIController : MonoBehaviour
         foreach (var player in MovementData.AllPlayers)
         {
             var data = player.gameObject.GetComponent<PlayerData>();
-            player.transform.position = new Vector3(data.SpawnPoint.position.x, 0.84f, data.SpawnPoint.position.z);
+            player.transform.position = data.SpawnPoint.position;
         }
    
         MatchData.MatchStarted = false;

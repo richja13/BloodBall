@@ -4,7 +4,6 @@ using Football.Controllers;
 using Football.Data;
 using Core.Data;
 using Core;
-using System.Collections.Generic;
 using Core.Enums;
 using UnityEngine.InputSystem;
 
@@ -76,11 +75,8 @@ namespace Football.Views
             _movementVectorRed = InputMap.RedMovement.ReadValue<Vector2>();
             _movementVectorBlue = InputMap.BlueMovement.ReadValue<Vector2>();
 
-            MovementData.RedSelectedPlayer.transform.position += MovementController.Movement(_movementVectorRed.x, _movementVectorRed.y, MovementData.BasicSpeed);
-            MovementData.BlueSelectedPlayer.transform.position += MovementController.Movement(_movementVectorBlue.x, _movementVectorBlue.y, MovementData.BasicSpeed);
-
-            MovementData.RedSelectedPlayer.transform.rotation = MovementController.Rotation(MovementData.RedSelectedPlayer.transform, _movementVectorRed);
-            MovementData.BlueSelectedPlayer.transform.rotation = MovementController.Rotation(MovementData.BlueSelectedPlayer.transform, _movementVectorBlue);
+            MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorRed;
+            MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorBlue;
 
             if (MovementData.PlayerHasBall)
                 MovementData.Ball.transform.localPosition = new Vector3(0, -0.5f, 0.85f);

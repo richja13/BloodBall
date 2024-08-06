@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ActiveRagdoll {
+namespace ActiveRagdoll.Modules
+{
     // Author: Sergio Abreu García | https://sergioabreu.me
 
     public class AnimationModule : Module {

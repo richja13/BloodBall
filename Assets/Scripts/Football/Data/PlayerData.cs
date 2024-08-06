@@ -12,6 +12,10 @@ public class PlayerData : MonoBehaviour
 
     public Transform MarkedPlayer = null;
 
+    public bool Attack;
+
+    public Vector3 Movement;
+
     public Vector3 Target;
 
     public float Speed;

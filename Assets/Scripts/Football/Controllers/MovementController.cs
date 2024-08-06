@@ -114,6 +114,7 @@ namespace Football.Controllers
             }
 
             return false;
+
         }
 
         static async void CanTacke()

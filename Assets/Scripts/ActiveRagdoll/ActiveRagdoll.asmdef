@@ -1,0 +1,16 @@
+{
+    "name": "ActiveRagdoll",
+    "rootNamespace": "",
+    "references": [
+        "GUID:769809e6b2e38a24d9cb6df791f92be3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

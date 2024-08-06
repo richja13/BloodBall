@@ -1,12 +1,10 @@
-﻿#pragma warning disable 649
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace ActiveRagdoll {
+namespace ActiveRagdoll.Modules
+{
     // Author: Sergio Abreu García | https://sergioabreu.me
 
     public class PhysicsModule : Module {
-        // --- BALANCE ---
 
         public enum BALANCE_MODE {
             UPRIGHT_TORQUE,
