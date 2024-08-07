@@ -79,7 +79,7 @@ namespace Football.Views
             MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorBlue;
 
             if (MovementData.PlayerHasBall)
-                MovementData.Ball.transform.localPosition = new Vector3(0, -0.5f, 0.85f);
+                MovementData.Ball.transform.localPosition = new Vector3(0, .5f, 0.85f);
 
             MovementController.GetBall();
         }
@@ -125,10 +125,11 @@ namespace Football.Views
                 CoreViewModel.LoadPowerBar(MatchData.BlueTeamBar, MAX_KICK_POWER, 0);
 
             var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : (MatchData.BlueTeamHasBall) ? MovementData.BlueSelectedPlayer : null;
+            var data = SelectedPlayer.GetComponent<PlayerData>();
 
-            if (SelectedPlayer?.GetComponent<PlayerData>().playerTeam == team)
+            if (data.playerTeam == team)
             {
-                kickBall?.Invoke((6 * _kickPower) + 30, new Vector3(SelectedPlayer.transform.forward.x, 0.2f,SelectedPlayer.transform.forward.z));
+                kickBall?.Invoke(_kickPower * 5f, new Vector3(data.PlayerRotation.normalized.x, 0.2f,data.PlayerRotation.normalized.z));
 
                 _kickPower = 0;
                 MatchData.RedTeamHasBall = false;
@@ -152,14 +153,14 @@ namespace Football.Views
                 return;
 
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
-            SelectedPlayer.transform.LookAt(closestPlayer);
+            SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
             MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
 
-            Vector3 PlayerTarget = closestPlayer.GetComponent<PlayerData>().Target;
-            Vector3 direction = PlayerTarget - closestPlayer.position;
+            Vector3 PlayerTarget = closestPlayer.Target;
+            Vector3 direction = PlayerTarget - closestPlayer.PlayerPosition;
             float targetSpeed = 10 * Time.deltaTime;
             Vector3 VelocityVector = (direction.normalized * targetSpeed);
-            Vector3 FutureVector = closestPlayer.position + VelocityVector * 3;
+            Vector3 FutureVector = closestPlayer.PlayerPosition+ VelocityVector * 3;
             var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z).normalized;
 
             kickBall?.Invoke(32, vector);
@@ -173,7 +174,7 @@ namespace Football.Views
 
         void ChangePlayer(Team team)
         {
-            Transform closestPlayer;
+            PlayerData closestPlayer;
             if (team == Team.Red)
             {
                 closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, MovementData.Ball.transform, out var distance);

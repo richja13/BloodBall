@@ -18,6 +18,7 @@ namespace UI.Views
             {
                 var data = player.GetComponent<PlayerData>();
                 data.HpBar.transform.rotation = Camera.main.transform.rotation;
+                data.HpBar.transform.position = new Vector3(data.PlayerPosition.x, data.HpBar.transform.position.y, data.PlayerPosition.z);
             }
         }
     }

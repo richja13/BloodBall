@@ -34,11 +34,13 @@ namespace ActiveRagdoll
             if (_animationModule == null) _animationModule = GetComponent<AnimationModule>();
         }
 
-        void Start() => _playerData = transform.parent.GetComponent<PlayerData>();
+        void Start() => _playerData = GetComponent<PlayerData>();
 
         void Update()
         {
             _movement = -_playerData.Movement;
+            _playerData.PlayerPosition = _activeRagdoll.PlayerPosition;
+            _playerData.PlayerRotation = _activeRagdoll.PlayerRotation;
             UpdateMovement();
 
             _aimDirection = transform.forward;

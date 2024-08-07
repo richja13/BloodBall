@@ -49,6 +49,9 @@ namespace ActiveRagdoll {
         public bool SyncTorsoPositions { get; set; } = true;
         public bool SyncTorsoRotations { get; set; } = true;
 
+        internal Vector3 PlayerPosition;
+        internal Vector3 PlayerRotation;
+
         private void OnValidate() {
             // Automatically retrieve the necessary references
             var animators = GetComponentsInChildren<Animator>();
@@ -156,11 +159,17 @@ namespace ActiveRagdoll {
             SyncAnimatedBody();
         }
 
-        private void Update()
+
+        void Update()
         {
+            PlayerPosition = PhysicalTorso.transform.position;
+            PlayerRotation = PhysicalTorso.transform.forward;
+
+#if UnityEditor
+
             if (UnityEngine.Input.GetKeyDown(KeyCode.B))
                 ToggleRagdoll();
-
+#endif
         }
         /// <summary> Updates the rotation and position of the animated body's root
         /// to match the ones of the physical.</summary>

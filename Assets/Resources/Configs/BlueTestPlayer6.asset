@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 2
   PlayerName: Borys
-  PlayerModel: {fileID: 4880544291343250951, guid: b0b882b164a6ac64eaa19b403510cfa1, type: 3}
+  PlayerModel: {fileID: 6176671676694335987, guid: 6354212cf5884af44baeebba789f6b97, type: 3}
   SpawnPoint: {fileID: 0}
   PlayerSpeed: 2.7
   MaxKickForce: 7.62

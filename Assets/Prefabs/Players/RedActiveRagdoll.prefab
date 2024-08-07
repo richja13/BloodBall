@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5094250289220411725}
   - component: {fileID: 6181520121492614883}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Animated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3591214815839718119}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6579011089332102761}
   - component: {fileID: 735286096124955859}
   - component: {fileID: 3895256436417814033}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Calve.R
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000019366053, y: 0.2461554, z: -0.000000043450648}
+  m_ConnectedAnchor: {x: 0.000000014905922, y: 0.2461554, z: -0.000000013081916}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: -1}
   m_XMotion: 0
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 7199847468636754002}
   - component: {fileID: 3898630102020074287}
   - component: {fileID: 3578891939423786342}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Chest
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 1.5408322e-16, y: 0.20328502, z: 0.000000044703484}
+  m_ConnectedAnchor: {x: -1.323489e-23, y: 0.20328502, z: 0.000000044703484}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -470,7 +470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 653479407025307771}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 4001250062269928837}
   - component: {fileID: 2146030369266171400}
   - component: {fileID: 2348682772175551714}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Calve.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -587,7 +587,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000019319472, y: 0.2461554, z: -0.000000043450648}
+  m_ConnectedAnchor: {x: -0.000000015371732, y: 0.2461554, z: -0.000000013081916}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: -1}
   m_XMotion: 0
@@ -687,7 +687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3486811907852057006}
   - component: {fileID: 7569614818144860096}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube.001
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -790,7 +790,7 @@ GameObject:
   - component: {fileID: 2201335113156788361}
   - component: {fileID: 797552466862258677}
   - component: {fileID: 5642106008223203981}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Arm.R
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -873,7 +873,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.260589, y: 0.20055486, z: -0.0021137372}
+  m_ConnectedAnchor: {x: 0.26058877, y: 0.20055486, z: -0.0021137372}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 1965104097244897373}
   - component: {fileID: 2760025760469197666}
   - component: {fileID: 9176676036307807490}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Hand.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1079,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000028312604, y: 0.25972447, z: 0.0000000023676305}
+  m_ConnectedAnchor: {x: 0.00000028312604, y: 0.2597246, z: 0.0000000023676305}
   serializedVersion: 3
   m_SecondaryAxis: {x: 1, y: 0, z: 0}
   m_XMotion: 0
@@ -1178,7 +1178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7797795320012665734}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Hand.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1209,7 +1209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2368590623396472295}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Thigh.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1241,7 +1241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2131457615554090273}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1275,7 +1275,7 @@ GameObject:
   - component: {fileID: 656084293150841855}
   - component: {fileID: 3051960755760354603}
   - component: {fileID: 8451605079054547135}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Torso
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -1360,7 +1360,7 @@ GameObject:
   - component: {fileID: 972179436598627469}
   - component: {fileID: 2314234954007297771}
   - component: {fileID: 791057198845559138}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Thigh.R
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -1443,7 +1443,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.11941233, y: -0.028728543, z: 0.00000007264316}
+  m_ConnectedAnchor: {x: 0.1194122, y: -0.028728543, z: 0.000000024214387}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
@@ -1533,6 +1533,81 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &3486012879342759152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345267142715578780}
+  - component: {fileID: 2632975041254654548}
+  - component: {fileID: 5006443417226536201}
+  m_Layer: 3
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &345267142715578780
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486012879342759152}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8554633290562213492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.25}
+  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2632975041254654548
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486012879342759152}
+  m_CullTransparentMesh: 1
+--- !u!114 &5006443417226536201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486012879342759152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.4245283, g: 0.13267563, b: 0.06608224, a: 0.7019608}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 2.81
 --- !u!1 &3575710247150942409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1620,7 @@ GameObject:
   - component: {fileID: 5333917989354252831}
   - component: {fileID: 1697501199738260859}
   - component: {fileID: 1568120775700419452}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Arm.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -1628,7 +1703,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.26058862, y: 0.20055486, z: -0.0021137372}
+  m_ConnectedAnchor: {x: -0.26058877, y: 0.20055486, z: -0.0021137372}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1718,6 +1793,108 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &4032526895938546685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6182917943864050374}
+  - component: {fileID: 278030598589574942}
+  - component: {fileID: 2120348743170817387}
+  - component: {fileID: 8734929111129019801}
+  m_Layer: 3
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6182917943864050374
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032526895938546685}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 8554633290562213492}
+  m_Father: {fileID: 4886346760843218753}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.289}
+  m_SizeDelta: {x: 190.31, y: 108}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &278030598589574942
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032526895938546685}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &2120348743170817387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032526895938546685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!114 &8734929111129019801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032526895938546685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &4319429463772925447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1909,7 @@ GameObject:
   - component: {fileID: 8061100224683882899}
   - component: {fileID: 6911408921625811678}
   - component: {fileID: 6845591004785705197}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: RedActiveRagdoll
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -1748,10 +1925,11 @@ Transform:
   m_GameObject: {fileID: 4319429463772925447}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.13, y: -0.0000009536743, z: -1.41}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6182917943864050374}
   - {fileID: 5094250289220411725}
   - {fileID: 2001351180666836707}
   m_Father: {fileID: 0}
@@ -1953,7 +2131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1551029213964097049}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Forearm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1985,7 +2163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6088684725261407259}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2018,7 +2196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2001351180666836707}
   - component: {fileID: 1000655474590806367}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Physical
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2075,7 +2253,7 @@ GameObject:
   - component: {fileID: 7200105164722325285}
   - component: {fileID: 1860665751007206352}
   - component: {fileID: 5951972477263204855}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Head
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2157,7 +2335,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000019557774, y: 0.05382543, z: 2.3283064e-10}
+  m_ConnectedAnchor: {x: -0.000000019557774, y: 0.05382543, z: 0}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -2259,7 +2437,7 @@ GameObject:
   - component: {fileID: 6011559235376675042}
   - component: {fileID: 6422792370748592247}
   - component: {fileID: 365294911612759777}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Foot.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2341,7 +2519,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.000000009080397, y: 0.33913723, z: 0.00000004097806}
+  m_ConnectedAnchor: {x: 0.0000000058207674, y: 0.33913723, z: 0.00000004097806}
   serializedVersion: 3
   m_SecondaryAxis: {x: -1, y: 0, z: 0}
   m_XMotion: 0
@@ -2431,6 +2609,42 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &5348221168193793889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7505469790997520419}
+  m_Layer: 3
+  m_Name: Fill Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7505469790997520419
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5348221168193793889}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5802445227766029114}
+  m_Father: {fileID: 8554633290562213492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.25}
+  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchoredPosition: {x: 2.5025, y: 0}
+  m_SizeDelta: {x: -5.005, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5551111378206383984
 GameObject:
   m_ObjectHideFlags: 0
@@ -2440,7 +2654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3318072458741812255}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Hand.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2471,7 +2685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6534777797333901387}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Arm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2494,6 +2708,95 @@ Transform:
   - {fileID: 1551029213964097049}
   m_Father: {fileID: 3591214815839718119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5614227200835444247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8554633290562213492}
+  - component: {fileID: 4879515486882249340}
+  m_Layer: 3
+  m_Name: Slider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8554633290562213492
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5614227200835444247}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 345267142715578780}
+  - {fileID: 7505469790997520419}
+  m_Father: {fileID: 6182917943864050374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -4.4}
+  m_SizeDelta: {x: 32.125, y: 10}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4879515486882249340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5614227200835444247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 0
+  m_TargetGraphic: {fileID: 0}
+  m_FillRect: {fileID: 5802445227766029114}
+  m_HandleRect: {fileID: 0}
+  m_Direction: 0
+  m_MinValue: 0
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 0.805
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5654577579323039874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,7 +2806,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8619574748842881180}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Forearm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2526,6 +2829,81 @@ Transform:
   - {fileID: 3318072458741812255}
   m_Father: {fileID: 8236211715366791654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6013633008190933811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5802445227766029114}
+  - component: {fileID: 6025603796837000873}
+  - component: {fileID: 629062537779725677}
+  m_Layer: 3
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5802445227766029114
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013633008190933811}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7505469790997520419}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -2.5, y: 0}
+  m_SizeDelta: {x: 5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6025603796837000873
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013633008190933811}
+  m_CullTransparentMesh: 1
+--- !u!114 &629062537779725677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013633008190933811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.23616053, g: 0.8207547, b: 0.46799973, a: 0.9019608}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 2.42
 --- !u!1 &6142159010747119969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8000335927173818546}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Foot.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2569,7 +2947,7 @@ GameObject:
   - component: {fileID: 2562539690560575480}
   - component: {fileID: 5676733369370442774}
   - component: {fileID: 7061615896680722926}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Foot.R
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2651,7 +3029,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000001577428, y: 0.33913723, z: 0.00000004097806}
+  m_ConnectedAnchor: {x: 8.7311514e-10, y: 0.33913723, z: 0.00000004097806}
   serializedVersion: 3
   m_SecondaryAxis: {x: 1, y: 0, z: 0}
   m_XMotion: 0
@@ -2750,7 +3128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 237175243867757891}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Thigh.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2782,7 +3160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5740037794790457593}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Calve.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2817,7 +3195,7 @@ GameObject:
   - component: {fileID: 5125893331260341504}
   - component: {fileID: 5417464833642526193}
   - component: {fileID: 7042287740726702761}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Neck
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2900,7 +3278,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 2.0973849e-16, y: 0.2864561, z: 0.00000011408703}
+  m_ConnectedAnchor: {x: -5.9557004e-23, y: 0.2864561, z: 0.000000024680052}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3002,7 +3380,7 @@ GameObject:
   - component: {fileID: 1427174011987467334}
   - component: {fileID: 1128745545582975346}
   - component: {fileID: 563439539473407318}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Forearm.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -3085,7 +3463,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000031295696, y: 0.27183664, z: 0.000000001277196}
+  m_ConnectedAnchor: {x: -0.00000031295696, y: 0.27183646, z: 0.000000001277196}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: -1}
   m_XMotion: 0
@@ -3184,7 +3562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8236211715366791654}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Arm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3216,7 +3594,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 597110766895293019}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Calve.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3251,7 +3629,7 @@ GameObject:
   - component: {fileID: 1403990623763149498}
   - component: {fileID: 7437513837918505913}
   - component: {fileID: 6721719399736989023}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Thigh.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -3334,7 +3712,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.11941233, y: -0.028728543, z: 0.00000007264316}
+  m_ConnectedAnchor: {x: -0.1194122, y: -0.028728543, z: 0.000000024214387}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
@@ -3433,7 +3811,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8536121395234224348}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3468,7 +3846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7401423711613682085}
   - component: {fileID: 7372289877933375978}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3568,7 +3946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2537446626425418820}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Foot.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3602,7 +3980,7 @@ GameObject:
   - component: {fileID: 8620849223292633966}
   - component: {fileID: 1788727518954391315}
   - component: {fileID: 7148356811972328350}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Forearm.R
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -3685,7 +4063,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000031295696, y: 0.27183664, z: 0.0000000022898665}
+  m_ConnectedAnchor: {x: 0.00000031295696, y: 0.27183646, z: 0.0000000022898656}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 0, z: -1}
   m_XMotion: 0
@@ -3788,7 +4166,7 @@ GameObject:
   - component: {fileID: 6800214022479514363}
   - component: {fileID: 8007162921563178480}
   - component: {fileID: 8736978258481345761}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Hand.L
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -3891,7 +4269,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000028315463, y: 0.25972447, z: 0.0000000012771857}
+  m_ConnectedAnchor: {x: -0.00000028315463, y: 0.2597246, z: 0.0000000012771857}
   serializedVersion: 3
   m_SecondaryAxis: {x: -1, y: 0, z: 0}
   m_XMotion: 0
@@ -3990,7 +4368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639469323943259071}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Player
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}

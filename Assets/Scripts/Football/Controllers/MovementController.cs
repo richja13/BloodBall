@@ -14,11 +14,11 @@ namespace Football.Controllers
 
         internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
-        internal static Transform FindClosestPlayer(List<GameObject> players, Transform target, out float distance)
+        internal static PlayerData FindClosestPlayer(List<GameObject> players, Transform target, out float distance)
         {
             float smallestDistance = 1000;
 
-            Transform closestPlayer = MovementData.RedSelectedPlayer.transform;
+            PlayerData closestPlayer = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
 
             foreach (GameObject player in players)
             {
@@ -26,12 +26,14 @@ namespace Football.Controllers
                     if (target.transform == player.transform)
                         continue;
 
-                distance = Vector3.Distance(player.transform.position, target.transform.position);
+                var data = player.GetComponent<PlayerData>();
+
+                distance = Vector3.Distance(data.PlayerPosition, target.transform.position);
 
                 if (distance < smallestDistance)
                 {
                     smallestDistance = distance;
-                    closestPlayer = player.transform;
+                    closestPlayer = data;
                 }
             }
 
@@ -58,13 +60,12 @@ namespace Football.Controllers
             await Task.Delay(500);
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
-            var data = closestPlayer.GetComponent<PlayerData>();
 
             if (distance < 2.5f)
             {
                 MovementData.PlayerHasBall = true;
 
-                if (data.playerTeam is Team.Red)
+                if (closestPlayer.playerTeam is Team.Red)
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
                     MatchData.RedTeamHasBall = true;
@@ -76,7 +77,7 @@ namespace Football.Controllers
                     MatchData.BlueTeamHasBall = true;
                     MatchData.RedTeamHasBall = false;
                 }
-                MovementData.Ball.transform.SetParent(closestPlayer.transform);
+                MovementData.Ball.transform.SetParent(closestPlayer.transform.Find("Physical").transform.Find("Player").transform.Find("Torso"));
                 AIController.ManageBack();
             }
         }

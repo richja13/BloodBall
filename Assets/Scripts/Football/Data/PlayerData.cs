@@ -14,6 +14,9 @@ public class PlayerData : MonoBehaviour
 
     public bool Attack;
 
+    public Vector3 PlayerPosition;
+    public Vector3 PlayerRotation;
+
     public Vector3 Movement;
 
     public Vector3 Target;
