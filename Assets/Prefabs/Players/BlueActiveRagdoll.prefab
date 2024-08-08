@@ -1169,6 +1169,7 @@ GameObject:
   - component: {fileID: 1563648881421840505}
   - component: {fileID: 9121073526852098480}
   - component: {fileID: 2202524524496014833}
+  - component: {fileID: 4769055194740168953}
   m_Layer: 3
   m_Name: Hand.L
   m_TagString: BluePlayer
@@ -1362,6 +1363,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &4769055194740168953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3932091336327019207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4028182312200347367
 GameObject:
   m_ObjectHideFlags: 0
@@ -2982,6 +2995,7 @@ MonoBehaviour:
   _physicsModule: {fileID: 2854787977675961954}
   _animationModule: {fileID: 364569348136535134}
   _enableMovement: 1
+  _weaponView: {fileID: 4769055194740168953}
 --- !u!1 &6317635066889134066
 GameObject:
   m_ObjectHideFlags: 0

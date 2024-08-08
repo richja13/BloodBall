@@ -13,7 +13,7 @@ namespace ActiveRagdoll.Modules
 
         private void OnValidate() {
             if (_activeRagdoll == null) {
-                if (!TryGetComponent<ActiveRagdoll>(out _activeRagdoll))
+                if (!TryGetComponent(out _activeRagdoll))
                     Debug.LogWarning("No ActiveRagdoll could be found for this module.");
             }
         }

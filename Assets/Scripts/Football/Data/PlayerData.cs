@@ -15,6 +15,7 @@ public class PlayerData : MonoBehaviour
     public bool Attack;
 
     public Vector3 PlayerPosition;
+
     public Vector3 PlayerRotation;
 
     public Vector3 Movement;
@@ -36,4 +37,10 @@ public class PlayerData : MonoBehaviour
     public Team playerTeam;
 
     public Slider HpBar;
+
+    public delegate void WeaponAttack();
+
+    public event WeaponAttack OnWeaponAttack;
+
+    public void InvokeAttack() => OnWeaponAttack?.Invoke();
 }

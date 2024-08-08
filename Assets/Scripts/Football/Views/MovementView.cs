@@ -34,13 +34,15 @@ namespace Football.Views
                 var team = (context.control.device is Mouse) ? Team.Red : Team.Blue;
                 if (team == Team.Red && MatchData.RedTeamHasBall)
                     _shootR = true;
-                else if(team == Team.Red && !MatchData.RedTeamHasBall)
-                    MovementController.BallTackle(MovementData.RedSelectedPlayer.transform);
+                else if (team == Team.Red && !MatchData.RedTeamHasBall)
+                    MovementData.RedSelectedPlayer.GetComponent<PlayerData>().InvokeAttack();
+                //MovementController.BallTackle(MovementData.RedSelectedPlayer.transform);
 
                 if (team == Team.Blue && MatchData.BlueTeamHasBall)
-                    _shootB = true;
-                else if(team == Team.Blue && !MatchData.BlueTeamHasBall)
-                    MovementController.BallTackle(MovementData.BlueSelectedPlayer.transform);
+                        _shootB = true;
+                else if (team == Team.Blue && !MatchData.BlueTeamHasBall)
+                    MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().InvokeAttack();
+                    //MovementController.BallTackle(MovementData.BlueSelectedPlayer.transform);
             };
 
             InputMap.Pass.canceled += (context) =>
@@ -79,7 +81,7 @@ namespace Football.Views
             MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorBlue;
 
             if (MovementData.PlayerHasBall)
-                MovementData.Ball.transform.localPosition = new Vector3(0, .5f, 0.85f);
+                MovementData.Ball.transform.localPosition = new Vector3(0, -.3f, 0.85f);
 
             MovementController.GetBall();
         }

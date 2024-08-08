@@ -2122,6 +2122,7 @@ MonoBehaviour:
   _physicsModule: {fileID: 8061100224683882899}
   _animationModule: {fileID: 6911408921625811678}
   _enableMovement: 1
+  _weaponView: {fileID: 5560302348295311021}
 --- !u!1 &4567364167008455343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4166,6 +4167,7 @@ GameObject:
   - component: {fileID: 6800214022479514363}
   - component: {fileID: 8007162921563178480}
   - component: {fileID: 8736978258481345761}
+  - component: {fileID: 5560302348295311021}
   m_Layer: 3
   m_Name: Hand.L
   m_TagString: RedPlayer
@@ -4359,6 +4361,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &5560302348295311021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019909276893654508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9216613827633150442
 GameObject:
   m_ObjectHideFlags: 0

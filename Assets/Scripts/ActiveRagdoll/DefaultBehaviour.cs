@@ -27,6 +27,10 @@ namespace ActiveRagdoll
 
         PlayerData _playerData;
 
+        [Header("Weapon data")]
+        [SerializeField]
+        WeaponView _weaponView;
+
         void OnValidate()
         {
             if (_activeRagdoll == null) _activeRagdoll = GetComponent<ActiveRagdoll>();
@@ -34,7 +38,12 @@ namespace ActiveRagdoll
             if (_animationModule == null) _animationModule = GetComponent<AnimationModule>();
         }
 
-        void Start() => _playerData = GetComponent<PlayerData>();
+        void Start()
+        {
+            _playerData = GetComponent<PlayerData>();
+            _playerData.OnWeaponAttack += TriggerAttack;
+            _weaponView.Controller = _playerData;
+        }
 
         void Update()
         {
@@ -61,5 +70,7 @@ namespace ActiveRagdoll
             Vector3 targetForward = Quaternion.AngleAxis(angleOffset, Vector3.up) * Auxiliary.GetFloorProjection(_aimDirection);
             _physicsModule.TargetDirection = targetForward;
         }
+
+        void TriggerAttack() => _animationModule.Animator.SetTrigger("attack");
     }
 }

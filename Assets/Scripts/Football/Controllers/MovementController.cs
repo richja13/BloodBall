@@ -61,7 +61,7 @@ namespace Football.Controllers
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 
-            if (distance < 2.5f)
+            if (distance < .5f)
             {
                 MovementData.PlayerHasBall = true;
 

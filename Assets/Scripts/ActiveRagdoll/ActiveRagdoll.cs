@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using ActiveRagdoll.Modules;
+using System.Threading.Tasks;
 
 
 namespace ActiveRagdoll {
@@ -121,26 +122,30 @@ namespace ActiveRagdoll {
             return jointList;
         }
 
-        public void ToggleRagdoll()
+        bool _knockedDown = false;
+
+        public async void ToggleRagdoll(int knockDownColldown)
         {
-            JointDrive torsoJointDrive = Stabilizer.angularXDrive;
-
-            if (torsoJointDrive.positionSpring != 0)
+            if (!_knockedDown)
             {
-                foreach (var joint in Joints)
+                _knockedDown=true;
+                JointDrive torsoJointDrive = Stabilizer.angularXDrive;
+                if (torsoJointDrive.positionSpring != 0)
                 {
-                    JointDrive jointDrive = joint.angularXDrive;
-                    jointDrive.positionSpring = 0f;
-                    joint.angularXDrive = jointDrive;
-                    joint.angularYZDrive = jointDrive;
-                }
+                    foreach (var joint in Joints)
+                    {
+                        JointDrive jointDrive = joint.angularXDrive;
+                        jointDrive.positionSpring = 0f;
+                        joint.angularXDrive = jointDrive;
+                        joint.angularYZDrive = jointDrive;
+                    }
 
-                torsoJointDrive.positionSpring = 0f;
-                Stabilizer.angularXDrive = torsoJointDrive;
-                Stabilizer.angularYZDrive = torsoJointDrive;
-            }
-            else
-            {
+                    torsoJointDrive.positionSpring = 0f;
+                    Stabilizer.angularXDrive = torsoJointDrive;
+                    Stabilizer.angularYZDrive = torsoJointDrive;
+                }
+                await Task.Delay(knockDownColldown * 1000);
+            
                 foreach (var joint in Joints)
                 {
                     JointDrive jointDrive = joint.angularXDrive;
@@ -152,6 +157,8 @@ namespace ActiveRagdoll {
                 torsoJointDrive.positionSpring = 1500f;
                 Stabilizer.angularXDrive = torsoJointDrive;
                 Stabilizer.angularYZDrive = torsoJointDrive;
+
+                _knockedDown = false;
             }
         }
 
