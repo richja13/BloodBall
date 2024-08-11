@@ -43,6 +43,7 @@ namespace ActiveRagdoll
             _playerData = GetComponent<PlayerData>();
             _playerData.OnWeaponAttack += TriggerAttack;
             _weaponView.Controller = _playerData;
+            _playerData.Torso = _activeRagdoll.PhysicalTorso.gameObject;
         }
 
         void Update()

@@ -20,7 +20,7 @@ namespace Football.Data
 
         internal static List<GameObject> BlueTeam = new();
 
-        internal static List<GameObject> AllPlayers = new();
+        internal static List<PlayerData> AllPlayers = new();
 
         internal static List<Transform> PlayersInView;
 

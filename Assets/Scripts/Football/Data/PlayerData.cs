@@ -1,4 +1,5 @@
 using Core.Enums;
+using Football.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +13,6 @@ public class PlayerData : MonoBehaviour
 
     public Transform MarkedPlayer = null;
 
-    public bool Attack;
-
     public Vector3 PlayerPosition;
 
     public Vector3 PlayerRotation;
@@ -21,6 +20,22 @@ public class PlayerData : MonoBehaviour
     public Vector3 Movement;
 
     public Vector3 Target;
+
+    public GameObject Torso;
+
+    public bool KnockedDown 
+    {
+        get { return _knockedDown; } 
+        set
+        {
+            if(value == true)
+                MovementController.LoseBall(this);
+
+            _knockedDown = value;
+        } 
+    }
+
+    bool _knockedDown;
 
     public float Speed;
 
@@ -38,9 +53,27 @@ public class PlayerData : MonoBehaviour
 
     public Slider HpBar;
 
+    public float Health
+    {
+        get
+        {
+            return _health;
+        }
+
+        set 
+        {
+            _health = value;
+            HpBar.value = value; 
+        } 
+    }
+
+    float _health = 100;
+
     public delegate void WeaponAttack();
 
     public event WeaponAttack OnWeaponAttack;
 
     public void InvokeAttack() => OnWeaponAttack?.Invoke();
+
+    public void InvokeDamage(float damage) => Health -= damage;
 }

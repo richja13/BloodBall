@@ -11,9 +11,9 @@ public class AIController : MonoBehaviour
     static bool _offence = true;
     float _fieldHalf = -1;
     Vector3 _meshBounds;
-    static List<GameObject> _backPlayers = new();
-    static List<GameObject> _centrePlayers = new();
-    static List<GameObject> _forwardPlayers = new();
+    static List<PlayerData> _backPlayers = new();
+    static List<PlayerData> _centrePlayers = new();
+    static List<PlayerData> _forwardPlayers = new();
 
     void Start()
     {
@@ -26,7 +26,7 @@ public class AIController : MonoBehaviour
     {
         foreach (var player in MovementData.AllPlayers)
         {
-            var fieldPosition = player.GetComponent<PlayerData>().FieldPosition;
+            var fieldPosition = player.FieldPosition;
             if (fieldPosition == PositionOnField.Forward)
                 _forwardPlayers.Add(player);
             else if (fieldPosition == PositionOnField.Centre)
@@ -47,12 +47,12 @@ public class AIController : MonoBehaviour
         if (MatchData.BlueTeamHasBall)
             _offence = false;
 
-        foreach (var player in MovementData.AllPlayers)
+        foreach (var data in MovementData.AllPlayers)
         {
-            if (player.name == MovementData.RedSelectedPlayer.name || player.name == MovementData.BlueSelectedPlayer.name)
+            if (data.name == MovementData.RedSelectedPlayer.name || data.name == MovementData.BlueSelectedPlayer.name)
                 continue;
 
-            var data = player.GetComponent<PlayerData>();
+            MovementController.AttackEnemy(data);
 
             switch (data.state)
             {
@@ -89,30 +89,33 @@ public class AIController : MonoBehaviour
                 case PlayerState.Defence:
 
                     data.MarkedPlayer = null;
-                    List<GameObject> EnemyPlayers;
+                    List<PlayerData> EnemyPlayers = new();
                     GameObject SelectedEnemy;
                     PlayerData closestPlayer;
 
                     if (data.playerTeam == Team.Red)
                     {
-                        EnemyPlayers = MovementData.BlueTeam;
+                        foreach(var players in MovementData.BlueTeam)
+                            EnemyPlayers.Add(players.GetComponent<PlayerData>());
+
                         SelectedEnemy = MovementData.BlueSelectedPlayer;
                     }
                     else
                     {
-                        EnemyPlayers = MovementData.RedTeam;
+                        foreach (var players in MovementData.RedTeam)
+                            EnemyPlayers.Add(players.GetComponent<PlayerData>());
                         SelectedEnemy = MovementData.RedSelectedPlayer;
                     }
 
                     if (MatchData.BlueTeamHasBall || MatchData.RedTeamHasBall)
                     {
-                        if (Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position) < 35)
+                        if (Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position) < 5)
                         {
-                            closestPlayer = MovementController.FindClosestPlayer(EnemyPlayers, player.transform, out var distance);
+                            closestPlayer = MovementController.FindClosestPlayer(EnemyPlayers, data.transform, out var distance);
 
-                            closestPlayer.MarkedPlayer ??= player.transform;
+                            closestPlayer.MarkedPlayer ??= data.transform;
 
-                            if (closestPlayer.MarkedPlayer == player.transform)
+                            if (closestPlayer.MarkedPlayer == data.transform)
                             {
                                 if (closestPlayer.gameObject == SelectedEnemy.gameObject)
                                 {
@@ -121,10 +124,10 @@ public class AIController : MonoBehaviour
                                 }
                                 else
                                 {
-                                    if (Vector3.Distance(data.PlayerPosition, SelectedEnemy.transform.position) > 30)
+                                    if (Vector3.Distance(data.PlayerPosition, SelectedEnemy.transform.position) > 10)
                                     {
-                                        if (CoreViewModel.CheckVector(data.PlayerPosition, data.SpawnPoint.position, 80))
-                                            if (closestPlayer.MarkedPlayer == player.transform)
+                                        if (CoreViewModel.CheckVector(data.PlayerPosition, data.SpawnPoint.position, 30))
+                                            if (closestPlayer.MarkedPlayer == data.transform)
                                             {
                                                 data.Target = closestPlayer.PlayerPosition;
                                                 goto case PlayerState.Marking;
@@ -141,7 +144,7 @@ public class AIController : MonoBehaviour
                             {
                                 if (data.Target == Vector3.zero)
                                     data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
-                                if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 2))
+                                if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 0.2f))
                                     data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
                                 else
                                     MovePlayers(data.Target, data.PlayerPosition, data);
@@ -169,7 +172,7 @@ public class AIController : MonoBehaviour
                     break;
 
                 case PlayerState.GetBall:
-                    if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 40))
+                    if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 20))
                         MovePlayers(MovementData.Ball.transform.position, data.PlayerPosition, data);
                     break;
 
@@ -182,9 +185,8 @@ public class AIController : MonoBehaviour
 
     void ManageForward()
     {
-        foreach (var player in _forwardPlayers)
+        foreach (var data in _forwardPlayers)
         {
-            var data = player.GetComponent<PlayerData>();
             if (data.playerTeam == Team.Red)
                 data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
             else
@@ -220,9 +222,8 @@ public class AIController : MonoBehaviour
 
     void ManageCentre()
     {
-        foreach (var player in _centrePlayers)
+        foreach (var data in _centrePlayers)
         {
-            var data = player.GetComponent<PlayerData>();
             if (data.playerTeam == Team.Red)
             {
                 data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
@@ -277,9 +278,8 @@ public class AIController : MonoBehaviour
 
     public static void ManageBack()
     {
-        foreach (var player in _backPlayers)
+        foreach (var data in _backPlayers)
         {
-            var data = player.GetComponent<PlayerData>();
             if (data.playerTeam == Team.Red)
             {
                 data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
@@ -374,11 +374,8 @@ public class AIController : MonoBehaviour
 
     internal static void RestartMatch()
     {
-        foreach (var player in MovementData.AllPlayers)
-        {
-            var data = player.gameObject.GetComponent<PlayerData>();
+        foreach (var data in MovementData.AllPlayers)
             data.PlayerPosition = data.SpawnPoint.position;
-        }
    
         MatchData.MatchStarted = false;
         MovementData.Ball.transform.position = Vector3.zero;

@@ -31,6 +31,9 @@ namespace Football.Controllers
                 var canvas = redPlayer.transform.Find("Canvas").GetComponent<Canvas>();
                 canvas.worldCamera = Camera.main;
                 data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
+                data.HpBar.maxValue = 100;
+                data.Health = 100;
+                MovementData.AllPlayers.Add(data);
                 MovementData.RedTeam.Add(redPlayer);
 
                 if(i is 0)
@@ -53,15 +56,15 @@ namespace Football.Controllers
                 canvas = bluePlayer.transform.Find("Canvas").GetComponent<Canvas>();
                 canvas.worldCamera = Camera.main;
                 data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
+                data.HpBar.maxValue = 100;
+                data.Health = 100;
 
                 MovementData.BlueTeam.Add(bluePlayer);
+                MovementData.AllPlayers.Add(data);
 
                 if (i is 0)
                     MovementData.BlueSelectedPlayer = bluePlayer;
             }
-
-            MovementData.AllPlayers.AddRange(MovementData.RedTeam);
-            MovementData.AllPlayers.AddRange(MovementData.BlueTeam);
         }
     }
 }

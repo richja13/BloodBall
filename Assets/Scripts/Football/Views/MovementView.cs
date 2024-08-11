@@ -6,6 +6,8 @@ using Core.Data;
 using Core;
 using Core.Enums;
 using UnityEngine.InputSystem;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Football.Views
 {
@@ -155,17 +157,18 @@ namespace Football.Views
                 return;
 
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
-            SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
-            MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
+            //SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
+            //MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
 
             Vector3 PlayerTarget = closestPlayer.Target;
             Vector3 direction = PlayerTarget - closestPlayer.PlayerPosition;
             float targetSpeed = 10 * Time.deltaTime;
-            Vector3 VelocityVector = (direction.normalized * targetSpeed);
-            Vector3 FutureVector = closestPlayer.PlayerPosition+ VelocityVector * 3;
-            var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z).normalized;
-
-            kickBall?.Invoke(32, vector);
+            Vector3 VelocityVector = direction.normalized * targetSpeed;
+            //Vector3 FutureVector = closestPlayer.PlayerPosition + VelocityVector * 3;
+            //var vector = new Vector3(FutureVector.x - SelectedPlayer.transform.position.x, 0, FutureVector.z - SelectedPlayer.transform.position.z).normalized;
+            Debug.Log(closestPlayer.name);
+            //kickBall?.Invoke(10, vector);
+            kickBall?.Invoke(16, (closestPlayer.PlayerPosition - SelectedPlayer.GetComponent<PlayerData>().PlayerPosition).normalized);
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
 
@@ -179,12 +182,12 @@ namespace Football.Views
             PlayerData closestPlayer;
             if (team == Team.Red)
             {
-                closestPlayer = MovementController.FindClosestPlayer(MovementData.RedTeam, MovementData.Ball.transform, out var distance);
+                closestPlayer = MovementController.FindClosestPlayer((List<PlayerData>)MovementData.AllPlayers.Where(data => data.playerTeam == Team.Red), MovementData.Ball.transform, out var distance);
                 MovementData.RedSelectedPlayer = closestPlayer.gameObject;
             }
             else
             {
-                closestPlayer = MovementController.FindClosestPlayer(MovementData.BlueTeam, MovementData.Ball.transform, out var distance);
+                closestPlayer = MovementController.FindClosestPlayer((List<PlayerData>)MovementData.AllPlayers.Where(data => data.playerTeam == Team.Blue), MovementData.Ball.transform, out var distance);
                 MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
             }
         }

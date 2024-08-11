@@ -122,13 +122,13 @@ namespace ActiveRagdoll {
             return jointList;
         }
 
-        bool _knockedDown = false;
 
         public async void ToggleRagdoll(int knockDownColldown)
         {
-            if (!_knockedDown)
+            PlayerData data = GetComponent<PlayerData>();
+            if (!data.KnockedDown)
             {
-                _knockedDown=true;
+                data.KnockedDown = true;
                 JointDrive torsoJointDrive = Stabilizer.angularXDrive;
                 if (torsoJointDrive.positionSpring != 0)
                 {
@@ -158,7 +158,7 @@ namespace ActiveRagdoll {
                 Stabilizer.angularXDrive = torsoJointDrive;
                 Stabilizer.angularYZDrive = torsoJointDrive;
 
-                _knockedDown = false;
+                data.KnockedDown = false;
             }
         }
 

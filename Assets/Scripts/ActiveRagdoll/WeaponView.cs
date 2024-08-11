@@ -20,19 +20,23 @@ namespace ActiveRagdoll
 
         async void Attack()
         {
+            if (_attack)
+                return;
+
             _attack = true;
-            await Task.Delay(1500);
+            await Task.Delay(1000);
             _attack = false;
         }
 
         void OnCollisionEnter(Collision collision)
         {
-            if (_attack)
+            if (!_attack)
                 return;
 
-            if (collision.gameObject.CompareTag(TeamTag))
+            if (collision.gameObject.CompareTag(TeamTag) && collision.gameObject)
             {
                 collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
+                collision.gameObject.GetComponentInParent<PlayerData>().InvokeDamage(5);
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 200, ForceMode.Impulse);
                 Debug.Log("PlayerHit");
             }

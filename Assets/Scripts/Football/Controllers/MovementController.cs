@@ -3,6 +3,7 @@ using Core.Data;
 using Core.Enums;
 using Football.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -14,26 +15,24 @@ namespace Football.Controllers
 
         internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
-        internal static PlayerData FindClosestPlayer(List<GameObject> players, Transform target, out float distance)
+        internal static PlayerData FindClosestPlayer(List<PlayerData> players, Transform target, out float distance)
         {
-            float smallestDistance = 1000;
+            float smallestDistance = 100;
 
             PlayerData closestPlayer = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
 
-            foreach (GameObject player in players)
+            foreach (PlayerData player in players)
             {
                 if (target != MovementData.Ball.transform)
-                    if (target.transform == player.transform)
+                    if (target.name == player.name)
                         continue;
 
-                var data = player.GetComponent<PlayerData>();
-
-                distance = Vector3.Distance(data.PlayerPosition, target.transform.position);
+                distance = Vector3.Distance(player.PlayerPosition, target.transform.position);
 
                 if (distance < smallestDistance)
                 {
                     smallestDistance = distance;
-                    closestPlayer = data;
+                    closestPlayer = player;
                 }
             }
 
@@ -61,7 +60,7 @@ namespace Football.Controllers
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 
-            if (distance < .5f)
+            if (distance < 1f)
             {
                 MovementData.PlayerHasBall = true;
 
@@ -82,47 +81,69 @@ namespace Football.Controllers
             }
         }
 
-        static int tackletimes = 0;
+        /* static int tackletimes = 0;
 
-        internal static bool BallTackle(Transform player)
+         internal static bool BallTackle(Transform player)
+         {
+             if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 1f))
+                 return false;
+
+             if (_canTackle)
+             {
+                 tackletimes++;
+                 CanTacke();
+                 if (CoreViewModel.GenerateRandomProbability(30))
+                 {
+                     if(player.gameObject.CompareTag("BluePlayer"))
+                     {
+                         MovementData.BlueSelectedPlayer = player.gameObject;
+                         MatchData.BlueTeamHasBall = true;
+                         MatchData.RedTeamHasBall = false;
+                     }
+
+                     if(player.gameObject.CompareTag("RedPlayer"))
+                     {
+                         MovementData.RedSelectedPlayer = player.gameObject;
+                         MatchData.BlueTeamHasBall = false;
+                         MatchData.RedTeamHasBall = true;
+                     }
+                     MovementData.Ball.transform.SetParent(player.transform);
+                 }
+                 Debug.Log("Ball tackle + " + tackletimes);
+                 return true;
+             }
+
+             return false;
+
+         }
+
+         static async void CanTacke()
+         {
+             _canTackle = false;
+             await Task.Delay(600);
+             _canTackle = true;
+         }*/
+
+        internal static void AttackEnemy(PlayerData data)
         {
-            if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 1f))
-                return false;
-
-            if (_canTackle)
-            {
-                tackletimes++;
-                CanTacke();
-                if (CoreViewModel.GenerateRandomProbability(30))
+            foreach (PlayerData enemy in MovementData.AllPlayers.Where(enemy => enemy.playerTeam != data.playerTeam))
+                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1f))
                 {
-                    if(player.gameObject.CompareTag("BluePlayer"))
-                    {
-                        MovementData.BlueSelectedPlayer = player.gameObject;
-                        MatchData.BlueTeamHasBall = true;
-                        MatchData.RedTeamHasBall = false;
-                    }
+                    data.InvokeAttack();
+                    //Add rotation towards enemy
 
-                    if(player.gameObject.CompareTag("RedPlayer"))
-                    {
-                        MovementData.RedSelectedPlayer = player.gameObject;
-                        MatchData.BlueTeamHasBall = false;
-                        MatchData.RedTeamHasBall = true;
-                    }
-                    MovementData.Ball.transform.SetParent(player.transform);
                 }
-                Debug.Log("Ball tackle + " + tackletimes);
-                return true;
-            }
-
-            return false;
-
         }
 
-        static async void CanTacke()
+        internal static void LoseBall(PlayerData data)
         {
-            _canTackle = false;
-            await Task.Delay(600);
-            _canTackle = true;
+            if (data.playerTeam == Team.Red)
+                MatchData.RedTeamHasBall = false;
+            else
+                MatchData.BlueTeamHasBall = false;
+
+            MovementData.PlayerHasBall = false;
+            MovementData.Ball.transform.parent = null;
         }
 
         internal static Quaternion Rotation(Transform SelectedPlayer, Vector3 movementVector)
@@ -132,13 +153,14 @@ namespace Football.Controllers
                 SelectedPlayer.rotation;
         }
 
-        internal static List<GameObject> FieldOfView(GameObject obj, Transform selectedPlayer)
+        internal static List<PlayerData> FieldOfView(GameObject obj, Transform selectedPlayer)
         {
-            obj.transform.parent = selectedPlayer;
-            obj.transform.localPosition = new Vector3(0, 0.7f, 0);
+            var data = selectedPlayer.GetComponent<PlayerData>();
+            obj.transform.parent = data.Torso.transform;
+            obj.transform.localPosition = new Vector3(0.7f, 0.7f, 0);
 
             float fov = 120f;
-            Vector3 origin = selectedPlayer.transform.position;
+            Vector3 origin = data.PlayerPosition;
             int rayCount = 25;
             float angle = 45f;
             float angleIncrease = fov / rayCount;
@@ -152,11 +174,11 @@ namespace Football.Controllers
 
             int vertexIndex = 1;
             int triangleIndex = 0;
-            List<GameObject> fovPlayers = new();
+            List<PlayerData> fovPlayers = new();
 
             for (int i = 0; i <= rayCount; i++)
             {
-                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (selectedPlayer.transform.forward);
+                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (data.Torso.transform.forward);
 
                 Vector3 vertex = origin + castDirection * viewDistance;
                 vertices[vertexIndex] = vertex;
@@ -164,15 +186,14 @@ namespace Football.Controllers
                 var raycastHit = Physics.Raycast(origin, castDirection, out RaycastHit hit , viewDistance, LayerMask.GetMask("Players"));
 
                 if(raycastHit)
-                    if(hit.transform.GetComponent<PlayerData>().playerTeam == selectedPlayer.GetComponent<PlayerData>().playerTeam && hit.transform != selectedPlayer.transform)
-                        fovPlayers.Add(hit.transform.gameObject);
+                    if(hit.transform.GetComponentInParent<PlayerData>().playerTeam == data.playerTeam && hit.transform.GetComponentInParent<PlayerData>().name != data.name)
+                        fovPlayers.Add(hit.transform.GetComponentInParent<PlayerData>());
 
             if (i > 0)
                 {
                     triangles[triangleIndex + 0] = 0;
                     triangles[triangleIndex + 1] = vertexIndex - 1;
                     triangles[triangleIndex + 2] = vertexIndex;
-
                     triangleIndex += 3;
                 }
 
