@@ -33,6 +33,7 @@ namespace Core.Data
         public static GameObject FieldObject;
 
         public static bool RedTeamHasBall;
+
         public static bool BlueTeamHasBall;
     }
 }

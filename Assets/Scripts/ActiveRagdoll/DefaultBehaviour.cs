@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using ActiveRagdoll.Modules;
+using Football;
 
 namespace ActiveRagdoll
 {
@@ -48,12 +49,10 @@ namespace ActiveRagdoll
 
         void Update()
         {
-            _movement = -_playerData.Movement;
+            _movement = new Vector2(_playerData.Movement.x, _playerData.Movement.z);
             _playerData.PlayerPosition = _activeRagdoll.PlayerPosition;
             _playerData.PlayerRotation = _activeRagdoll.PlayerRotation;
             UpdateMovement();
-
-            _aimDirection = transform.forward;
         }
 
         void UpdateMovement()
@@ -67,9 +66,7 @@ namespace ActiveRagdoll
             _animationModule.Animator.SetBool("moving", true);
             _animationModule.Animator.SetFloat("speed", _movement.magnitude);
 
-            float angleOffset = Vector2.SignedAngle(_movement, Vector2.up);
-            Vector3 targetForward = Quaternion.AngleAxis(angleOffset, Vector3.up) * Auxiliary.GetFloorProjection(_aimDirection);
-            _physicsModule.TargetDirection = targetForward;
+            _physicsModule.TargetDirection = FootballViewModel.Rotation(transform, _movement);
         }
 
         void TriggerAttack() => _animationModule.Animator.SetTrigger("attack");

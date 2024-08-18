@@ -20,5 +20,19 @@ namespace UI.Views
                 data.HpBar.transform.position = new Vector3(data.PlayerPosition.x, data.HpBar.transform.position.y, data.PlayerPosition.z);
             }
         }
+
+        private void OnDrawGizmos()
+        {
+            foreach(PlayerData data in FootballViewModel.AllPlayers)
+            {
+                if (data.playerTeam == Core.Enums.Team.Red)
+                    Gizmos.color = Color.red;
+                else
+                    Gizmos.color = Color.blue;
+
+                Gizmos.DrawLine(data.Target, data.PlayerPosition);
+                Gizmos.DrawWireSphere(data.Target, 1f);
+            }
+        }
     }
 }

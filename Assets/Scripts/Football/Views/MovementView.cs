@@ -8,6 +8,7 @@ using Core.Enums;
 using UnityEngine.InputSystem;
 using System.Linq;
 using System.Collections.Generic;
+using Codice.Client.BaseCommands.Merge;
 
 namespace Football.Views
 {
@@ -79,8 +80,8 @@ namespace Football.Views
             _movementVectorRed = InputMap.RedMovement.ReadValue<Vector2>();
             _movementVectorBlue = InputMap.BlueMovement.ReadValue<Vector2>();
 
-            MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorRed;
-            MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = _movementVectorBlue;
+            MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Movement = new Vector3(_movementVectorRed.x, 0,_movementVectorRed.y);
+            MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = new Vector3(_movementVectorBlue.x, 0, _movementVectorBlue.y);
 
             if (MovementData.PlayerHasBall)
                 MovementData.Ball.transform.localPosition = new Vector3(0, -.3f, 0.85f);
@@ -154,7 +155,10 @@ namespace Football.Views
             var players = MovementController.FieldOfView(MovementData.FovObject, SelectedPlayer.transform);
 
             if (players is null || players.Count <= 0)
+            {
+                Debug.Log("Players Null");
                 return;
+            }
 
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
             //SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
@@ -194,8 +198,8 @@ namespace Football.Views
 
         void SelectedPlayerIcon()
         {
-            FieldReferenceHolder.SelectedRedPlayerMark.position = MovementData.RedSelectedPlayer.transform.position;
-            FieldReferenceHolder.SelectedBluePlayerMark.position = MovementData.BlueSelectedPlayer.transform.position;
+            FieldReferenceHolder.SelectedRedPlayerMark.position = MovementData.RedSelectedPlayer.GetComponent<PlayerData>().PlayerPosition;
+            FieldReferenceHolder.SelectedBluePlayerMark.position = MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().PlayerPosition;
         }
     }
 }

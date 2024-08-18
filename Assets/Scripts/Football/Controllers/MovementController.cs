@@ -60,7 +60,7 @@ namespace Football.Controllers
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 
-            if (distance < 1f)
+            if (distance < 0.5f)
             {
                 MovementData.PlayerHasBall = true;
 
@@ -77,80 +77,45 @@ namespace Football.Controllers
                     MatchData.RedTeamHasBall = false;
                 }
                 MovementData.Ball.transform.SetParent(closestPlayer.transform.Find("Physical").transform.Find("Player").transform.Find("Torso"));
-                AIController.ManageBack();
             }
         }
-
-        /* static int tackletimes = 0;
-
-         internal static bool BallTackle(Transform player)
-         {
-             if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 1f))
-                 return false;
-
-             if (_canTackle)
-             {
-                 tackletimes++;
-                 CanTacke();
-                 if (CoreViewModel.GenerateRandomProbability(30))
-                 {
-                     if(player.gameObject.CompareTag("BluePlayer"))
-                     {
-                         MovementData.BlueSelectedPlayer = player.gameObject;
-                         MatchData.BlueTeamHasBall = true;
-                         MatchData.RedTeamHasBall = false;
-                     }
-
-                     if(player.gameObject.CompareTag("RedPlayer"))
-                     {
-                         MovementData.RedSelectedPlayer = player.gameObject;
-                         MatchData.BlueTeamHasBall = false;
-                         MatchData.RedTeamHasBall = true;
-                     }
-                     MovementData.Ball.transform.SetParent(player.transform);
-                 }
-                 Debug.Log("Ball tackle + " + tackletimes);
-                 return true;
-             }
-
-             return false;
-
-         }
-
-         static async void CanTacke()
-         {
-             _canTackle = false;
-             await Task.Delay(600);
-             _canTackle = true;
-         }*/
 
         internal static void AttackEnemy(PlayerData data)
         {
             foreach (PlayerData enemy in MovementData.AllPlayers.Where(enemy => enemy.playerTeam != data.playerTeam))
-                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1f))
+                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1.8f))
                 {
                     data.InvokeAttack();
-                    //Add rotation towards enemy
-
+                    data.Target = enemy.PlayerPosition;
                 }
         }
 
         internal static void LoseBall(PlayerData data)
         {
+
             if (data.playerTeam == Team.Red)
-                MatchData.RedTeamHasBall = false;
+            {
+                if (MovementData.RedSelectedPlayer.transform != data.transform)
+                    return;
+
+                    MatchData.RedTeamHasBall = false;
+            }
             else
+            {
+                if (MovementData.BlueSelectedPlayer.transform != data.transform)
+                    return;
+
                 MatchData.BlueTeamHasBall = false;
+            }
 
             MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
         }
 
-        internal static Quaternion Rotation(Transform SelectedPlayer, Vector3 movementVector)
+        internal static Vector3 Rotation(Transform SelectedPlayer, Vector2 movementVector)
         {
-            return (movementVector.x != 0 || movementVector.y != 0) ?
-                Quaternion.Slerp(SelectedPlayer.rotation, Quaternion.LookRotation(new Vector3(movementVector.x + 0.1f, 0, movementVector.y + 0.1f)), Time.deltaTime * 5) :
-                SelectedPlayer.rotation;
+            float angleOffset = Vector2.SignedAngle(movementVector, Vector2.up);
+            return Quaternion.AngleAxis(angleOffset, Vector3.up) * Vector3.forward; //* Auxiliary.GetFloorProjection(SelectedPlayer.GetComponent<PlayerData>().Torso.transform.position);
         }
 
         internal static List<PlayerData> FieldOfView(GameObject obj, Transform selectedPlayer)
@@ -161,10 +126,10 @@ namespace Football.Controllers
 
             float fov = 120f;
             Vector3 origin = data.PlayerPosition;
-            int rayCount = 25;
+            int rayCount = 40;
             float angle = 45f;
             float angleIncrease = fov / rayCount;
-            float viewDistance = 40f;
+            float viewDistance = 80f;
 
             Vector3[] vertices = new Vector3[rayCount + 1 + 1];
             Vector2[] uv = new Vector2[vertices.Length];
@@ -202,6 +167,20 @@ namespace Football.Controllers
             }
 
             return fovPlayers;
+        }
+
+        internal static class Auxiliary
+        {
+            /// <summary>
+            /// Calculates the normalized projection of the Vector3 'vec'
+            /// onto the horizontal plane defined by the orthogonal vector (0, 1, 0)
+            /// </summary>
+            /// <param name="vec">The vector to project</param>
+            /// <returns>The normalized projection of 'vec' onto the horizontal plane</returns>
+            public static Vector3 GetFloorProjection(in Vector3 vec)
+            {
+                return Vector3.ProjectOnPlane(vec, Vector3.up).normalized;
+            }
         }
     }
 }

@@ -19,9 +19,16 @@ public class PlayerData : MonoBehaviour
 
     public Vector3 Movement;
 
-    public Vector3 Target;
+    public Vector3 Target 
+    { 
+        get { return _target; } 
+        set { if(!Attack) _target = value; } 
+    }
+    Vector3 _target;
 
     public GameObject Torso;
+
+    public bool Attack;
 
     public bool KnockedDown 
     {
@@ -55,10 +62,7 @@ public class PlayerData : MonoBehaviour
 
     public float Health
     {
-        get
-        {
-            return _health;
-        }
+        get { return _health; }
 
         set 
         {

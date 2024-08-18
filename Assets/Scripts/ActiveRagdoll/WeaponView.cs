@@ -9,7 +9,7 @@ namespace ActiveRagdoll
     {
         internal float Damage = 15;
         internal PlayerData Controller;
-        bool _attack;
+        bool _attack { get { return Controller.Attack; } set { Controller.Attack = value; } }
         string TeamTag;
 
         void Start()
@@ -38,7 +38,6 @@ namespace ActiveRagdoll
                 collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
                 collision.gameObject.GetComponentInParent<PlayerData>().InvokeDamage(5);
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 200, ForceMode.Impulse);
-                Debug.Log("PlayerHit");
             }
         }
     }
