@@ -24,8 +24,6 @@ namespace ActiveRagdoll
         
         Vector2 _movement;
 
-        Vector3 _aimDirection;
-
         PlayerData _playerData;
 
         [Header("Weapon data")]

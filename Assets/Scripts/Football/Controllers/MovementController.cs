@@ -11,8 +11,6 @@ namespace Football.Controllers
 {
     internal static class MovementController
     {
-        static bool _canTackle = true;
-
         internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
         internal static PlayerData FindClosestPlayer(List<PlayerData> players, Transform target, out float distance)
@@ -77,6 +75,9 @@ namespace Football.Controllers
                     MatchData.RedTeamHasBall = false;
                 }
                 MovementData.Ball.transform.SetParent(closestPlayer.transform.Find("Physical").transform.Find("Player").transform.Find("Torso"));
+                AIController.ManageBack();
+                AIController.ManageCentre();
+                AIController.ManageForward();
             }
         }
 
@@ -115,7 +116,7 @@ namespace Football.Controllers
         internal static Vector3 Rotation(Transform SelectedPlayer, Vector2 movementVector)
         {
             float angleOffset = Vector2.SignedAngle(movementVector, Vector2.up);
-            return Quaternion.AngleAxis(angleOffset, Vector3.up) * Vector3.forward; //* Auxiliary.GetFloorProjection(SelectedPlayer.GetComponent<PlayerData>().Torso.transform.position);
+            return Quaternion.AngleAxis(angleOffset, Vector3.up) * Vector3.forward;
         }
 
         internal static List<PlayerData> FieldOfView(GameObject obj, Transform selectedPlayer)
@@ -167,20 +168,6 @@ namespace Football.Controllers
             }
 
             return fovPlayers;
-        }
-
-        internal static class Auxiliary
-        {
-            /// <summary>
-            /// Calculates the normalized projection of the Vector3 'vec'
-            /// onto the horizontal plane defined by the orthogonal vector (0, 1, 0)
-            /// </summary>
-            /// <param name="vec">The vector to project</param>
-            /// <returns>The normalized projection of 'vec' onto the horizontal plane</returns>
-            public static Vector3 GetFloorProjection(in Vector3 vec)
-            {
-                return Vector3.ProjectOnPlane(vec, Vector3.up).normalized;
-            }
         }
     }
 }

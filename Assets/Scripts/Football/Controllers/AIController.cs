@@ -19,7 +19,6 @@ public class AIController : MonoBehaviour
     {
         _meshBounds = MatchData.FieldObject.GetComponent<MeshFilter>().mesh.bounds.size;
         LoadPlayers();
-        //ManageBack();
     }
 
     void LoadPlayers()
@@ -39,13 +38,15 @@ public class AIController : MonoBehaviour
     void Update()
     {
         CheckFieldHalf();
-        ManageForward();
-        ManageCentre();
+        //ManageForward();
+        //ManageCentre();
 
         if (MatchData.RedTeamHasBall)
             _offence = true;
         if (MatchData.BlueTeamHasBall)
             _offence = false;
+
+        Debug.Log(_offence + " Offence");
 
         foreach (var data in MovementData.AllPlayers)
         {
@@ -72,7 +73,7 @@ public class AIController : MonoBehaviour
                         else
                         {
                             float ballDistance = Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position);
-                            float extraDistance = (data.playerTeam == Team.Blue) ? ballDistance / 5 : -ballDistance / 5;
+                            float extraDistance = (data.playerTeam == Team.Blue) ? -ballDistance / 5 : ballDistance / 5;
                             data.Target = new Vector3(data.SpawnPoint.position.x + (extraDistance * _fieldHalf), data.SpawnPoint.position.y, data.SpawnPoint.position.z);
 
                             if(!CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 1))
@@ -97,10 +98,8 @@ public class AIController : MonoBehaviour
                     break;
 
                 case PlayerState.GetBall:
-                    //if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 40f))
-                    //{
+                    if((data.playerTeam == Team.Red && !MatchData.RedTeamHasBall) || (data.playerTeam == Team.Blue && !MatchData.BlueTeamHasBall))
                         MovePlayers(MovementData.Ball.transform.position, data.PlayerPosition, data);
-                   // }
                     break;
 
                 case PlayerState.Tackle:
@@ -139,8 +138,6 @@ public class AIController : MonoBehaviour
 
                 closestPlayer.MarkedPlayer ??= data.transform;
 
-                if (closestPlayer.MarkedPlayer == data.transform)
-                {
                     if (closestPlayer == SelectedEnemy)
                     {
                         data.Target = MovementData.Ball.transform.position;
@@ -164,21 +161,11 @@ public class AIController : MonoBehaviour
                             data.state = PlayerState.GetBall;
                         }
                     }
-                }
-                else
-                {
-                    if (data.Target == Vector3.zero)
-                        data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
-                    if (CoreViewModel.CheckVector(data.PlayerPosition, data.Target, 0.2f))
-                        data.Target = GenerateRandomVector(data.SpawnPoint.position, MovementData.Ball.transform.position, data.state);
-                    else
-                        MovePlayers(data.Target, data.PlayerPosition, data);
-                }
             }
             else
             {
                 float ballDistance = Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position);
-                float extraDistance = (data.playerTeam == Team.Blue) ? ballDistance / 5 : -ballDistance / 5;
+                float extraDistance = (data.playerTeam == Team.Blue) ? -ballDistance / 5 : ballDistance / 5;
                 data.Target = new Vector3(data.SpawnPoint.position.x + (extraDistance * _fieldHalf), data.SpawnPoint.position.y, data.SpawnPoint.position.z);
 
                 MovePlayers(data.Target, data.PlayerPosition, data);
@@ -192,7 +179,7 @@ public class AIController : MonoBehaviour
     }
    
 
-    void ManageForward()
+    internal static void ManageForward()
     {
         foreach (var data in _forwardPlayers)
         {
@@ -203,18 +190,18 @@ public class AIController : MonoBehaviour
         }
     }
 
-    void ManageCentre()
+    internal static void ManageCentre()
     {
         foreach (var data in _centrePlayers)
         {
             if (data.playerTeam == Team.Red)
-                data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence; 
+                data.state = (_offence) ? PlayerState.Attack : PlayerState.Defence;
             else
                 data.state = (_offence) ? PlayerState.Defence : PlayerState.Attack;
         }
     }
 
-    static void ManageBack()
+    internal static void ManageBack()
     {
         foreach (var data in _backPlayers)
         {
@@ -224,7 +211,7 @@ public class AIController : MonoBehaviour
 
     void CheckFieldHalf() => _fieldHalf = (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-    void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized;
+    void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = (MatchData.MatchStarted) ? new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized : Vector3.zero;
 
     bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
     {
@@ -241,7 +228,7 @@ public class AIController : MonoBehaviour
         if (MatchData.RedTeamHasBall)
         {
             float maxHeight = playerPosition.z;
-            float maxWidth = 0;
+            float maxWidth;
 
             if (Mathf.Abs(ballPosition.x) < Mathf.Abs(ballPosition.x))
                 maxWidth = ballPosition.x + 2;
@@ -280,7 +267,7 @@ public class AIController : MonoBehaviour
     internal static void RestartMatch()
     {
         foreach (var data in MovementData.AllPlayers)
-            data.PlayerPosition = data.SpawnPoint.position;
+            data.Torso.transform.position = new(data.SpawnPoint.position.x, data.Torso.transform.position.y, data.SpawnPoint.position.z);
    
         MatchData.MatchStarted = false;
         MovementData.Ball.transform.position = Vector3.zero;
