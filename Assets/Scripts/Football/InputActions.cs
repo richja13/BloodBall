@@ -73,6 +73,15 @@ namespace Football
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Value"",
+                    ""id"": ""e70af935-c690-4ade-806f-0ab5a80afa5e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,28 @@ namespace Football
                     ""action"": ""BlueMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""33e4efbc-efe3-414f-a121-75775d7d260d"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1021162d-12de-4122-80c9-aa6675b9aafa"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -226,6 +257,7 @@ namespace Football
             m_GamePlay_Pass = m_GamePlay.FindAction("Pass", throwIfNotFound: true);
             m_GamePlay_Change = m_GamePlay.FindAction("Change", throwIfNotFound: true);
             m_GamePlay_BlueMovement = m_GamePlay.FindAction("BlueMovement", throwIfNotFound: true);
+            m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -292,6 +324,7 @@ namespace Football
         private readonly InputAction m_GamePlay_Pass;
         private readonly InputAction m_GamePlay_Change;
         private readonly InputAction m_GamePlay_BlueMovement;
+        private readonly InputAction m_GamePlay_Attack;
         public struct GamePlayActions
         {
             private @InputActions m_Wrapper;
@@ -301,6 +334,7 @@ namespace Football
             public InputAction @Pass => m_Wrapper.m_GamePlay_Pass;
             public InputAction @Change => m_Wrapper.m_GamePlay_Change;
             public InputAction @BlueMovement => m_Wrapper.m_GamePlay_BlueMovement;
+            public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
             public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -325,6 +359,9 @@ namespace Football
                 @BlueMovement.started += instance.OnBlueMovement;
                 @BlueMovement.performed += instance.OnBlueMovement;
                 @BlueMovement.canceled += instance.OnBlueMovement;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
 
             private void UnregisterCallbacks(IGamePlayActions instance)
@@ -344,6 +381,9 @@ namespace Football
                 @BlueMovement.started -= instance.OnBlueMovement;
                 @BlueMovement.performed -= instance.OnBlueMovement;
                 @BlueMovement.canceled -= instance.OnBlueMovement;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
             }
 
             public void RemoveCallbacks(IGamePlayActions instance)
@@ -377,6 +417,7 @@ namespace Football
             void OnPass(InputAction.CallbackContext context);
             void OnChange(InputAction.CallbackContext context);
             void OnBlueMovement(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
     }
 }

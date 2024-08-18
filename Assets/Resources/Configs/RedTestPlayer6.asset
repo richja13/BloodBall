@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 43
   PlayerName: Baron
-  PlayerModel: {fileID: 442272008872348133, guid: 5ef736f108c83654d9b85d1cf3df0924, type: 3}
+  PlayerModel: {fileID: 4319429463772925447, guid: 0a41f9d71e84aaa4c9c0a577650321a3, type: 3}
   SpawnPoint: {fileID: 0}
   PlayerSpeed: 4
   MaxKickForce: 5.24

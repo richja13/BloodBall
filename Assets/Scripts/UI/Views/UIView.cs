@@ -14,10 +14,24 @@ namespace UI.Views
             var timespan = TimeSpan.FromSeconds(MatchData.Time);
             MatchData.UItime.text = string.Format("{0:00}:{1:00}", timespan.TotalMinutes, timespan.Seconds);
 
-            foreach (var player in FootballViewModel.AllPlayers)
+            foreach (var data in FootballViewModel.AllPlayers)
             {
-                var data = player.GetComponent<PlayerData>();
                 data.HpBar.transform.rotation = Camera.main.transform.rotation;
+                data.HpBar.transform.position = new Vector3(data.PlayerPosition.x, data.HpBar.transform.position.y, data.PlayerPosition.z);
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach(PlayerData data in FootballViewModel.AllPlayers)
+            {
+                if (data.playerTeam == Core.Enums.Team.Red)
+                    Gizmos.color = Color.red;
+                else
+                    Gizmos.color = Color.blue;
+
+                Gizmos.DrawLine(data.Target, data.PlayerPosition);
+                Gizmos.DrawWireSphere(data.Target, 1f);
             }
         }
     }

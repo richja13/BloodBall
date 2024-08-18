@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 13
   PlayerName: Arnold
-  PlayerModel: {fileID: 442272008872348133, guid: 5ef736f108c83654d9b85d1cf3df0924, type: 3}
+  PlayerModel: {fileID: 4319429463772925447, guid: 0a41f9d71e84aaa4c9c0a577650321a3, type: 3}
   SpawnPoint: {fileID: 0}
   PlayerSpeed: 3.152
   MaxKickForce: 6.22
   Agility: 0
   Durability: 0
-  FieldPosition: 3
+  FieldPosition: 0

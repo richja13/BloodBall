@@ -1,6 +1,4 @@
-﻿
-using Core;
-using Core.Data;
+﻿using Core.Data;
 using Core.Enums;
 using Football.Data;
 using System.Threading.Tasks;
@@ -15,10 +13,10 @@ namespace Football.Controllers
 
         internal static void CheckGoal(Collider other)
         {
-            if (other.gameObject.tag == "BlueGoal")
+            if (other.gameObject.CompareTag("BlueGoal"))
                 hitGoal.Invoke(Team.Blue);
 
-            if (other.gameObject.tag == "RedGoal")
+            if (other.gameObject.CompareTag("RedGoal"))
                 hitGoal.Invoke(Team.Red);
         }
 
@@ -39,7 +37,7 @@ namespace Football.Controllers
         {
             var collisionPoint = other.ClosestPoint(transform.position);
             transform.position = new Vector3(collisionPoint.x, 1, collisionPoint.z);
-            MovementData.RedSelectedPlayer.transform.position = new Vector3(collisionPoint.x, MovementData.RedSelectedPlayer.transform.position.y, collisionPoint.z);
+            MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Torso.transform.position = new Vector3(collisionPoint.x, 0.5f, collisionPoint.z);
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }

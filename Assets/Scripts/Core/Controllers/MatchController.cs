@@ -22,7 +22,6 @@ namespace Core.Controllers
                 return false;
         }
 
-
         internal static async void StartMatch()
         {
             await Task.Delay(5000);

@@ -3,6 +3,7 @@ using Core.Data;
 using Core.Enums;
 using Football.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,28 +11,26 @@ namespace Football.Controllers
 {
     internal static class MovementController
     {
-        static bool _canTackle = true;
-
         internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
-        internal static Transform FindClosestPlayer(List<GameObject> players, Transform target, out float distance)
+        internal static PlayerData FindClosestPlayer(List<PlayerData> players, Transform target, out float distance)
         {
-            float smallestDistance = 1000;
+            float smallestDistance = 100;
 
-            Transform closestPlayer = MovementData.RedSelectedPlayer.transform;
+            PlayerData closestPlayer = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
 
-            foreach (GameObject player in players)
+            foreach (PlayerData player in players)
             {
                 if (target != MovementData.Ball.transform)
-                    if (target.transform == player.transform)
+                    if (target.name == player.name)
                         continue;
 
-                distance = Vector3.Distance(player.transform.position, target.transform.position);
+                distance = Vector3.Distance(player.PlayerPosition, target.transform.position);
 
                 if (distance < smallestDistance)
                 {
                     smallestDistance = distance;
-                    closestPlayer = player.transform;
+                    closestPlayer = player;
                 }
             }
 
@@ -58,13 +57,12 @@ namespace Football.Controllers
             await Task.Delay(500);
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
-            var data = closestPlayer.GetComponent<PlayerData>();
 
-            if (distance < 2.5f)
+            if (distance < 0.5f)
             {
                 MovementData.PlayerHasBall = true;
 
-                if (data.playerTeam is Team.Red)
+                if (closestPlayer.playerTeam is Team.Red)
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
                     MatchData.RedTeamHasBall = true;
@@ -76,71 +74,63 @@ namespace Football.Controllers
                     MatchData.BlueTeamHasBall = true;
                     MatchData.RedTeamHasBall = false;
                 }
-                MovementData.Ball.transform.SetParent(closestPlayer.transform);
+                MovementData.Ball.transform.SetParent(closestPlayer.transform.Find("Physical").transform.Find("Player").transform.Find("Torso"));
                 AIController.ManageBack();
+                AIController.ManageCentre();
+                AIController.ManageForward();
             }
         }
 
-        static int tackletimes = 0;
-
-        internal static bool BallTackle(Transform player)
+        internal static void AttackEnemy(PlayerData data)
         {
-            if(!CoreViewModel.CheckVector(player.position, MovementData.Ball.transform.position, 1f))
-                return false;
-
-            if (_canTackle)
-            {
-                tackletimes++;
-                CanTacke();
-                if (CoreViewModel.GenerateRandomProbability(30))
+            foreach (PlayerData enemy in MovementData.AllPlayers.Where(enemy => enemy.playerTeam != data.playerTeam))
+                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1.8f))
                 {
-                    if(player.gameObject.tag == "BluePlayer")
-                    {
-                        MovementData.BlueSelectedPlayer = player.gameObject;
-                        MatchData.BlueTeamHasBall = true;
-                        MatchData.RedTeamHasBall = false;
-                    }
-
-                    if(player.gameObject.tag == "RedPlayer")
-                    {
-                        MovementData.RedSelectedPlayer = player.gameObject;
-                        MatchData.BlueTeamHasBall = false;
-                        MatchData.RedTeamHasBall = true;
-                    }
-                    MovementData.Ball.transform.SetParent(player.transform);
+                    data.InvokeAttack();
+                    data.Target = enemy.PlayerPosition;
                 }
-                Debug.Log("Ball tackle + " + tackletimes);
-                return true;
+        }
+
+        internal static void LoseBall(PlayerData data)
+        {
+
+            if (data.playerTeam == Team.Red)
+            {
+                if (MovementData.RedSelectedPlayer.transform != data.transform)
+                    return;
+
+                    MatchData.RedTeamHasBall = false;
+            }
+            else
+            {
+                if (MovementData.BlueSelectedPlayer.transform != data.transform)
+                    return;
+
+                MatchData.BlueTeamHasBall = false;
             }
 
-            return false;
+            MovementData.PlayerHasBall = false;
+            MovementData.Ball.transform.parent = null;
         }
 
-        static async void CanTacke()
+        internal static Vector3 Rotation(Transform SelectedPlayer, Vector2 movementVector)
         {
-            _canTackle = false;
-            await Task.Delay(600);
-            _canTackle = true;
+            float angleOffset = Vector2.SignedAngle(movementVector, Vector2.up);
+            return Quaternion.AngleAxis(angleOffset, Vector3.up) * Vector3.forward;
         }
 
-        internal static Quaternion Rotation(Transform SelectedPlayer, Vector3 movementVector)
+        internal static List<PlayerData> FieldOfView(GameObject obj, Transform selectedPlayer)
         {
-            return (movementVector.x != 0 || movementVector.y != 0) ?
-                Quaternion.Slerp(SelectedPlayer.rotation, Quaternion.LookRotation(new Vector3(movementVector.x + 0.1f, 0, movementVector.y + 0.1f)), Time.deltaTime * 5) :
-                SelectedPlayer.rotation;
-        }
-
-        internal static List<GameObject> FieldOfView(GameObject obj, Transform selectedPlayer)
-        {
-            obj.transform.parent = selectedPlayer;
-            obj.transform.localPosition = new Vector3(0, 0.7f, 0);
+            var data = selectedPlayer.GetComponent<PlayerData>();
+            obj.transform.parent = data.Torso.transform;
+            obj.transform.localPosition = new Vector3(0.7f, 0.7f, 0);
 
             float fov = 120f;
-            Vector3 origin = selectedPlayer.transform.position;
-            int rayCount = 25;
+            Vector3 origin = data.PlayerPosition;
+            int rayCount = 40;
             float angle = 45f;
             float angleIncrease = fov / rayCount;
-            float viewDistance = 40f;
+            float viewDistance = 80f;
 
             Vector3[] vertices = new Vector3[rayCount + 1 + 1];
             Vector2[] uv = new Vector2[vertices.Length];
@@ -150,11 +140,11 @@ namespace Football.Controllers
 
             int vertexIndex = 1;
             int triangleIndex = 0;
-            List<GameObject> fovPlayers = new();
+            List<PlayerData> fovPlayers = new();
 
             for (int i = 0; i <= rayCount; i++)
             {
-                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (selectedPlayer.transform.forward);
+                Vector3 castDirection = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0)) * (data.Torso.transform.forward);
 
                 Vector3 vertex = origin + castDirection * viewDistance;
                 vertices[vertexIndex] = vertex;
@@ -162,15 +152,14 @@ namespace Football.Controllers
                 var raycastHit = Physics.Raycast(origin, castDirection, out RaycastHit hit , viewDistance, LayerMask.GetMask("Players"));
 
                 if(raycastHit)
-                    if(hit.transform.GetComponent<PlayerData>().playerTeam == selectedPlayer.GetComponent<PlayerData>().playerTeam && hit.transform != selectedPlayer.transform)
-                        fovPlayers.Add(hit.transform.gameObject);
+                    if(hit.transform.GetComponentInParent<PlayerData>().playerTeam == data.playerTeam && hit.transform.GetComponentInParent<PlayerData>().name != data.name)
+                        fovPlayers.Add(hit.transform.GetComponentInParent<PlayerData>());
 
             if (i > 0)
                 {
                     triangles[triangleIndex + 0] = 0;
                     triangles[triangleIndex + 1] = vertexIndex - 1;
                     triangles[triangleIndex + 2] = vertexIndex;
-
                     triangleIndex += 3;
                 }
 
