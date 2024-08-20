@@ -33,6 +33,7 @@ namespace Football.Controllers
                 data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
                 data.HpBar.maxValue = 100;
                 data.Health = 100;
+                data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
                 MovementData.AllPlayers.Add(data);
                 MovementData.RedTeam.Add(redPlayer);
 
@@ -58,6 +59,7 @@ namespace Football.Controllers
                 data.HpBar = canvas.transform.Find("Slider").GetComponent<Slider>();
                 data.HpBar.maxValue = 100;
                 data.Health = 100;
+                data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
 
                 MovementData.BlueTeam.Add(bluePlayer);
                 MovementData.AllPlayers.Add(data);

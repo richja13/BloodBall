@@ -36,7 +36,11 @@ namespace ActiveRagdoll
             if (collision.gameObject.CompareTag(TeamTag) && collision.gameObject)
             {
                 collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
-                collision.gameObject.GetComponentInParent<PlayerData>().InvokeDamage(5);
+                var data = collision.gameObject.GetComponentInParent<PlayerData>();
+                data.InvokeDamage(5);
+                data.HitParticles.transform.position = collision.contacts[0].point;
+                data.HitParticles.transform.eulerAngles = -collision.contacts[0].normal;
+                data.HitParticles.Play();
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 200, ForceMode.Impulse);
             }
         }

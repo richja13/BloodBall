@@ -80,4 +80,6 @@ public class PlayerData : MonoBehaviour
     public void InvokeAttack() => OnWeaponAttack?.Invoke();
 
     public void InvokeDamage(float damage) => Health -= damage;
+
+    public ParticleSystem HitParticles;
 }
