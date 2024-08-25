@@ -10,6 +10,12 @@ namespace Football.Views
 
         void Start() => BallController.hitGoal += BallController.Goal;
 
+        void Update()
+        {
+            if (transform.position.y < 0)
+                new Vector3(transform.position.x, 0, transform.position.z);
+        }
+
         void OnTriggerEnter(Collider other)
         {
             BallController.CheckGoal(other);

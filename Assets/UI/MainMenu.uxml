@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Title" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="BLOOD BALL" parse-escape-sequences="true" display-tooltip-when-elided="true" style="left: 0; right: 0; align-self: center; font-size: 206px; padding-top: 59px; color: rgb(135, 39, 39); -unity-text-outline-width: 3px; -unity-text-outline-color: rgb(0, 0, 0); -unity-font: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=5dfbbb498dfd17e46926001a26f1b295&amp;type=3#NotInter-Regular&quot;); -unity-font-style: bold; -unity-text-align: middle-center;" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; height: 50%; width: 50%; -unity-text-align: upper-left; justify-content: flex-start; align-items: flex-start; align-self: flex-start;">
+        <ui:Button text="PLAY" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayButton" class="play-btn" style="width: 50%; margin-left: 50px; height: 12%; margin-top: 50px; font-size: 53px; -unity-font-style: bold; -unity-text-outline-color: rgba(52, 196, 214, 0); -unity-text-outline-width: 5px;" />
+        <ui:Button text="OPTIONS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsButton" class="options-btn" style="width: 50%; margin-left: 50px; height: 12%; margin-top: 50px; font-size: 53px; -unity-font-style: bold; -unity-text-outline-color: rgba(52, 196, 214, 0); -unity-text-outline-width: 5px;" />
+        <ui:Button text="QUIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" style="width: 50%; margin-left: 50px; height: 12%; margin-top: 50px; font-size: 53px; -unity-font-style: bold; -unity-text-outline-color: rgba(52, 196, 214, 0); -unity-text-outline-width: 5px;" />
+    </ui:VisualElement>
+</ui:UXML>

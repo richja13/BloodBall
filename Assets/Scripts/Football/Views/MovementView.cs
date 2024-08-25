@@ -154,8 +154,6 @@ namespace Football.Views
                 return;
 
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
-            //SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
-            //MovementData.Ball.transform.LookAt(SelectedPlayer.transform);
             PlayerData data = SelectedPlayer.GetComponent<PlayerData>();
 
             Vector3 PlayerTarget = closestPlayer.Target;
