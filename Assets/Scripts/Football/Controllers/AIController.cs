@@ -270,6 +270,7 @@ public class AIController : MonoBehaviour
             data.Torso.transform.position = new(data.SpawnPoint.position.x, data.Torso.transform.position.y, data.SpawnPoint.position.z);
    
         MatchData.MatchStarted = false;
+        MovementData.Ball.transform.parent = null;
         MovementData.Ball.transform.position = Vector3.zero;
         MovementData.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
         CoreViewModel.StartMatch();

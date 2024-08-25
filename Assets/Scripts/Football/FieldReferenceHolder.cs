@@ -16,6 +16,8 @@ namespace Football
         public static Transform SelectedRedPlayerMark;
         public static Transform SelectedBluePlayerMark;
 
+        public static ParticleSystem BallHitEffect;
+
         [SerializeField]
         Transform _selectedRedPlayerMark;
 
@@ -49,10 +51,14 @@ namespace Football
         [SerializeField]
         GameObject _fieldObject;
 
+        [SerializeField]
+        ParticleSystem _ballHitEffect;
+
         void Awake()
         {
             SelectedRedPlayerMark = _selectedRedPlayerMark;
             SelectedBluePlayerMark = _selectedBluePlayerMark;
+            BallHitEffect = _ballHitEffect;
 
             //Movement Data
             MovementData.RedTeamPlayers = _redTeamPlayers;

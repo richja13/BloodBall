@@ -5,6 +5,9 @@ namespace Football.Views
 {
     internal class BallView : MonoBehaviour
     {
+        [SerializeField]
+        public ParticleSystem BallParticles;
+
         void Start() => BallController.hitGoal += BallController.Goal;
 
         void OnTriggerEnter(Collider other)

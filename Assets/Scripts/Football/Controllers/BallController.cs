@@ -40,5 +40,12 @@ namespace Football.Controllers
             MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Torso.transform.position = new Vector3(collisionPoint.x, 0.5f, collisionPoint.z);
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
+
+        internal static async void BallParticles(ParticleSystem particles)
+        {
+            particles.Play();
+            await Task.Delay(1000);
+            particles.Stop();
+        }
     }
 }

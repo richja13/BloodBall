@@ -2,6 +2,7 @@
 using Core.Data;
 using Core.Enums;
 using Football.Data;
+using Football.Views;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,6 +48,10 @@ namespace Football.Controllers
             var rigidbody = MovementData.Ball.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
             rigidbody.AddForce(direction * power, ForceMode.Impulse);
+
+            FieldReferenceHolder.BallHitEffect.transform.position = MovementData.Ball.transform.position;
+            FieldReferenceHolder.BallHitEffect.Play();
+            BallController.BallParticles(MovementData.Ball.GetComponent<BallView>().BallParticles);
         }
 
         internal async static void GetBall()
@@ -54,7 +59,7 @@ namespace Football.Controllers
             if (MovementData.PlayerHasBall)
                 return;
 
-            await Task.Delay(500);
+            await Task.Delay(50);
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 

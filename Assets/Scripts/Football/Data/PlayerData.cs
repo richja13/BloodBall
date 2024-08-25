@@ -19,7 +19,7 @@ public class PlayerData : MonoBehaviour
 
     public Vector3 Movement;
 
-    public Vector3 Target 
+    public Vector3 Target
     { 
         get { return _target; } 
         set { if(!Attack) _target = value; } 

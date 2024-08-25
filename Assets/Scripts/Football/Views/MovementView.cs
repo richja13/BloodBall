@@ -130,7 +130,7 @@ namespace Football.Views
 
             if (data.playerTeam == team)
             {
-                kickBall?.Invoke(_kickPower * 5f, new Vector3(data.PlayerRotation.normalized.x, 0.2f,data.PlayerRotation.normalized.z));
+                kickBall?.Invoke(_kickPower * 6.5f, new Vector3(data.PlayerRotation.normalized.x, 0.2f,data.PlayerRotation.normalized.z));
 
                 _kickPower = 0;
                 MatchData.RedTeamHasBall = false;
@@ -151,10 +151,7 @@ namespace Football.Views
             var players = MovementController.FieldOfView(MovementData.FovObject, SelectedPlayer.transform);
 
             if (players is null || players.Count <= 0)
-            {
-                Debug.Log("Players Null");
                 return;
-            }
 
             var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
             //SelectedPlayer.transform.LookAt(closestPlayer.PlayerPosition);
