@@ -27,5 +27,12 @@ namespace Core.Controllers
             await Task.Delay(5000);
             MatchData.MatchStarted = true;
         }
+
+        internal static Vector3 RandomFieldVector()
+        {
+            float x = Random.Range(-5, 5);
+            float y = Random.Range(-3, 3);
+            return new Vector3(x, 15, y);
+        }
     }
 }

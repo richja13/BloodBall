@@ -5825,9 +5825,10 @@ GameObject:
   - component: {fileID: 1965104097244897373}
   - component: {fileID: 2760025760469197666}
   - component: {fileID: 9176676036307807490}
+  - component: {fileID: 7747716538487893842}
   m_Layer: 3
   m_Name: Hand.R
-  m_TagString: Untagged
+  m_TagString: RedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5893,7 +5894,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.22, y: 0.22, z: 0.22}
+  m_Size: {x: 0.1, y: 0.06, z: 0.11}
   m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!135 &2760025760469197666
 SphereCollider:
@@ -5914,7 +5915,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.075
+  m_Radius: 0.11
   m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!153 &9176676036307807490
 ConfigurableJoint:
@@ -6018,6 +6019,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7747716538487893842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672952884528811682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponMaterial: {fileID: 2100000, guid: 49c61f7d98b36a6438e5deb41f0f7207, type: 2}
 --- !u!1 &2130457507698614463
 GameObject:
   m_ObjectHideFlags: 0
@@ -6972,7 +6986,7 @@ MonoBehaviour:
   _physicsModule: {fileID: 8061100224683882899}
   _animationModule: {fileID: 6911408921625811678}
   _enableMovement: 1
-  _weaponView: {fileID: 5560302348295311021}
+  _weaponView: {fileID: 7747716538487893842}
 --- !u!1 &4567364167008455343
 GameObject:
   m_ObjectHideFlags: 0
@@ -9017,7 +9031,6 @@ GameObject:
   - component: {fileID: 6800214022479514363}
   - component: {fileID: 8007162921563178480}
   - component: {fileID: 8736978258481345761}
-  - component: {fileID: 5560302348295311021}
   m_Layer: 3
   m_Name: Hand.L
   m_TagString: RedPlayer
@@ -9211,18 +9224,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &5560302348295311021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019909276893654508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9216613827633150442
 GameObject:
   m_ObjectHideFlags: 0

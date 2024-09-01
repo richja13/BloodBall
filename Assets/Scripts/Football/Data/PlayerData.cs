@@ -1,3 +1,4 @@
+using Core.Config;
 using Core.Enums;
 using Football.Controllers;
 using UnityEngine;
@@ -82,4 +83,6 @@ public class PlayerData : MonoBehaviour
     public void InvokeDamage(float damage) => Health -= damage;
 
     public ParticleSystem HitParticles;
+
+    public WeaponConfig Weapon;
 }

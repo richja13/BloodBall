@@ -2,11 +2,14 @@ using UnityEngine;
 using ActiveRagdoll.Modules;
 using System.Threading.Tasks;
 using Core.Enums;
+using System.Linq;
 
 namespace ActiveRagdoll
 {
     public class WeaponView : MonoBehaviour
     {
+        [SerializeField]
+        Material WeaponMaterial;
         internal float Damage = 15;
         internal PlayerData Controller;
         bool _attack { get { return Controller.Attack; } set { Controller.Attack = value; } }
@@ -30,6 +33,10 @@ namespace ActiveRagdoll
 
         void OnCollisionEnter(Collision collision)
         {
+
+            if (collision.gameObject.CompareTag("Weapon"))
+                AddWeaponToHand(collision.gameObject);
+
             if (!_attack)
                 return;
 
@@ -43,6 +50,18 @@ namespace ActiveRagdoll
                 data.HitParticles.Play();
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 200, ForceMode.Impulse);
             }
+        }
+
+        void AddWeaponToHand(GameObject collisionObj)
+        {
+            Controller.Weapon = WeaponSpawnerView.Instance?.AllWeapons.Where(weapon => collisionObj.gameObject.name.Contains(weapon.WeaponName)).ToList()[0];
+            collisionObj.gameObject.transform.parent = transform;
+            collisionObj.gameObject.transform.position = transform.position;
+            Destroy(collisionObj.gameObject.GetComponent<Rigidbody>());
+            collisionObj.gameObject.transform.localEulerAngles = new Vector3(0, 90, 95);
+            collisionObj.gameObject.GetComponent<SphereCollider>().enabled = false;
+            collisionObj.gameObject.GetComponent<MeshRenderer>().material = WeaponMaterial;
+            collisionObj.gameObject.GetComponent<BoxCollider>().enabled = true;
         }
     }
 }

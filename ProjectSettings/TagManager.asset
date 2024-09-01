@@ -10,6 +10,7 @@ TagManager:
   - RedPlayer
   - BluePlayer
   - FieldEnd
+  - Weapon
   layers:
   - Default
   - TransparentFX

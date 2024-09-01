@@ -177,9 +177,10 @@ GameObject:
   - component: {fileID: 1730209198708785078}
   - component: {fileID: 8428472911088530030}
   - component: {fileID: 7449680845145542103}
+  - component: {fileID: 6615365601500186482}
   m_Layer: 3
   m_Name: Hand.R
-  m_TagString: Untagged
+  m_TagString: BluePlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,7 +267,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.075
+  m_Radius: 0.11
   m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!153 &7449680845145542103
 ConfigurableJoint:
@@ -370,6 +371,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6615365601500186482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065721878993636429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponMaterial: {fileID: 2100000, guid: 49c61f7d98b36a6438e5deb41f0f7207, type: 2}
 --- !u!1 &1229654169182521849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,7 +1183,6 @@ GameObject:
   - component: {fileID: 1563648881421840505}
   - component: {fileID: 9121073526852098480}
   - component: {fileID: 2202524524496014833}
-  - component: {fileID: 4769055194740168953}
   m_Layer: 3
   m_Name: Hand.L
   m_TagString: BluePlayer
@@ -1363,18 +1376,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &4769055194740168953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3932091336327019207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdebd74da53ff4e49b6c503c0f0533fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4028182312200347367
 GameObject:
   m_ObjectHideFlags: 0
@@ -7846,7 +7847,7 @@ MonoBehaviour:
   _physicsModule: {fileID: 2854787977675961954}
   _animationModule: {fileID: 364569348136535134}
   _enableMovement: 1
-  _weaponView: {fileID: 4769055194740168953}
+  _weaponView: {fileID: 6615365601500186482}
 --- !u!1 &6317635066889134066
 GameObject:
   m_ObjectHideFlags: 0
