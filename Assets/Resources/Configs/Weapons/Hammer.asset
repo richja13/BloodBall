@@ -17,5 +17,5 @@ MonoBehaviour:
   WeaponType: 0
   WeaponDamage: 5
   WeaponDurability: 3
-  AttackSpeed: 2
+  AttackSpeed: 0.7
   StunTime: 6

@@ -63,6 +63,7 @@ namespace ActiveRagdoll
 
             _animationModule.Animator.SetBool("moving", true);
             _animationModule.Animator.SetFloat("speed", _movement.magnitude);
+            _animationModule.Animator.SetFloat("attackSpeed", _weaponView.AttackSpeed);
 
             _physicsModule.TargetDirection = FootballViewModel.Rotation(transform, _movement);
         }

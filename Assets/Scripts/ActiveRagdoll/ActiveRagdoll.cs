@@ -3,7 +3,6 @@ using UnityEngine;
 using ActiveRagdoll.Modules;
 using System.Threading.Tasks;
 
-
 namespace ActiveRagdoll {
     // Author: Sergio Abreu García | https://sergioabreu.me
 
@@ -144,6 +143,10 @@ namespace ActiveRagdoll {
                     Stabilizer.angularXDrive = torsoJointDrive;
                     Stabilizer.angularYZDrive = torsoJointDrive;
                 }
+
+                if (data.Dead)
+                    return;
+
                 await Task.Delay(knockDownColldown * 1000);
             
                 foreach (var joint in Joints)

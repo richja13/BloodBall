@@ -1,6 +1,7 @@
 using Core.Config;
 using Core.Enums;
 using Football.Controllers;
+using Football.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,6 +46,24 @@ public class PlayerData : MonoBehaviour
 
     bool _knockedDown;
 
+    public bool Dead
+    {
+        get { return _dead; }
+
+        set 
+        {
+            _dead = value;
+
+            if (Dead)
+            {
+                Destroy(HpBar.gameObject);
+                MovementData.AllPlayers.Remove(this);
+            }
+        }
+    }
+
+    bool _dead;
+
     public float Speed;
 
     public float MaxKickForce;
@@ -68,7 +87,8 @@ public class PlayerData : MonoBehaviour
         set 
         {
             _health = value;
-            HpBar.value = value; 
+            HpBar.value = value;
+            Dead = _health <= 0 ? true : false;
         } 
     }
 

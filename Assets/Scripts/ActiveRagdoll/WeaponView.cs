@@ -11,8 +11,27 @@ namespace ActiveRagdoll
         [SerializeField]
         Material WeaponMaterial;
         internal float Damage = 15;
-        internal PlayerData Controller;
+        internal float AttackSpeed = 2;
+        internal PlayerData Controller 
+        { 
+            get { return _controller; }
+
+            set 
+            {
+                _controller = value;
+
+                if (!value.Weapon)
+                    return;
+
+                Damage = value.Weapon.WeaponDamage;
+                AttackSpeed = value.Weapon.AttackSpeed;
+            }   
+        }
+
+        PlayerData _controller;
+
         bool _attack { get { return Controller.Attack; } set { Controller.Attack = value; } }
+
         string TeamTag;
 
         void Start()
@@ -54,6 +73,9 @@ namespace ActiveRagdoll
 
         void AddWeaponToHand(GameObject collisionObj)
         {
+            for (int i = 0; i < transform.childCount; i++)
+                Destroy(transform.GetChild(i).gameObject);
+
             Controller.Weapon = WeaponSpawnerView.Instance?.AllWeapons.Where(weapon => collisionObj.gameObject.name.Contains(weapon.WeaponName)).ToList()[0];
             collisionObj.gameObject.transform.parent = transform;
             collisionObj.gameObject.transform.position = transform.position;

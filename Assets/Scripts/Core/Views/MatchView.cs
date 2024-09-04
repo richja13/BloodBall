@@ -21,7 +21,6 @@ namespace Core.Views
             powerBar.value = kickForce;
         }
 
-
         void OnApplicationQuit()
         {
 #if UNITY_EDITOR
