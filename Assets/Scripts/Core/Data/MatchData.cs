@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UIElements;
 using UnityEngine;
 using System.Collections.Generic;
+using Core.Enums;
 
 namespace Core.Data
 {
@@ -32,8 +33,40 @@ namespace Core.Data
 
         public static GameObject FieldObject;
 
-        public static bool RedTeamHasBall;
+        public static bool RedTeamHasBall 
+        {
+            get { return _redTeamHasBall; }
 
-        public static bool BlueTeamHasBall;
+            set
+            {
+                _redTeamHasBall = value;
+                if (value)
+                {
+                    BlueTeamHasBall = false;
+                    LastBallPossesion = Team.Red;
+                }
+            }
+        }
+
+        static bool _redTeamHasBall;
+
+        public static bool BlueTeamHasBall
+        {
+            get { return _blueTeamHasBall; }
+
+            set
+            {
+                _blueTeamHasBall = value;
+                if (value)
+                {
+                    RedTeamHasBall = false;
+                    LastBallPossesion = Team.Blue;
+                }
+            }
+        }
+
+        static bool _blueTeamHasBall;
+
+        public static Team LastBallPossesion;
     }
 }

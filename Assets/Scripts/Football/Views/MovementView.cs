@@ -190,7 +190,6 @@ namespace Football.Views
             {
                 PlayerData selectedPlayer = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
                 closestPlayer = MovementController.FindClosestPlayer(MovementData.AllPlayers.Where(data => data.playerTeam == Team.Red && data != selectedPlayer).ToList(), MovementData.Ball.transform, out var distance);
-                Debug.Log("Closest Player is: " + closestPlayer.name);
                 MovementData.RedSelectedPlayer = closestPlayer.gameObject;
             }
             else

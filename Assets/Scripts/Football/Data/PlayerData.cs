@@ -37,10 +37,10 @@ public class PlayerData : MonoBehaviour
         get { return _knockedDown; } 
         set
         {
-            if(value == true)
-                MovementController.LoseBall(this);
-
             _knockedDown = value;
+
+            if (value == true)
+                MovementController.LoseBall(this);
         } 
     }
 

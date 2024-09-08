@@ -59,11 +59,11 @@ namespace Football.Controllers
             if (MovementData.PlayerHasBall)
                 return;
 
-            await Task.Delay(10);
+            await Task.Delay(30);
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 
-            if (distance < 0.8f)
+            if (distance < 0.8f && (!closestPlayer.KnockedDown || !closestPlayer.Dead))
             {
                 MovementData.PlayerHasBall = true;
 
@@ -71,15 +71,14 @@ namespace Football.Controllers
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
                     MatchData.RedTeamHasBall = true;
-                    MatchData.BlueTeamHasBall = false;
                 }
                 else
                 {
                     MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
                     MatchData.BlueTeamHasBall = true;
-                    MatchData.RedTeamHasBall = false;
                 }
-                MovementData.Ball.transform.SetParent(closestPlayer.transform.Find("Physical").transform.Find("Player").transform.Find("Torso"));
+
+                MovementData.Ball.transform.SetParent(closestPlayer.Torso.transform);
                 AIController.ManageBack();
                 AIController.ManageCentre();
                 AIController.ManageForward();
@@ -114,8 +113,10 @@ namespace Football.Controllers
                 MatchData.BlueTeamHasBall = false;
             }
 
+            BallAddForce(10, MovementData.Ball.transform.forward);
+            BallController.DisableCollision(MovementData.Ball.GetComponent<SphereCollider>());
             MovementData.PlayerHasBall = false;
-            MovementData.Ball.transform.parent = null;
+            MovementData.Ball.transform.SetParent(null);
         }
 
         internal static Vector3 Rotation(Transform SelectedPlayer, Vector2 movementVector)

@@ -33,11 +33,21 @@ namespace Football.Controllers
             AIController.RestartMatch();
         }
 
+        internal static async void DisableCollision(SphereCollider collider)
+        {
+            collider.includeLayers -= LayerMask.GetMask("Players");
+            await Task.Delay(1000);
+            collider.includeLayers += LayerMask.GetMask("Players");
+        }
+
         internal static void FieldEndHit(Collider other, Transform transform)
         {
             var collisionPoint = other.ClosestPoint(transform.position);
             transform.position = new Vector3(collisionPoint.x, 1, collisionPoint.z);
-            MovementData.RedSelectedPlayer.GetComponent<PlayerData>().Torso.transform.position = new Vector3(collisionPoint.x, 0.5f, collisionPoint.z);
+
+            PlayerData data = (MatchData.LastBallPossesion == Team.Red) ? MovementData.BlueSelectedPlayer.GetComponent<PlayerData>() : MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
+
+            data.Torso.transform.position = new Vector3(collisionPoint.x, 0.5f, collisionPoint.z);
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
 

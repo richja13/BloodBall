@@ -64,7 +64,6 @@ namespace ActiveRagdoll
                 collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
                 var data = collision.gameObject.GetComponentInParent<PlayerData>();
                 data.InvokeDamage(5);
-                data.HitParticles.transform.parent = data.Torso.transform;
                 data.HitParticles.transform.position = collision.contacts[0].point;
                 data.HitParticles.transform.eulerAngles = -collision.contacts[0].normal;
                 data.HitParticles.Play();
