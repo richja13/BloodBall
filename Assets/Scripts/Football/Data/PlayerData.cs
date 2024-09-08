@@ -26,7 +26,7 @@ public class PlayerData : MonoBehaviour
         get { return _target; } 
         set { if(!Attack) _target = value; } 
     }
-    Vector3 _target;
+    public Vector3 _target;
 
     public GameObject Torso;
 

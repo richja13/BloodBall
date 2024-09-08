@@ -23,7 +23,7 @@ namespace Football.Controllers
             foreach (PlayerData player in players)
             {
                 if (target != MovementData.Ball.transform)
-                    if (target.name == player.name)
+                    if (target.GetComponentInParent<PlayerData>().name == player.name)
                         continue;
 
                 distance = Vector3.Distance(player.PlayerPosition, target.transform.position);
@@ -59,11 +59,11 @@ namespace Football.Controllers
             if (MovementData.PlayerHasBall)
                 return;
 
-            await Task.Delay(50);
+            await Task.Delay(10);
 
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers, MovementData.Ball.transform, out var distance);
 
-            if (distance < 0.5f)
+            if (distance < 0.8f)
             {
                 MovementData.PlayerHasBall = true;
 
@@ -104,7 +104,7 @@ namespace Football.Controllers
                 if (MovementData.RedSelectedPlayer.transform != data.transform)
                     return;
 
-                    MatchData.RedTeamHasBall = false;
+                MatchData.RedTeamHasBall = false;
             }
             else
             {
@@ -173,6 +173,29 @@ namespace Football.Controllers
             }
 
             return fovPlayers;
+        }
+
+        internal static bool InterceptionDirection(Vector3 a, Vector3 b, Vector3 vA, float sB,out Vector3 position, out Vector3 result)
+        {
+            var aToB = b - a;
+            var dC = aToB.magnitude;
+            var alpha = Vector3.Angle(aToB, vA) * Mathf.Deg2Rad;
+            var sA = vA.magnitude;
+            var r = sA / sB;
+
+            if(CoreViewModel.SolveQuadratic(1 - r * r, 2 * r * dC * Mathf.Cos(alpha), -(dC*dC), out var root1, out var root2) == 0)
+            {
+                result = Vector3.zero;
+                position = Vector3.zero;
+                return false;
+            }
+
+            var dA = Mathf.Max(root1, root2);
+            var t = dA / sB;
+            var c = a + vA * t;
+            result = c - b.normalized;
+            position = c;
+            return true;
         }
     }
 }

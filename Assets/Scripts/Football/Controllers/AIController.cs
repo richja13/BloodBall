@@ -98,8 +98,15 @@ public class AIController : MonoBehaviour
                     break;
 
                 case PlayerState.GetBall:
-                    if((data.playerTeam == Team.Red && !MatchData.RedTeamHasBall) || (data.playerTeam == Team.Blue && !MatchData.BlueTeamHasBall))
-                        MovePlayers(MovementData.Ball.transform.position, data.PlayerPosition, data);
+                    if ((data.playerTeam == Team.Red && !MatchData.RedTeamHasBall) || (data.playerTeam == Team.Blue && !MatchData.BlueTeamHasBall))
+                    {
+                        Rigidbody ballRb = MovementData.Ball.GetComponent<Rigidbody>();
+                        MovementController.InterceptionDirection(MovementData.Ball.transform.position, 
+                            data.PlayerPosition, ballRb.velocity, 15, out var position, out var direction);
+                        
+                        data.Target = position;
+                        MovePlayers(position, data.PlayerPosition, data);
+                    }
                     break;
 
                 case PlayerState.Tackle:
@@ -132,7 +139,7 @@ public class AIController : MonoBehaviour
 
         if (MatchData.BlueTeamHasBall || MatchData.RedTeamHasBall)
         {
-            if (Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position) < 5)
+            if (Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position) < 8)
             {
                 closestPlayer = MovementController.FindClosestPlayer(EnemyPlayers, data.Torso.transform, out var distance);
 
@@ -140,8 +147,12 @@ public class AIController : MonoBehaviour
 
                     if (closestPlayer == SelectedEnemy)
                     {
-                        data.Target = MovementData.Ball.transform.position;
-                        data.state = PlayerState.GetBall;
+                        MovementController.InterceptionDirection(closestPlayer.PlayerPosition,
+                          data.PlayerPosition, closestPlayer.Torso.GetComponent<Rigidbody>().velocity, 3, out var position, out var direction);
+
+                        data.Target = new Vector3(position.x, 0, position.z);
+                        MovePlayers(data.Target, data.PlayerPosition, data);
+                        //data.state = PlayerState.GetBall;
                     }
                     else
                     {

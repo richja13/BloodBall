@@ -20,7 +20,7 @@ public class WeaponSpawnerView : MonoBehaviour
 
     async void RandomSpawn()
     {
-        await Task.Delay(Random.Range(6000, 25000));
+        await Task.Delay(Random.Range(9000, 25000));
         Instantiate(CreateWeapon(), MatchController.RandomFieldVector(), Quaternion.identity);
         RandomSpawn();
     }

@@ -13,7 +13,7 @@ namespace Football.Views
         void Update()
         {
             if (transform.position.y < 0)
-                new Vector3(transform.position.x, 0, transform.position.z);
+                transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         }
 
         void OnTriggerEnter(Collider other)

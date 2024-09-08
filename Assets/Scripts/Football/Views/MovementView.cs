@@ -7,6 +7,7 @@ using Core;
 using Core.Enums;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.UIElements;
 
 namespace Football.Views
 {
@@ -153,16 +154,27 @@ namespace Football.Views
             if (players is null || players.Count <= 0)
                 return;
 
-            var closestPlayer = MovementController.FindClosestPlayer(players, SelectedPlayer.transform, out var distance);
             PlayerData data = SelectedPlayer.GetComponent<PlayerData>();
 
-            Vector3 PlayerTarget = closestPlayer.Target;
-            Vector3 direction = PlayerTarget - closestPlayer.PlayerPosition;
-            float targetSpeed = 10 * Time.deltaTime;
-            Vector3 VelocityVector = direction.normalized * targetSpeed;
-            Vector3 FutureVector = closestPlayer.PlayerPosition + VelocityVector * 3;
-            var vector = new Vector3(FutureVector.x - data.PlayerPosition.x, 0, FutureVector.z - data.PlayerPosition.z).normalized;
-            kickBall?.Invoke(13, vector);
+            var closestPlayer = MovementController.FindClosestPlayer(players, data.Torso.transform, out var distance);
+            Rigidbody playerRb = closestPlayer.Torso.GetComponent<Rigidbody>();
+
+            if (MovementController.InterceptionDirection(closestPlayer.PlayerPosition, data.PlayerPosition, playerRb.velocity, 15, out var Position, out var direction))
+            {
+                var vector = new Vector3(Position.x - data.PlayerPosition.x, 0, Position.z - data.PlayerPosition.z).normalized;
+                kickBall?.Invoke(15, vector);
+            }
+            else
+            {
+                Vector3 PlayerTarget = closestPlayer.Target;
+                Vector3 dir = PlayerTarget - closestPlayer.PlayerPosition;
+                float targetSpeed = 10 * Time.deltaTime;
+                Vector3 VelocityVector = dir.normalized * targetSpeed;
+                Vector3 FutureVector = closestPlayer.PlayerPosition + VelocityVector * 3;
+                var vector = new Vector3(FutureVector.x - data.PlayerPosition.x, 0, FutureVector.z - data.PlayerPosition.z).normalized;
+                kickBall?.Invoke(13, vector);
+            }
+
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
 
