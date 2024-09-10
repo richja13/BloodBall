@@ -8,6 +8,13 @@ namespace Football.Views
         [SerializeField]
         public ParticleSystem BallParticles;
 
+        [SerializeField]
+        public ParticleSystem GoalExplosion;
+
+        public static BallView Instance;
+
+        void Awake() => Instance = this;
+
         void Start() => BallController.hitGoal += BallController.Goal;
 
         void Update()

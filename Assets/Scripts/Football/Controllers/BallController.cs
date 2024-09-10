@@ -1,6 +1,7 @@
 ﻿using Core.Data;
 using Core.Enums;
 using Football.Data;
+using Football.Views;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ namespace Football.Controllers
             else
                 MatchData.BlueScore++;
             MovementData.Ball.GetComponent<Rigidbody>().velocity /= 5;
+
+            BallView.Instance.GoalExplosion.transform.position = BallView.Instance.transform.position;
+            BallView.Instance.GoalExplosion.Play();
 
             await Task.Delay(2000);
 
