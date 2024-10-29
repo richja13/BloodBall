@@ -25,11 +25,12 @@ namespace Football.Views
 
         void OnTriggerEnter(Collider other)
         {
-            BallController.CheckGoal(other);
 
             if (other.gameObject.CompareTag("FieldEnd"))
                 BallController.FieldEndHit(other, transform);
         }
+
+        void OnCollisionEnter(Collision collision) => BallController.CheckGoal(collision);
 
         void OnDestroy() => BallController.hitGoal -= BallController.Goal;
     }

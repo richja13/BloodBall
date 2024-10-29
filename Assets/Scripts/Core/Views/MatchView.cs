@@ -4,6 +4,7 @@ using Core.Controllers;
 using System.Reflection;
 using System.Threading;
 using System;
+using Core.Data;
 
 namespace Core.Views
 {
@@ -13,7 +14,9 @@ namespace Core.Views
 
         void Awake() => Instance = this;
 
-        private void Start() => MatchController.StartMatch();
+        void Start() => MatchController.StartMatch();
+
+        void OnEnable() => MatchData.localCoop = (Input.GetJoystickNames().Length > 1 ) ? true : false;
 
         internal void LoadPowerBar(ProgressBar powerBar, float highValue, float kickForce)
         {

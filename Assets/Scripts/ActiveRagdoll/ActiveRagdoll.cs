@@ -7,7 +7,7 @@ namespace ActiveRagdoll {
     // Author: Sergio Abreu García | https://sergioabreu.me
 
     [RequireComponent(typeof(InputModule))]
-    public class ActiveRagdoll : MonoBehaviour {
+    public class ActiveRagdollModule : MonoBehaviour {
         [Header("--- GENERAL ---")]
         [SerializeField] private int _solverIterations = 12;
         [SerializeField] private int _velSolverIterations = 4;
@@ -93,6 +93,7 @@ namespace ActiveRagdoll {
                 Debug.LogError("InputModule could not be found. An ActiveRagdoll must always have" +
                                 "a peer InputModule.");
 #endif
+
         }
 
         private void GetDefaultBodyParts() {
@@ -121,6 +122,41 @@ namespace ActiveRagdoll {
             return jointList;
         }
 
+        public async void ToggleGoalKeeperRagdoll(int knockDownColldown)
+        {
+                JointDrive torsoJointDrive = Stabilizer.angularXDrive;
+                if (torsoJointDrive.positionSpring != 0)
+                {
+                    foreach (var joint in Joints)
+                    {
+                        JointDrive jointDrive = joint.angularXDrive;
+                        jointDrive.positionSpring = 0f;
+                        joint.angularXDrive = jointDrive;
+                        joint.angularYZDrive = jointDrive;
+                    }
+
+                    torsoJointDrive.positionSpring = 0f;
+                    Stabilizer.angularXDrive = torsoJointDrive;
+                    Stabilizer.angularYZDrive = torsoJointDrive;
+                }
+
+                await Task.Delay(knockDownColldown * 1000);
+
+                _physicalTorso.transform.position += Vector3.up * 0.3f;
+                foreach (var joint in Joints)
+                {
+                    JointDrive jointDrive = joint.angularXDrive;
+                    jointDrive.positionSpring = 1500f;
+                    joint.angularXDrive = jointDrive;
+                    joint.angularYZDrive = jointDrive;
+                }
+
+                torsoJointDrive.positionSpring = 1500f;
+                Stabilizer.angularXDrive = torsoJointDrive;
+                Stabilizer.angularYZDrive = torsoJointDrive;
+        }
+
+
 
         public async void ToggleRagdoll(int knockDownColldown)
         {
@@ -148,7 +184,8 @@ namespace ActiveRagdoll {
                     return;
 
                 await Task.Delay(knockDownColldown * 1000);
-            
+
+                _physicalTorso.transform.position += Vector3.up * 0.3f;
                 foreach (var joint in Joints)
                 {
                     JointDrive jointDrive = joint.angularXDrive;
@@ -172,7 +209,6 @@ namespace ActiveRagdoll {
 
         void Update()
         {
-            PlayerPosition = PhysicalTorso.transform.position;
             PlayerRotation = PhysicalTorso.transform.forward;
 
 #if UnityEditor

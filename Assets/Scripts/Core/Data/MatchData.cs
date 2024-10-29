@@ -7,9 +7,13 @@ namespace Core.Data
 {
     public class MatchData
     {
+        public static bool localCoop;
+
         public static float RedScore;
 
         public static bool MatchStarted;
+
+        public static bool CanScoreGoal = true;
 
         public static float BlueScore;
 
@@ -18,6 +22,10 @@ namespace Core.Data
         public static Label UItime;
 
         public static Label UIScore;
+
+        public static GameObject RedGoal;
+
+        public static GameObject BlueGoal;
 
         public static ProgressBar RedTeamBar;
 
@@ -68,5 +76,11 @@ namespace Core.Data
         static bool _blueTeamHasBall;
 
         public static Team LastBallPossesion;
+
+        public static bool CanKickBall;
+
+        public static RectTransform RedIndicator;
+
+        public static RectTransform BlueIndicator;
     }
 }

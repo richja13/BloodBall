@@ -116,7 +116,7 @@ Material:
     - _Distortion: 0.1
     - _DistortionDepthFade: 1
     - _DistortionDepthFadePower: 2
-    - _DistortionNormalStrength: 1
+    - _DistortionNormalStrength: 15.2
     - _Distortion_Mask_Power: 1
     - _Distortion_Max: 1
     - _DstBlend: 0
@@ -131,7 +131,7 @@ Material:
     - _InnerRadialDistortionMaskHardness: 0.5
     - _InnerRadialDistortionMaskPower: 2
     - _InnerRadialDistortionMaskRadius: 1
-    - _InnerRadialDistortionMaskasAlpha: 0
+    - _InnerRadialDistortionMaskasAlpha: 0.441
     - _InnerRadialDistortionMaskasAlphaPower: 1
     - _Inner_Feather: 0.5
     - _Inner_Radius: 1
@@ -145,7 +145,7 @@ Material:
     - _OcclusionStrength: 1
     - _OuterRadialDistortionMaskPower: 2
     - _OuterRadialDistortionMaskRemapMax: 1
-    - _OuterRadialDistortionMaskRemapMin: 0
+    - _OuterRadialDistortionMaskRemapMin: 0.25
     - _Outer_Feather: 0.25
     - _Outer_Remap_Max: 0.2
     - _Outer_Remap_Min: 0
@@ -157,8 +157,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RadialAlphaMaskEdgeFade: 0
-    - _RadialAlphaMaskFeather: 0.1
-    - _RadialAlphaMaskPower: 0.1
+    - _RadialAlphaMaskFeather: 0.631
+    - _RadialAlphaMaskPower: 0.258
     - _RadialAlphaMaskRemapMax: 0.085
     - _Radial_Alpha_Mask_Edge_Fade: 0.1
     - _Radial_Alpha_Mask_Max: 0.1

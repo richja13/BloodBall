@@ -46,13 +46,28 @@ namespace Football
         List<Transform> _rightSpawnPoints;
 
         [SerializeField]
-        GameObject _fovObject;
+        GameObject _redFovObject;
+
+        [SerializeField]
+        GameObject _blueFovObject;
 
         [SerializeField]
         GameObject _fieldObject;
 
         [SerializeField]
         ParticleSystem _ballHitEffect;
+
+        [SerializeField]
+        GameObject _blueGoal;
+
+        [SerializeField]
+        GameObject _redGoal;
+
+        [SerializeField]
+        RectTransform _redIndicator;
+
+        [SerializeField]
+        RectTransform _blueIndicator;
 
         void Awake()
         {
@@ -65,7 +80,8 @@ namespace Football
             MovementData.BlueTeamPlayers = _blueTeamPlayers;
             MovementData.Ball = _ball;
             MovementData.BasicSpeed = _speed;
-            MovementData.FovObject = _fovObject;
+            MovementData.RedFovObject = _redFovObject;
+            MovementData.BlueFovObject = _blueFovObject;
             MovementData.Input = new InputActions();
             MovementData.Input.Enable();
 
@@ -80,6 +96,10 @@ namespace Football
             MatchData.LeftSpawnPoints = _leftSpawnPoints;
             MatchData.RightSpawnPoints = _rightSpawnPoints;
             MatchData.FieldObject = _fieldObject;
+            MatchData.BlueGoal = _blueGoal;
+            MatchData.RedGoal = _redGoal;
+            MatchData.RedIndicator = _redIndicator;
+            MatchData.BlueIndicator = _blueIndicator;
         }
     }
 }

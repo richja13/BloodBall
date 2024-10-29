@@ -6,10 +6,10 @@ namespace ActiveRagdoll.Modules
 
     /// <summary> The active ragdoll functionality is subdivided in modules, so
     /// everything is easier debug and mantain. </summary>
-    [RequireComponent(typeof(ActiveRagdoll))]
+    [RequireComponent(typeof(ActiveRagdollModule))]
     public class Module : MonoBehaviour {
-        [SerializeField] protected ActiveRagdoll _activeRagdoll;
-        public ActiveRagdoll ActiveRagdoll { get { return _activeRagdoll; } }
+        [SerializeField] protected ActiveRagdollModule _activeRagdoll;
+        public ActiveRagdollModule ActiveRagdoll { get { return _activeRagdoll; } }
 
         private void OnValidate() {
             if (_activeRagdoll == null) {

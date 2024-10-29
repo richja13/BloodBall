@@ -1,3 +1,5 @@
+using Core;
+using Core.Signal;
 using Football;
 using UnityEngine;
 
@@ -6,11 +8,15 @@ public class TestController : MonoBehaviour
     public InputActions actions;
     public Vector2 move;
     public Rigidbody Weapon;
+    public Rigidbody Ball;
+    public PlayerData player;
    // public WeaponView view;
     public bool Attack = true;
+    public static TestController Instance;
 
     void Start()
     {
+        Instance = this;
         //view = Weapon.gameObject.AddComponent<WeaponView>();
        // view.controller = this;
         actions = new InputActions();
@@ -19,7 +25,22 @@ public class TestController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ball.AddForce(new Vector3(-1f, 0.2f, 0f) * 15, ForceMode.Impulse);
+            Signals.Get<BallShootSignal>().Dispatch();
+        }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            Ball.velocity = Vector3.zero;
+            Ball.transform.position = new Vector3(-2.51f, 0.98f, 6.18f);
+        }
+
         var a = actions.GamePlay;
+
+        Ball.transform.position = new Vector3(Ball.transform.position.x + a.RedMovement.ReadValue<Vector2>().x * .1f, Ball.transform.position.y, Ball.transform.position.z);
+
         if (gameObject.CompareTag("RedPlayer"))
         {
             move = a.RedMovement.ReadValue<Vector2>();
@@ -27,7 +48,9 @@ public class TestController : MonoBehaviour
                 transform.Find("Animated").GetComponent<Animator>().SetTrigger("attack");
         }
         else
-            move = a.BlueMovement.ReadValue<Vector2>();
+            move = a.RedMovement.ReadValue<Vector2>();
+
+        player.Movement = new Vector3(move.x, 0, move.y);
     }
 }
 

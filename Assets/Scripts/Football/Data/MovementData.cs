@@ -1,4 +1,5 @@
 ﻿using Core.Config;
+using Football.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ namespace Football.Data
 
         internal static GameObject BlueSelectedPlayer;
 
-        internal static GameObject FovObject;
+        internal static GameObject RedFovObject;
+
+        internal static GameObject BlueFovObject;
 
         internal static List<PlayerConfig> BlueTeamPlayers;
 
@@ -30,6 +33,17 @@ namespace Football.Data
 
         internal static float BasicSpeed;
 
-        internal static bool PlayerHasBall = false;
+        internal static bool PlayerHasBall 
+        { 
+            get { return _playerHasBall; }
+            set
+            {
+                _playerHasBall = value;
+                if(value == false)
+                    MovementController.GetBall();
+            }
+        }
+
+        static bool _playerHasBall;
     }
 }

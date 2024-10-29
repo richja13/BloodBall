@@ -12,7 +12,7 @@ namespace Football.Controllers
         internal delegate void HitGoal(Team team);
         internal static event HitGoal hitGoal;
 
-        internal static void CheckGoal(Collider other)
+        internal static void CheckGoal(Collision other)
         {
             if (other.gameObject.CompareTag("BlueGoal"))
                 hitGoal.Invoke(Team.Blue);
@@ -23,6 +23,9 @@ namespace Football.Controllers
 
         internal static async void Goal(Team team)
         {
+            if (!MatchData.CanScoreGoal)
+                return;
+
             if (team == Team.Red)
                 MatchData.RedScore++;
             else
@@ -31,17 +34,13 @@ namespace Football.Controllers
 
             BallView.Instance.GoalExplosion.transform.position = BallView.Instance.transform.position;
             BallView.Instance.GoalExplosion.Play();
+            MatchData.CanScoreGoal = false;
+            MatchData.CanKickBall = false;
+            Time.timeScale = .4f;
 
             await Task.Delay(2000);
 
             AIController.RestartMatch();
-        }
-
-        internal static async void DisableCollision(SphereCollider collider)
-        {
-            collider.includeLayers -= LayerMask.GetMask("Players");
-            await Task.Delay(1000);
-            collider.includeLayers += LayerMask.GetMask("Players");
         }
 
         internal static void FieldEndHit(Collider other, Transform transform)

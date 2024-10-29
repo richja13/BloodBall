@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using ActiveRagdoll.Modules;
 using Football;
+using Core.Signal;
+using Core;
 
 namespace ActiveRagdoll
 {
@@ -10,7 +12,7 @@ namespace ActiveRagdoll
         // Author: Sergio Abreu García | https://sergioabreu.me
         [Header("Modules")]
         [SerializeField] 
-        ActiveRagdoll _activeRagdoll;
+        ActiveRagdollModule _activeRagdoll;
         
         [SerializeField] 
         PhysicsModule _physicsModule;
@@ -32,7 +34,7 @@ namespace ActiveRagdoll
 
         void OnValidate()
         {
-            if (_activeRagdoll == null) _activeRagdoll = GetComponent<ActiveRagdoll>();
+            if (_activeRagdoll == null) _activeRagdoll = GetComponent<ActiveRagdollModule>();
             if (_physicsModule == null) _physicsModule = GetComponent<PhysicsModule>();
             if (_animationModule == null) _animationModule = GetComponent<AnimationModule>();
         }
@@ -43,12 +45,13 @@ namespace ActiveRagdoll
             _playerData.OnWeaponAttack += TriggerAttack;
             _weaponView.Controller = _playerData;
             _playerData.Torso = _activeRagdoll.PhysicalTorso.gameObject;
+            _playerData.signal.Get<RagdollSignal>().AddListener(_activeRagdoll.ToggleRagdoll);
+
         }
 
         void Update()
         {
             _movement = new Vector2(_playerData.Movement.x, _playerData.Movement.z);
-            _playerData.PlayerPosition = _activeRagdoll.PlayerPosition;
             _playerData.PlayerRotation = _activeRagdoll.PlayerRotation;
             UpdateMovement();
         }

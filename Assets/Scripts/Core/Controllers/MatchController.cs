@@ -1,3 +1,4 @@
+using Codice.CM.Client.Differences.Graphic;
 using Core.Data;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -25,6 +26,7 @@ namespace Core.Controllers
         {
             await Task.Delay(5000);
             MatchData.MatchStarted = true;
+            MatchData.CanKickBall = true;
         }
 
         internal static Vector3 RandomFieldVector()
@@ -46,6 +48,23 @@ namespace Core.Controllers
             root1 = -b + Mathf.Sqrt(discriminant) / (2 * a);
             root2 = -b - Mathf.Sqrt(discriminant) / (2 * a);
             return discriminant > 0 ? 2 : 1;
+        }
+
+        internal static void OffscreenIndicator(Camera cam, Vector3 redPlayer, Vector3 bluePlayer)
+        {
+          /*  Vector3 screenPosBlue = cam.WorldToScreenPoint(bluePlayer);
+            bool isBlueOffScreen = screenPosBlue.x <= 0 || screenPosBlue.x > Screen.width || screenPosBlue.y <= 0 || screenPosBlue.y >= Screen.height;
+
+            if (isBlueOffScreen)
+            {
+                MatchData.BlueIndicator.gameObject.SetActive(true);
+                float x = Mathf.Clamp(screenPosBlue.x, 0, Screen.width);
+                float y = Mathf.Clamp(screenPosBlue.y, 0, Screen.height);
+
+                MatchData.BlueIndicator.transform.position = new Vector2(x, y);
+            }
+            else
+                MatchData.BlueIndicator.gameObject.SetActive(false);*/
         }
     }
 }

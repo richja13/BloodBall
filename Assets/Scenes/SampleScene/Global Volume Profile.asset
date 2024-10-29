@@ -140,7 +140,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.059
+    m_Value: 0.065
   response:
     m_OverrideState: 0
     m_Value: 0.8
@@ -165,13 +165,13 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 40.3
+    m_Value: 13.2
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 64.98
+    m_Value: 37.8
   gaussianMaxRadius:
     m_OverrideState: 1
-    m_Value: 1.101
+    m_Value: 1.337
   highQualitySampling:
     m_OverrideState: 0
     m_Value: 0
@@ -208,10 +208,10 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1.05
+    m_Value: 1.08
   intensity:
     m_OverrideState: 1
-    m_Value: 2.07
+    m_Value: 2.69
   scatter:
     m_OverrideState: 1
     m_Value: 0.807
@@ -232,7 +232,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0.466
   scrollVelocity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.2, y: 0.1}
 --- !u!114 &8931366642568743690
 MonoBehaviour:

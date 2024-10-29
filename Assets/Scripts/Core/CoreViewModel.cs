@@ -15,6 +15,8 @@ namespace Core
 
         public static void StartMatch() => MatchController.StartMatch();
 
+        public static void OffscreenIndicator(Camera cam, Vector3 redPlayer, Vector3 bluePlayer) => MatchController.OffscreenIndicator(cam, redPlayer, bluePlayer);
+
         public static int SolveQuadratic(float a, float b, float c, out float Root1, out float Root2)
         {
             int x = MatchController.SolveQuadratic(a, b, c, out var root1, out var root2);

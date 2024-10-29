@@ -1,5 +1,6 @@
 ﻿using Core.Data;
 using Football.Data;
+using Football.Views;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,9 @@ namespace Football.Controllers
                 data.HpBar.maxValue = 100;
                 data.Health = 100;
                 data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
+                if (data.FieldPosition == Core.Enums.PositionOnField.GoalKeeper)
+                    data.gameObject.AddComponent<GoalKeeperTestView>();
+
                 MovementData.AllPlayers.Add(data);
                 MovementData.RedTeam.Add(redPlayer);
 
@@ -60,6 +64,8 @@ namespace Football.Controllers
                 data.HpBar.maxValue = 100;
                 data.Health = 100;
                 data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
+                if (data.FieldPosition == Core.Enums.PositionOnField.GoalKeeper)
+                    data.gameObject.AddComponent<GoalKeeperTestView>();
 
                 MovementData.BlueTeam.Add(bluePlayer);
                 MovementData.AllPlayers.Add(data);
