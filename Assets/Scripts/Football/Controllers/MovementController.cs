@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Cinemachine;
+using Core;
 using Core.Data;
 using Core.Enums;
 using Core.Signal;
@@ -12,7 +13,7 @@ namespace Football.Controllers
 {
     internal static class MovementController
     {
-        internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
+        //internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
 
         internal static PlayerData FindClosestPlayer(List<PlayerData> players, Transform target, out float distance)
         {
@@ -85,6 +86,7 @@ namespace Football.Controllers
 
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
+            MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
             player.BallCooldown(300);
             var rigidbody = MovementData.Ball.GetComponent<Rigidbody>();
@@ -98,26 +100,35 @@ namespace Football.Controllers
 
         internal static void GetBall()
         {
-            if (MovementData.PlayerHasBall)
-                return;
-
             var closestPlayer = FindClosestPlayer(MovementData.AllPlayers.Where(p => p.CanGetBall).ToList(), MovementData.Ball.transform, out var distance);
 
-            if (distance < 0.8f && (!closestPlayer.KnockedDown || !closestPlayer.Dead))
+            if (distance < 0.4f && (!closestPlayer.KnockedDown || !closestPlayer.Dead))
             {
+                MovementData.PlayerHasBall = true;
+
                 if (closestPlayer.playerTeam is Team.Red)
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
                     MatchData.RedTeamHasBall = true;
-                    MovementData.Ball.transform.SetParent(closestPlayer.Torso.transform);
                 }
                 else
                 {
                     MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
                     MatchData.BlueTeamHasBall = true;
-                    MovementData.Ball.transform.SetParent(closestPlayer.Torso.transform);
                 }
 
+                if (closestPlayer.Target == Vector3.zero)
+                {
+                    Debug.Log("Stop ball");
+                    MovementData.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                }
+
+                MovementData.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                if (closestPlayer.name == MovementData.RedSelectedPlayer.name || closestPlayer.name == MovementData.BlueSelectedPlayer.name)
+                    MovementData.Ball.GetComponent<Rigidbody>().AddForce(closestPlayer.Target.normalized * 2.5f, ForceMode.VelocityChange);
+                
+                closestPlayer.BallCooldown(300);
+                
                 AIController.ManageBack();
                 AIController.ManageCentre(AiView.Offence);
                 AIController.ManageForward(AiView.Offence);
@@ -151,8 +162,9 @@ namespace Football.Controllers
                 MatchData.BlueTeamHasBall = false;
             }
 
+            MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
-            BallAddForce(8, MovementData.Ball.transform.forward, data);
+            BallAddForce(3, MovementData.Ball.transform.forward, data);
             data.BallCooldown(500);
         }
 
@@ -173,7 +185,7 @@ namespace Football.Controllers
             int rayCount = 70;
             float angle = 45f;
             float angleIncrease = fov / rayCount;
-            float viewDistance = 80f;
+            float viewDistance = 15f;
 
             Vector3[] vertices = new Vector3[rayCount + 2];
             Vector2[] uv = new Vector2[vertices.Length];

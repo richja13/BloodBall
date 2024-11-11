@@ -36,8 +36,13 @@ namespace Football.Controllers
                 data.Health = 100;
                 data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
                 if (data.FieldPosition == Core.Enums.PositionOnField.GoalKeeper)
-                    data.gameObject.AddComponent<GoalKeeperTestView>();
+                {
+                    data.gameObject.layer = LayerMask.NameToLayer("GoalKeeper");
+                    foreach(var child in data.gameObject.GetComponentsInChildren<Transform>())
+                        child.gameObject.layer = LayerMask.NameToLayer("GoalKeeper");
 
+                    data.gameObject.AddComponent<GoalKeeperTestView>();
+                }
                 MovementData.AllPlayers.Add(data);
                 MovementData.RedTeam.Add(redPlayer);
 
@@ -65,8 +70,13 @@ namespace Football.Controllers
                 data.Health = 100;
                 data.HitParticles = data.transform.Find("HitEffect").GetComponent<ParticleSystem>();
                 if (data.FieldPosition == Core.Enums.PositionOnField.GoalKeeper)
-                    data.gameObject.AddComponent<GoalKeeperTestView>();
+                {
+                    data.gameObject.layer = LayerMask.NameToLayer("GoalKeeper");
+                    foreach (var child in data.gameObject.GetComponentsInChildren<Transform>())
+                        child.gameObject.layer = LayerMask.NameToLayer("GoalKeeper");
 
+                    data.gameObject.AddComponent<GoalKeeperTestView>();
+                }
                 MovementData.BlueTeam.Add(bluePlayer);
                 MovementData.AllPlayers.Add(data);
 

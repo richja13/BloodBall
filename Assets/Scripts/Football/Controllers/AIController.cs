@@ -5,6 +5,7 @@ using Football.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using Football.Views;
+using System.Threading.Tasks;
 
 namespace Football.Controllers
 {
@@ -134,7 +135,7 @@ namespace Football.Controllers
 
         internal static int CheckFieldHalf() => (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = (MatchData.MatchStarted) ? new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized : Vector3.zero;
+        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => /*data.KnockedDown = false;*/ data.Movement = (MatchData.MatchStarted) ? new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized : Vector3.zero;
 
         internal static bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
         {
@@ -187,11 +188,11 @@ namespace Football.Controllers
         {
             foreach (var data in MovementData.AllPlayers)
             {
-                var playerRb = data.Torso.GetComponent<Rigidbody>();
-                playerRb.isKinematic = true;
-                data.Torso.transform.position = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
-                playerRb.isKinematic = false;
+                Rigidbody playerRb = data.Torso.GetComponent<Rigidbody>();
+                Vector3 pos = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
+                StopRigidbody(playerRb, data.transform, data.SpawnPoint.position);
             }
+
             MatchData.MatchStarted = false;
             MovementData.Ball.transform.parent = null;
 
@@ -205,6 +206,15 @@ namespace Football.Controllers
             Time.timeScale = 1.0f;
             rb.isKinematic = false;
             CoreViewModel.StartMatch();
+        }
+
+        internal static async void StopRigidbody(Rigidbody rb, Transform transform, Vector3 pos)
+        {
+            rb.isKinematic = true;
+            transform.position = pos;
+            await Task.Delay(100);
+            rb.isKinematic = false;
+            Debug.Log("Rigidbody stopped");
         }
     }
 }

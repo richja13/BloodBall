@@ -5,6 +5,7 @@ using Football.Views;
 using Core.Data;
 using Football.Data;
 using Core.Config;
+using Cinemachine;
 
 namespace Football
 {
@@ -69,6 +70,9 @@ namespace Football
         [SerializeField]
         RectTransform _blueIndicator;
 
+        [SerializeField]
+        CinemachineVirtualCamera _cam;
+
         void Awake()
         {
             SelectedRedPlayerMark = _selectedRedPlayerMark;
@@ -100,6 +104,7 @@ namespace Football
             MatchData.RedGoal = _redGoal;
             MatchData.RedIndicator = _redIndicator;
             MatchData.BlueIndicator = _blueIndicator;
+            MatchData.Camera = _cam;
         }
     }
 }

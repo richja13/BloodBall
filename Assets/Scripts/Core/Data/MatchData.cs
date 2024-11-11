@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Core.Enums;
+using Cinemachine;
 
 namespace Core.Data
 {
@@ -82,5 +83,7 @@ namespace Core.Data
         public static RectTransform RedIndicator;
 
         public static RectTransform BlueIndicator;
+
+        public static CinemachineVirtualCamera Camera;
     }
 }

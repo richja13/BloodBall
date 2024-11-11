@@ -51,10 +51,12 @@ namespace Football.Views
         {
             if (_isPathClear)
             {
+                AIPlayer.Target = new Vector3(MatchData.RedGoal.transform.position.x, 0, MatchData.RedGoal.transform.position.z).normalized;
+
                 var distance = Vector3.Distance(AIPlayer.Target, AIPlayer.PlayerPosition);
-                AIPlayer.Target = new Vector3(MatchData.RedGoal.transform.position.x, 0, MatchData.RedGoal.transform.position.z);
+
                 if (distance > 5)
-                    AIController.MovePlayers(AIPlayer.Target, AIPlayer.PlayerPosition, AIPlayer);
+                    AIController.MovePlayers(MovementData.Ball.transform.position, AIPlayer.PlayerPosition, AIPlayer);
                 else
                     return;
 
@@ -63,7 +65,6 @@ namespace Football.Views
                     kickBall?.Invoke(15, AIPlayer.Torso.transform.forward, AIPlayer);
                     KickReset(200);
                 }
-
             }
         }
 

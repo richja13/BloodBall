@@ -1,4 +1,5 @@
 ﻿using Core.Config;
+using Core.Data;
 using Football.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,42 @@ namespace Football.Data
 {
     internal class MovementData
     {
-        internal static GameObject RedSelectedPlayer;
+        internal static GameObject RedSelectedPlayer
+        {
+            get { return _redSelectedPlayer; }
 
-        internal static GameObject BlueSelectedPlayer;
+            set
+            {
+                if (MatchData.RedTeamHasBall)
+                {
+                    var playertransform = value.GetComponent<PlayerData>().Torso.transform;
+                    MatchData.Camera.Follow = playertransform;
+                    MatchData.Camera.LookAt = playertransform;
+
+                }
+                _redSelectedPlayer = value;
+            }
+        }
+
+        internal static GameObject BlueSelectedPlayer
+        {
+            get { return _blueSelectedPlayer; }
+
+            set 
+            {
+                if (MatchData.BlueTeamHasBall)
+                {
+                    var playertransform = value.GetComponent<PlayerData>().Torso.transform;
+                    MatchData.Camera.Follow = playertransform;
+                    MatchData.Camera.LookAt = playertransform;
+                }
+                _blueSelectedPlayer = value; 
+            }
+        }
+
+        static GameObject _redSelectedPlayer;
+
+        static GameObject _blueSelectedPlayer;
 
         internal static GameObject RedFovObject;
 
@@ -38,9 +72,16 @@ namespace Football.Data
             get { return _playerHasBall; }
             set
             {
+                if (!_playerHasBall && value)
+                    AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position);
+
                 _playerHasBall = value;
-                if(value == false)
+
+                if (!value)
+                {
+                    MatchData.Camera.Follow = Ball.transform;
                     MovementController.GetBall();
+                }
             }
         }
 
