@@ -33,10 +33,9 @@ namespace Football.Views
             _indRange.y = Screen.height - (Screen.height / 4);
             _indRange /= 2f;
             _arrow.normal.textColor = new Vector4(0, 0, 0, 0); 
-         
         }
 
-        void Update()
+        internal void Update()
         {
             _player = (_team == Team.Red) ? MovementData.RedSelectedPlayer.GetComponent<PlayerData>() : MovementData.BlueSelectedPlayer.GetComponent<PlayerData>();
             Vector3 screenPos = _cam.WorldToScreenPoint(_player.PlayerPosition);

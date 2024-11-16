@@ -3,12 +3,24 @@ using UnityEngine;
 using System.Collections.Generic;
 using Core.Enums;
 using Cinemachine;
+using UnityEngine.InputSystem;
+using System.Linq;
+using UnityEngine.InputSystem.DualShock;
 
 namespace Core.Data
 {
     public class MatchData
     {
-        public static bool localCoop;
+        public static bool LocalCoop
+        {
+            get 
+            {
+                foreach (var device in InputSystem.devices.Where(o => o is DualShockGamepad))
+                    return true;
+
+                return false;
+            }
+        }
 
         public static float RedScore;
 

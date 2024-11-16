@@ -13,8 +13,6 @@ namespace Football.Controllers
 {
     internal static class MovementController
     {
-        //internal static Vector3 Movement(float x, float y, float speed) => new Vector3(x, 0, y) * Time.deltaTime * speed;
-
         internal static PlayerData FindClosestPlayer(List<PlayerData> players, Transform target, out float distance)
         {
             float smallestDistance = 100;
@@ -86,12 +84,11 @@ namespace Football.Controllers
 
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
-            MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
             player.BallCooldown(300);
             var rigidbody = MovementData.Ball.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(direction * power, ForceMode.Impulse);
+            rigidbody.AddForce(power * direction, ForceMode.Impulse);
             FieldReferenceHolder.BallHitEffect.transform.position = MovementData.Ball.transform.position;
             FieldReferenceHolder.BallHitEffect.Play();
             BallController.BallParticles(MovementData.Ball.GetComponent<BallView>().BallParticles);
@@ -104,8 +101,6 @@ namespace Football.Controllers
 
             if (distance < 0.4f && (!closestPlayer.KnockedDown || !closestPlayer.Dead))
             {
-                MovementData.PlayerHasBall = true;
-
                 if (closestPlayer.playerTeam is Team.Red)
                 {
                     MovementData.RedSelectedPlayer = closestPlayer.gameObject;
@@ -117,15 +112,13 @@ namespace Football.Controllers
                     MatchData.BlueTeamHasBall = true;
                 }
 
-                if (closestPlayer.Target == Vector3.zero)
-                {
-                    Debug.Log("Stop ball");
-                    MovementData.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                }
+                var ballRb = MovementData.Ball.GetComponent<Rigidbody>();
 
-                MovementData.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                if (closestPlayer.Target == Vector3.zero)
+                    ballRb.velocity = Vector3.zero;
+
                 if (closestPlayer.name == MovementData.RedSelectedPlayer.name || closestPlayer.name == MovementData.BlueSelectedPlayer.name)
-                    MovementData.Ball.GetComponent<Rigidbody>().AddForce(closestPlayer.Target.normalized * 2.5f, ForceMode.VelocityChange);
+                    ballRb.AddForce(2.5f * closestPlayer.Target.normalized, ForceMode.VelocityChange);
                 
                 closestPlayer.BallCooldown(300);
                 
@@ -162,13 +155,12 @@ namespace Football.Controllers
                 MatchData.BlueTeamHasBall = false;
             }
 
-            MovementData.PlayerHasBall = false;
             MovementData.Ball.transform.parent = null;
             BallAddForce(3, MovementData.Ball.transform.forward, data);
             data.BallCooldown(500);
         }
 
-        internal static Vector3 Rotation(Transform SelectedPlayer, Vector2 movementVector)
+        internal static Vector3 Rotation(Vector2 movementVector)
         {
             float angleOffset = Vector2.SignedAngle(movementVector, Vector2.up);
             return Quaternion.AngleAxis(angleOffset, Vector3.up) * Vector3.forward;

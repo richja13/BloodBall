@@ -17,7 +17,7 @@ namespace Football.Views
 
         void Start() => BallController.hitGoal += BallController.Goal;
 
-        void Update()
+        internal void CustomUpdate()
         {
             if (transform.position.y < 0)
                 transform.position = new Vector3(transform.position.x, 1, transform.position.z);

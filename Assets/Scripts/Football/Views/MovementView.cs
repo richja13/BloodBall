@@ -13,6 +13,8 @@ namespace Football.Views
 {
     public class MovementView : MonoBehaviour
     {
+        public static MovementView Instance;
+
         static bool _shootR = false;
         static bool _shootB = false;
         bool _passR = false;
@@ -24,17 +26,21 @@ namespace Football.Views
 
         delegate void KickBall(float power, Vector3 direction, PlayerData player);
         event KickBall kickBall;
-    
-        void OnEnable() => SpawnController.SpawnPlayers();
+
+        void Awake() => Instance = this;
 
         void Start()
         {
-            InitializeControllers(MatchData.localCoop);
+            InitializeControllers(MatchData.LocalCoop);
+
+            Debug.Log($"Local Coop: {MatchData.LocalCoop}");
 
             kickBall += MovementController.BallAddForce;
         }
 
-        void InitializeControllers(bool localCoop)
+        void OnEnable() => SpawnController.SpawnPlayers();
+
+        void InitializeControllers(bool LocalCoop)
         {
             var InputMap = MovementData.Input.GamePlay;
 
@@ -46,7 +52,7 @@ namespace Football.Views
                 else if (team == Team.Red && !MatchData.RedTeamHasBall)
                     MovementData.RedSelectedPlayer.GetComponent<PlayerData>().InvokeAttack();
 
-                if (localCoop)
+                if (LocalCoop)
                 {
                     if (team == Team.Blue && MatchData.BlueTeamHasBall)
                         _shootB = true;
@@ -61,7 +67,7 @@ namespace Football.Views
                 if (team == Team.Red && MatchData.RedTeamHasBall)
                     _passR = true;
 
-                if (localCoop)
+                if (LocalCoop)
                     if (team == Team.Blue && MatchData.BlueTeamHasBall)
                     _passB = true;
             };
@@ -69,7 +75,7 @@ namespace Football.Views
             InputMap.Change.canceled += (context) =>
             {
                 Team team;
-                if (localCoop)
+                if (LocalCoop)
                     team = (context.control.device is Keyboard) ? Team.Red : Team.Blue;
                 else
                     team = Team.Red;
@@ -78,8 +84,9 @@ namespace Football.Views
             };
         }
 
-        void Update()
+        internal void CustomUpdate()
         {
+
             SelectedPlayerIcon();
 
             MatchData.RedPlayerName.text = MovementData.RedSelectedPlayer.name;
@@ -112,27 +119,40 @@ namespace Football.Views
            if(data.Movement != Vector3.zero)
                 data.Torso.GetComponent<Rigidbody>().AddForce(new Vector3(data.Torso.transform.forward.x, 0, data.Torso.transform.forward.z)* 5, ForceMode.Impulse);*/
 
-            if (MatchData.localCoop)
+            if (MatchData.LocalCoop)
             {
                 _movementVectorBlue = InputMap.BlueMovement.ReadValue<Vector2>();
-                MovementData.BlueSelectedPlayer.GetComponent<PlayerData>().Movement = new Vector3(_movementVectorBlue.x, 0, _movementVectorBlue.y);
+                data = MovementData.BlueSelectedPlayer.GetComponent<PlayerData>();
+                vector = (MovementData.Ball.transform.position - data.PlayerPosition).normalized;
+
+                if (MatchData.BlueTeamHasBall)
+                {
+                    if (_movementVectorBlue != Vector2.zero)
+                        data.Movement = new Vector3(vector.x, 0, vector.z);
+                    else
+                        data.Movement = Vector3.zero;
+
+                    data.Target = new Vector3(_movementVectorBlue.x, 0, _movementVectorBlue.y);
+                }
+                else
+                {
+                    data.Movement = new Vector3(_movementVectorBlue.x, 0, _movementVectorBlue.y);
+                }
             }
 
             /*      if (MovementData.Ball.transform.parent != null)
                   {
-                      MovementData.PlayerHasBall = true;
                       MovementData.Ball.transform.localPosition = new Vector3(0, -.3f, 0.85f);
                   }
                   else
                       MovementData.PlayerHasBall = false;*/
-            Debug.LogWarning("Have ball" + MovementData.PlayerHasBall);
 
 #if UNITY_EDITOR
             ShowAvailablePlayers();
 #endif
         }
 
-        void FixedUpdate()
+        internal void CustomFixedUpdate()
         {
             if (_shootB)
                 Shoot(Team.Blue);
@@ -180,8 +200,6 @@ namespace Football.Views
                 kickBall?.Invoke(_kickPower * 6.5f, new Vector3(data.Movement.x, 0.2f,data.Movement.z), data);
 
                 _kickPower = 0;
-                MatchData.RedTeamHasBall = false;
-                MatchData.BlueTeamHasBall = false;
             }
         }
 
@@ -212,15 +230,16 @@ namespace Football.Views
                 Vector3 vector = new Vector3(Position.x - data.PlayerPosition.x, 0, Position.z - data.PlayerPosition.z).normalized;
                 var power = (distance < 7) ? 15 * distance/7 : 15;
                 kickBall?.Invoke(power, vector, data);
+                Vector3 movementVector = new Vector3(MovementData.Ball.transform.position.x - closestPlayer.PlayerPosition.x, 0, MovementData.Ball.transform.position.z - closestPlayer.PlayerPosition.z).normalized;
+                closestPlayer.Movement = movementVector;
+
+                if(distance > 5)
+                    closestPlayer.Torso.GetComponent<Rigidbody>().AddForce(300 * movementVector, ForceMode.Impulse);
             }
 
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
-
-            Vector3 movementVector = new Vector3(MovementData.Ball.transform.position.x - closestPlayer.PlayerPosition.x, 0, MovementData.Ball.transform.position.z - closestPlayer.PlayerPosition.z).normalized;
-            closestPlayer.Movement = movementVector;
-            closestPlayer.Torso.GetComponent<Rigidbody>().AddForce(300 * movementVector, ForceMode.Impulse);
-
+         
             await Task.Delay((int)distance * 80);
 
             if(data.playerTeam == Team.Red)
@@ -236,13 +255,13 @@ namespace Football.Views
             if (team == Team.Red)
             {
                 PlayerData selectedPlayer = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
-                closestPlayer = MovementController.FindClosestPlayer(MovementData.AllPlayers.Where(data => data.playerTeam == Team.Red && data != selectedPlayer).ToList(), MovementData.Ball.transform, MatchData.RedTeamHasBall != true,out var distance);
+                closestPlayer = MovementController.FindClosestPlayer(MovementData.AllPlayers.Where(data => data.playerTeam == Team.Red && data != selectedPlayer).ToList(), MovementData.Ball.transform, !MatchData.RedTeamHasBall,out var distance);
                 MovementData.RedSelectedPlayer = closestPlayer.gameObject;
             }
             else
             {
                 PlayerData selectedPlayer = MovementData.BlueSelectedPlayer.GetComponent<PlayerData>();
-                closestPlayer = MovementController.FindClosestPlayer(MovementData.AllPlayers.Where(data => data.playerTeam == Team.Blue && data != selectedPlayer).ToList(), MovementData.Ball.transform, MatchData.BlueTeamHasBall == true ,out var distance);
+                closestPlayer = MovementController.FindClosestPlayer(MovementData.AllPlayers.Where(data => data.playerTeam == Team.Blue && data != selectedPlayer).ToList(), MovementData.Ball.transform, MatchData.BlueTeamHasBall,out var distance);
                 MovementData.BlueSelectedPlayer = closestPlayer.gameObject;
             }
         }
@@ -262,7 +281,6 @@ namespace Football.Views
 
             var SelectedPlayer = (MatchData.RedTeamHasBall) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
 
-            List<PlayerData> players = new();
             Transform selectedTransform = SelectedPlayer.transform; 
 
             _players = MovementController.FieldOfView(MatchData.RedTeamHasBall ? MovementData.RedFovObject : MovementData.BlueFovObject, selectedTransform);

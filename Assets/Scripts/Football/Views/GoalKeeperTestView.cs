@@ -17,18 +17,16 @@ namespace Football.Views
         GameObject _ball;
         Vector3 _startingPos;
 
-
         void OnEnable()
         {
             PlayerData = GetComponent<PlayerData>();
             Jumping = true;
-            //Time.timeScale = 0.4f;
             Signals.Get<BallShootSignal>().AddListener(GoalKeeperLogic);
             _startingPos = new(transform.position.x, 0, transform.position.z);
             _ball = MovementData.Ball;
         }
 
-        void FixedUpdate()
+        internal void FixedUpdate()
         {
             PlayerData.Target = new (_ball.transform.position.x, 0, _ball.transform.position.z);
 
@@ -56,10 +54,10 @@ namespace Football.Views
 
         async void GoalKeeperLogic()
         {
-            if (Vector3.Distance(PlayerData.PlayerPosition, _ball.transform.position) > 12f)
+            if (Vector3.Distance(PlayerData.PlayerPosition, _ball.transform.position) > 12f || !PlayerData.KnockedDown)
                 return;
 
-            if (MovementController.InterceptionDirection(_ball.transform.position, PlayerData.PlayerPosition, _ball.GetComponent<Rigidbody>().velocity, 15, out var position, out var result))
+            if (MovementController.InterceptionDirection(_ball.transform.position, PlayerData.PlayerPosition, _ball.GetComponent<Rigidbody>().velocity, 15, out _, out var result))
             {
                 directionToBall = new Vector2(result.z - PlayerData.PlayerPosition.z, result.y - PlayerData.PlayerPosition.y).normalized;
                 pos = result;

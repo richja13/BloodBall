@@ -23,7 +23,7 @@ namespace Core.Controllers
 
         internal static async void StartMatch()
         {
-            await Task.Delay(5000);
+            await Task.Delay(3000);
             MatchData.MatchStarted = true;
             MatchData.CanKickBall = true;
         }

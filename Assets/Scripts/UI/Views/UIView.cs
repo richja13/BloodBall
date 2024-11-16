@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace UI.Views
 {
-    class UIView : MonoBehaviour
+    internal class UIView : MonoBehaviour
     {
-        void Update()
+        internal static void CustomUpdate()
         {
             MatchData.UIScore.text = $"{MatchData.BlueScore}:{MatchData.RedScore}";
             MatchData.Time += (MatchData.MatchStarted) ? Time.deltaTime * 4 : 0;
@@ -21,7 +21,7 @@ namespace UI.Views
             }
         }
 
-        private void OnDrawGizmos()
+        void OnDrawGizmos()
         {
             foreach(PlayerData data in FootballViewModel.AllPlayers)
             {

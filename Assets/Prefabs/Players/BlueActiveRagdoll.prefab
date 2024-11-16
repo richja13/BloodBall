@@ -7733,7 +7733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _activeRagdoll: {fileID: 4450393246265212374}
   _balanceMode: 2
-  customTorsoAngularDrag: 0.05
+  customTorsoAngularDrag: 0.2
   uprightTorque: 5000
   uprightTorqueFunction:
     serializedVersion: 2
@@ -7772,8 +7772,8 @@ MonoBehaviour:
   manualTorque: 0
   maxManualRotSpeed: 3
   _stabilizerJointDrive:
-    _positionSpring: 1000
-    _positionDamper: 50
+    _positionSpring: 2000
+    _positionDamper: 200
     _maximumForce: 800
   freezeRotationSpeed: 2
 --- !u!114 &364569348136535134

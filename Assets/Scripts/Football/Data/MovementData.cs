@@ -79,6 +79,10 @@ namespace Football.Data
 
                 if (!value)
                 {
+                    if(_playerHasBall != value)
+                        foreach (var data in AllPlayers)
+                            data.Movement = data.Movement/10;
+
                     MatchData.Camera.Follow = Ball.transform;
                     MovementController.GetBall();
                 }

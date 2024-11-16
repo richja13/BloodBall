@@ -9,6 +9,8 @@ namespace Football.Views
 {
     internal class MainAIView : MonoBehaviour
     {
+        internal static MainAIView Instance;
+
         public PlayerData AIPlayer { get => MovementData.BlueSelectedPlayer.GetComponent<PlayerData>(); }
         public PlayerData EnemyPlayer { get => MovementData.RedSelectedPlayer.GetComponent<PlayerData>(); }
 
@@ -18,11 +20,13 @@ namespace Football.Views
         delegate void KickBall(float power, Vector3 direction, PlayerData data);
         event KickBall kickBall;
 
+        void Awake() => Instance = this;
+
         void Start() => kickBall += MovementController.BallAddForce;
 
-        void Update()
+        internal void CustomUpdate()
         {
-            if (MatchData.BlueTeamHasBall && !MatchData.localCoop)
+            if (MatchData.BlueTeamHasBall && !MatchData.LocalCoop)
             {
                 Main();
                 MoveAI();
@@ -31,6 +35,9 @@ namespace Football.Views
 
         void Main()
         {
+            if (!MatchData.MatchStarted)
+                return;
+
             if (MatchData.RedTeamHasBall)
                 return;
 
@@ -41,7 +48,10 @@ namespace Football.Views
                     if (FindPlayer(out var player))
                         Pass(player);
                     else
-                        AIController.Dirbble(AIPlayer.Torso.GetComponent<Rigidbody>());
+                    {
+                        var direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
+                        AIController.Dirbble(AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
+                    }
                 }
                 else
                     _isPathClear = true;
@@ -51,18 +61,19 @@ namespace Football.Views
         {
             if (_isPathClear)
             {
-                AIPlayer.Target = new Vector3(MatchData.RedGoal.transform.position.x, 0, MatchData.RedGoal.transform.position.z).normalized;
+                Vector3 target = new(MatchData.RedGoal.transform.position.x, 0, MatchData.RedGoal.transform.position.z);
+                AIPlayer.Target = (target - MovementData.Ball.transform.position).normalized;
 
-                var distance = Vector3.Distance(AIPlayer.Target, AIPlayer.PlayerPosition);
+                float distance = Vector3.Distance(target, AIPlayer.PlayerPosition);
 
                 if (distance > 5)
                     AIController.MovePlayers(MovementData.Ball.transform.position, AIPlayer.PlayerPosition, AIPlayer);
                 else
-                    return;
+                    AIPlayer.Movement = Vector3.zero;
 
                 if (distance < 10 && _canShoot && MatchData.BlueTeamHasBall)
                 {
-                    kickBall?.Invoke(15, AIPlayer.Torso.transform.forward, AIPlayer);
+                    kickBall?.Invoke(17, AIPlayer.Target, AIPlayer);
                     KickReset(200);
                 }
             }
@@ -88,7 +99,7 @@ namespace Football.Views
                 return false;
             }
 
-            player = MovementController.FindClosestPlayer(players, AIPlayer.Torso.transform, out var distance);
+            player = MovementController.FindClosestPlayer(players, AIPlayer.Torso.transform, out _);
             return true;
         }
 
