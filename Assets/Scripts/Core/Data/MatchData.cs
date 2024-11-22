@@ -9,7 +9,7 @@ using UnityEngine.InputSystem.DualShock;
 
 namespace Core.Data
 {
-    public class MatchData
+    public static class MatchData
     {
         public static bool LocalCoop
         {
@@ -30,7 +30,9 @@ namespace Core.Data
 
         public static float BlueScore;
 
-        public static double Time;
+        public static bool BallOut;
+
+        public static double Timer;
 
         public static Label UItime;
 
@@ -96,6 +98,6 @@ namespace Core.Data
 
         public static RectTransform BlueIndicator;
 
-        public static CinemachineVirtualCamera Camera;
+        public static CinemachineVirtualCamera MainCamera;
     }
 }

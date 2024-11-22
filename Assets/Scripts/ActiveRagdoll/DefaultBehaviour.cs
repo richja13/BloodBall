@@ -2,7 +2,6 @@
 using ActiveRagdoll.Modules;
 using Football;
 using Core.Signal;
-using Core;
 
 namespace ActiveRagdoll
 {
@@ -21,8 +20,7 @@ namespace ActiveRagdoll
         AnimationModule _animationModule;
 
         [Header("Movement")]
-        [SerializeField] 
-        bool _enableMovement = true;
+        bool _enableMovement;
         
         Vector2 _movement;
 
@@ -53,6 +51,7 @@ namespace ActiveRagdoll
         {
             _movement = new Vector2(_playerData.Movement.x, _playerData.Movement.z);
             _playerData.PlayerRotation = _activeRagdoll.PlayerRotation;
+            _enableMovement = _playerData.EnableMovement;
             UpdateMovement();
         }
 

@@ -180,10 +180,10 @@ namespace ActiveRagdoll {
                     Stabilizer.angularYZDrive = torsoJointDrive;
                 }
 
+                await Task.Delay(knockDownColldown * 1000);
+
                 if (data.Dead)
                     return;
-
-                await Task.Delay(knockDownColldown * 1000);
 
                 _physicalTorso.transform.position += Vector3.up * 0.3f;
                 foreach (var joint in Joints)

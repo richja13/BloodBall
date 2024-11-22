@@ -2,6 +2,8 @@
 using Core.Enums;
 using Football.Data;
 using Football.Views;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -45,13 +47,40 @@ namespace Football.Controllers
 
         internal static void FieldEndHit(Collider other, Transform transform)
         {
+            if (MatchData.BallOut)
+                return;
+
+            MatchData.BallOut = true;
             var collisionPoint = other.ClosestPoint(transform.position);
-            transform.position = new Vector3(collisionPoint.x, 1, collisionPoint.z);
+            PlayerData data = (MatchData.LastBallPossesion == Team.Red) ? MovementData.BlueSelectedPlayer : MovementData.RedSelectedPlayer;
+            data.EnableMovement = false;
 
-            PlayerData data = (MatchData.LastBallPossesion == Team.Red) ? MovementData.BlueSelectedPlayer.GetComponent<PlayerData>() : MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
+            int collisionZ = (collisionPoint.z < 0) ? - 21 : 21;
+            BallOut(data, collisionPoint, collisionPoint.z > 0);
 
-            data.Torso.transform.position = new Vector3(collisionPoint.x, 0.5f, collisionPoint.z);
+            transform.position = new Vector3(collisionPoint.x, .5f, collisionZ);
+            data.Torso.transform.position = new Vector3(collisionPoint.x, .5f, collisionZ);
+
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
+
+        internal static async void BallOut(PlayerData data, Vector3 collisionPoint, bool FieldTop)
+        {
+            List<PlayerData> list = MovementData.AllPlayers.Where(p => p.name != data.name).ToList();
+            MovementController.DisableMovement(list);
+
+            for(int i = 0; i < list.Count; i++)
+                list[i].Torso.transform.position = GenerateNewPosition(collisionPoint, FieldTop);
+
+            await Task.Delay(2000);
+            MovementController.EnableMovement();
+        }
+
+        internal static Vector3 GenerateNewPosition(Vector3 collisionPoint, bool FieldTop)
+        {
+            float z = FieldTop ? Random.Range(collisionPoint.z, collisionPoint.z - 3) : Random.Range(collisionPoint.z, collisionPoint.z + 3);
+            float x = Random.Range(collisionPoint.x + 5, collisionPoint.x - 5);
+            return new(x, .5f, z);
         }
 
         internal static async void BallParticles(ParticleSystem particles)

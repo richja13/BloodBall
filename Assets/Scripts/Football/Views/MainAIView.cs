@@ -4,6 +4,7 @@ using Football.Data;
 using Core.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using static Football.Controllers.AIController;
 
 namespace Football.Views
 {
@@ -11,8 +12,8 @@ namespace Football.Views
     {
         internal static MainAIView Instance;
 
-        public PlayerData AIPlayer { get => MovementData.BlueSelectedPlayer.GetComponent<PlayerData>(); }
-        public PlayerData EnemyPlayer { get => MovementData.RedSelectedPlayer.GetComponent<PlayerData>(); }
+        public PlayerData AIPlayer { get => MovementData.BlueSelectedPlayer; }
+        public PlayerData EnemyPlayer { get => MovementData.RedSelectedPlayer; }
 
         bool _isPathClear;
         bool _canShoot = true;
@@ -26,6 +27,9 @@ namespace Football.Views
 
         internal void CustomUpdate()
         {
+            if (MatchData.BallOut)
+                return;
+
             if (MatchData.BlueTeamHasBall && !MatchData.LocalCoop)
             {
                 Main();
@@ -50,7 +54,7 @@ namespace Football.Views
                     else
                     {
                         var direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
-                        AIController.Dirbble(AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
+                        Dirbble(AIPlayer,AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
                     }
                 }
                 else
@@ -67,7 +71,7 @@ namespace Football.Views
                 float distance = Vector3.Distance(target, AIPlayer.PlayerPosition);
 
                 if (distance > 5)
-                    AIController.MovePlayers(MovementData.Ball.transform.position, AIPlayer.PlayerPosition, AIPlayer);
+                    MovePlayers(MovementData.Ball.transform.position, AIPlayer.PlayerPosition, AIPlayer);
                 else
                     AIPlayer.Movement = Vector3.zero;
 

@@ -1,4 +1,8 @@
 using Core.Data;
+using Core.Signal;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -23,15 +27,18 @@ namespace Core.Controllers
 
         internal static async void StartMatch()
         {
+            MatchData.MatchStarted = false;
+            MatchData.CanKickBall = false;
             await Task.Delay(3000);
             MatchData.MatchStarted = true;
             MatchData.CanKickBall = true;
+            Signals.Get<EnableMovementSignal>().Dispatch();
         }
 
         internal static Vector3 RandomFieldVector()
         {
-            float x = Random.Range(-12, 12);
-            float y = Random.Range(-9, 9);
+            float x = UnityEngine.Random.Range(-12, 12);
+            float y = UnityEngine.Random.Range(-9, 9);
             return new Vector3(x, 15, y);
         }
 
@@ -47,6 +54,22 @@ namespace Core.Controllers
             root1 = -b + Mathf.Sqrt(discriminant) / (2 * a);
             root2 = -b - Mathf.Sqrt(discriminant) / (2 * a);
             return discriminant > 0 ? 2 : 1;
+        }
+
+        internal static object GetDefaultValue(Type type, string propertyName)
+        {
+            PropertyInfo property = type.GetProperty(propertyName);
+            if (property != null)
+            {
+                var attribute = (DefaultValueAttribute)Attribute.GetCustomAttribute(property, typeof(DefaultValueAttribute));
+                if (attribute != null)
+                {
+                    Debug.Log($"Attribute value: {attribute.Value}");
+                    return attribute.Value;
+                }
+            }
+
+            return null; 
         }
     }
 }

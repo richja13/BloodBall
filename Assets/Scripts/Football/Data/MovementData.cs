@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Football.Data
 {
-    internal class MovementData
+    internal static class MovementData
     {
-        internal static GameObject RedSelectedPlayer
+        internal static PlayerData RedSelectedPlayer
         {
             get { return _redSelectedPlayer; }
 
@@ -16,16 +16,16 @@ namespace Football.Data
             {
                 if (MatchData.RedTeamHasBall)
                 {
-                    var playertransform = value.GetComponent<PlayerData>().Torso.transform;
-                    MatchData.Camera.Follow = playertransform;
-                    MatchData.Camera.LookAt = playertransform;
+                    var playertransform = value.Torso.transform;
+                    MatchData.MainCamera.Follow = playertransform;
+                    MatchData.MainCamera.LookAt = playertransform;
 
                 }
                 _redSelectedPlayer = value;
             }
         }
 
-        internal static GameObject BlueSelectedPlayer
+        internal static PlayerData BlueSelectedPlayer
         {
             get { return _blueSelectedPlayer; }
 
@@ -33,17 +33,17 @@ namespace Football.Data
             {
                 if (MatchData.BlueTeamHasBall)
                 {
-                    var playertransform = value.GetComponent<PlayerData>().Torso.transform;
-                    MatchData.Camera.Follow = playertransform;
-                    MatchData.Camera.LookAt = playertransform;
+                    var playertransform = value.Torso.transform;
+                    MatchData.MainCamera.Follow = playertransform;
+                    MatchData.MainCamera.LookAt = playertransform;
                 }
                 _blueSelectedPlayer = value; 
             }
         }
 
-        static GameObject _redSelectedPlayer;
+        static PlayerData _redSelectedPlayer;
 
-        static GameObject _blueSelectedPlayer;
+        static PlayerData _blueSelectedPlayer;
 
         internal static GameObject RedFovObject;
 
@@ -79,11 +79,10 @@ namespace Football.Data
 
                 if (!value)
                 {
-                    if(_playerHasBall != value)
-                        foreach (var data in AllPlayers)
-                            data.Movement = data.Movement/10;
+                    foreach (var data in AllPlayers)
+                        data.Target = data.PlayerPosition;
 
-                    MatchData.Camera.Follow = Ball.transform;
+                    MatchData.MainCamera.Follow = Ball.transform;
                     MovementController.GetBall();
                 }
             }

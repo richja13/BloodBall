@@ -1,5 +1,6 @@
 ﻿using Football.Controllers;
 using UnityEngine;
+using static Football.Controllers.BallController;
 
 namespace Football.Views
 {
@@ -15,7 +16,7 @@ namespace Football.Views
 
         void Awake() => Instance = this;
 
-        void Start() => BallController.hitGoal += BallController.Goal;
+        void Start() => hitGoal += Goal;
 
         internal void CustomUpdate()
         {
@@ -27,11 +28,11 @@ namespace Football.Views
         {
 
             if (other.gameObject.CompareTag("FieldEnd"))
-                BallController.FieldEndHit(other, transform);
+                FieldEndHit(other, transform);
         }
 
-        void OnCollisionEnter(Collision collision) => BallController.CheckGoal(collision);
+        void OnCollisionEnter(Collision collision) => CheckGoal(collision);
 
-        void OnDestroy() => BallController.hitGoal -= BallController.Goal;
+        void OnDestroy() => hitGoal -= Goal;
     }
 }

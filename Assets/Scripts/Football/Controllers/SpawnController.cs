@@ -47,7 +47,7 @@ namespace Football.Controllers
                 MovementData.RedTeam.Add(redPlayer);
 
                 if(i is 0)
-                    MovementData.RedSelectedPlayer = redPlayer;
+                    MovementData.RedSelectedPlayer = data;
 
                 player = MovementData.BlueTeamPlayers[i];
                 player.SpawnPoint = MatchData.LeftSpawnPoints[i];
@@ -81,7 +81,7 @@ namespace Football.Controllers
                 MovementData.AllPlayers.Add(data);
 
                 if (i is 0)
-                    MovementData.BlueSelectedPlayer = bluePlayer;
+                    MovementData.BlueSelectedPlayer = data;
             }
         }
     }

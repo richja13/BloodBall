@@ -37,7 +37,7 @@ namespace Football.Views
 
         internal void Update()
         {
-            _player = (_team == Team.Red) ? MovementData.RedSelectedPlayer.GetComponent<PlayerData>() : MovementData.BlueSelectedPlayer.GetComponent<PlayerData>();
+            _player = (_team == Team.Red) ? MovementData.RedSelectedPlayer : MovementData.BlueSelectedPlayer;
             Vector3 screenPos = _cam.WorldToScreenPoint(_player.PlayerPosition);
             Visible = screenPos.x <= 0 || screenPos.x > Screen.width || screenPos.y <= 0 || screenPos.y >= Screen.height;
         }
