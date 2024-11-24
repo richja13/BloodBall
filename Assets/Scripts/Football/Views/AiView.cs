@@ -77,8 +77,8 @@ namespace Football.Views
                 var bluePlayersList = (MatchData.LocalCoop) ? MovementData.AllPlayers.Where(o => o.playerTeam == Team.Blue && o.name != MovementData.BlueSelectedPlayer.name && !o.KnockedDown).ToList() : 
                     MovementData.AllPlayers.Where(o => o.playerTeam == Team.Blue && !o.KnockedDown).ToList();
 
-                var redPlayer = MovementController.FindClosestPlayer(redPlayersList, MovementData.Ball.transform, out _);
-                var bluePlayer = MovementController.FindClosestPlayer(bluePlayersList, MovementData.Ball.transform, out _);
+                PlayerData redPlayer = MovementController.FindClosestPlayer(redPlayersList, MovementData.Ball.transform, out _);
+                PlayerData bluePlayer = MovementController.FindClosestPlayer(bluePlayersList, MovementData.Ball.transform, out _);
 
                 redPlayer.state = PlayerState.GetBall;
                 redPlayer.CanGetBall = true;

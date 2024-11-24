@@ -27,9 +27,6 @@ namespace Football.Views
 
         internal void CustomUpdate()
         {
-            if (MatchData.BallOut)
-                return;
-
             if (MatchData.BlueTeamHasBall && !MatchData.LocalCoop)
             {
                 Main();
@@ -45,23 +42,38 @@ namespace Football.Views
             if (MatchData.RedTeamHasBall)
                 return;
 
-            foreach (var enemyData in MovementData.AllPlayers.Where(d => d.playerTeam != AIPlayer.playerTeam))
-                if (Vector3.Distance(AIPlayer.PlayerPosition, enemyData.PlayerPosition) < 0.9f)
-                {
-                    _isPathClear = false;
-                    if (FindPlayer(out var player))
-                        Pass(player);
-                    else
+            if (!MatchData.BallOut)
+                foreach (var enemyData in MovementData.AllPlayers.Where(d => d.playerTeam != AIPlayer.playerTeam))
+                    if (Vector3.Distance(AIPlayer.PlayerPosition, enemyData.PlayerPosition) < 0.9f)
                     {
-                        var direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
-                        Dirbble(AIPlayer,AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
+                        _isPathClear = false;
+                        if (FindPlayer(out var player))
+                            Pass(player);
+                        else
+                        {
+                            var direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
+                            Dirbble(AIPlayer, AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
+                        }
                     }
-                }
-                else
-                    _isPathClear = true;
+                    else
+                        _isPathClear = true;
+            else
+                BallOut();
         }
 
-        public void MoveAI()
+        async void BallOut()
+        {
+            await Task.Delay(2000);
+            if (FindPlayer(out var player))
+                Pass(player);
+            else
+                MovementData.Ball.GetComponent<Rigidbody>().AddForce(7 * Time.fixedDeltaTime * AIPlayer.Torso.transform.forward, ForceMode.VelocityChange);
+
+            await Task.Delay(200);
+            MovementController.EnableMovement();
+        }
+
+        void MoveAI()
         {
             if (_isPathClear)
             {
@@ -110,12 +122,13 @@ namespace Football.Views
         bool Pass(PlayerData player)
         {
             Rigidbody playerRb = player.Torso.GetComponent<Rigidbody>();
-
             if (MovementController.InterceptionDirection(player.PlayerPosition, AIPlayer.PlayerPosition, playerRb.velocity, 15, out var Position, out var direction))
             {
                 var vector = new Vector3(Position.x - AIPlayer.PlayerPosition.x, 0, Position.z - AIPlayer.PlayerPosition.z).normalized;
                 kickBall?.Invoke(15, vector, player);
             }
+
+            Debug.Log("Pass to player");
             return true;
         }
 

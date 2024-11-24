@@ -111,7 +111,7 @@ namespace Football.Views
 
         void LoadKickForce()
         {
-            if (!MovementData.PlayerHasBall)
+            if (!PlayerHasBall)
                 return;
 
             _kickPower += (_kickPower < MAX_KICK_POWER) ? Time.deltaTime * 3 : 0;

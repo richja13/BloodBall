@@ -73,7 +73,7 @@ namespace Football.Data
             set
             {
                 if (!_playerHasBall && value)
-                    AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position);
+                    AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position, 100);
 
                 _playerHasBall = value;
 

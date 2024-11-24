@@ -144,7 +144,7 @@ namespace Football.Controllers
 
             if (MatchData.BlueTeamHasBall)
             {
-                if (Vector3.Distance(playerPosition, ballPosition) > 2 && Vector3.Distance(playerPosition, ballPosition) < 10)
+                if (Vector3.Distance(playerPosition, ballPosition) > 3 && Vector3.Distance(playerPosition, ballPosition) < 6)
                     newVector.z = ballPosition.z;
                 else
                     newVector.z = maxHeight;
@@ -182,12 +182,12 @@ namespace Football.Controllers
             {
                 Rigidbody playerRb = data.Torso.GetComponent<Rigidbody>();
                 Vector3 pos = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
-                StopRigidbody(playerRb, data.Torso.transform, pos);
+                StopRigidbody(playerRb, data.Torso.transform, pos, 100);
             }
 
             MovementController.DisableMovement(MovementData.AllPlayers);
             var rb = MovementData.Ball.GetComponent<Rigidbody>();
-            StopRigidbody(rb, rb.transform, Vector3.zero);
+            StopRigidbody(rb, rb.transform, Vector3.zero, 100);
 
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
@@ -196,11 +196,11 @@ namespace Football.Controllers
             CoreViewModel.StartMatch();
         }
 
-        internal static async void StopRigidbody(Rigidbody rb, Transform transform, Vector3 pos)
+        internal static async void StopRigidbody(Rigidbody rb, Transform transform, Vector3 pos, int time)
         {
             rb.isKinematic = true;
             transform.position = pos;
-            await Task.Delay(100);
+            await Task.Delay(time);
             rb.isKinematic = false;
         }
     }

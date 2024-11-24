@@ -93,7 +93,6 @@ namespace ActiveRagdoll {
                 Debug.LogError("InputModule could not be found. An ActiveRagdoll must always have" +
                                 "a peer InputModule.");
 #endif
-
         }
 
         private void GetDefaultBodyParts() {
@@ -156,8 +155,6 @@ namespace ActiveRagdoll {
                 Stabilizer.angularYZDrive = torsoJointDrive;
         }
 
-
-
         public async void ToggleRagdoll(int knockDownColldown)
         {
             PlayerData data = GetComponent<PlayerData>();
@@ -206,10 +203,10 @@ namespace ActiveRagdoll {
             SyncAnimatedBody();
         }
 
+        internal void TorsoRotation(Vector3 rotation) => _physicalTorso.MoveRotation(Quaternion.Euler(rotation));
 
         void Update()
         {
-            PlayerRotation = PhysicalTorso.transform.forward;
 
 #if UnityEditor
 

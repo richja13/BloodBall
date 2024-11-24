@@ -1,4 +1,5 @@
-﻿using Football.Controllers;
+﻿using Core.Data;
+using Football.Controllers;
 using UnityEngine;
 using static Football.Controllers.BallController;
 
@@ -22,13 +23,9 @@ namespace Football.Views
         {
             if (transform.position.y < 0)
                 transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-        }
 
-        void OnTriggerEnter(Collider other)
-        {
-
-            if (other.gameObject.CompareTag("FieldEnd"))
-                FieldEndHit(other, transform);
+            if (CheckIfBallOut(transform, out var collisionPoint))
+                FieldEndHit(collisionPoint, transform);
         }
 
         void OnCollisionEnter(Collision collision) => CheckGoal(collision);

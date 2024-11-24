@@ -30,7 +30,7 @@ public class PlayerData : MonoBehaviour
 
     public Vector3 Movement;
 
-    public bool EnableMovement;
+    public bool EnableMovement = false;
 
     public Vector3 Target
     { 
