@@ -11,12 +11,6 @@ public class Ripple : MonoBehaviour
 
     float Amount = 10f;
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.O))
-            RippleEffect();
-    }
-
     void RippleEffect()
     {
         this.Amount = this.MaxAmount;

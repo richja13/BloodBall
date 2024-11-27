@@ -1,5 +1,6 @@
 ﻿using Core.Controllers;
 using Core.Views;
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +16,7 @@ namespace Core
 
         public static void StartMatch() => MatchController.StartMatch();
 
-        public static void OffscreenIndicator(Camera cam, Vector3 redPlayer, Vector3 bluePlayer) => MatchController.OffscreenIndicator(cam, redPlayer, bluePlayer);
+        public static object GetDefaultValue(Type type, string propertyName) => MatchController.GetDefaultValue(type, propertyName);
 
         public static int SolveQuadratic(float a, float b, float c, out float Root1, out float Root2)
         {

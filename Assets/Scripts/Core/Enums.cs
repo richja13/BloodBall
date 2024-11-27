@@ -6,7 +6,6 @@
         Attack,
         Defence,
         GetBall,
-        Tackle,
         Marking,
     }
 

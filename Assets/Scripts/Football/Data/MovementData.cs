@@ -1,15 +1,51 @@
-﻿using Core.Config;
+﻿using Core;
+using Core.Config;
+using Core.Data;
 using Football.Controllers;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Football.Data
 {
-    internal class MovementData
+    internal static class MovementData
     {
-        internal static GameObject RedSelectedPlayer;
+        internal static PlayerData RedSelectedPlayer
+        {
+            get { return _redSelectedPlayer; }
 
-        internal static GameObject BlueSelectedPlayer;
+            set
+            {
+                if (MatchData.RedTeamHasBall)
+                {
+                    var playertransform = value.Torso.transform;
+                    MatchData.MainCamera.Follow = playertransform;
+                    MatchData.MainCamera.LookAt = playertransform;
+
+                }
+                _redSelectedPlayer = value;
+            }
+        }
+
+        internal static PlayerData BlueSelectedPlayer
+        {
+            get { return _blueSelectedPlayer; }
+
+            set 
+            {
+                if (MatchData.BlueTeamHasBall)
+                {
+                    var playertransform = value.Torso.transform;
+                    MatchData.MainCamera.Follow = playertransform;
+                    MatchData.MainCamera.LookAt = playertransform;
+                }
+                _blueSelectedPlayer = value; 
+            }
+        }
+
+        static PlayerData _redSelectedPlayer;
+
+        static PlayerData _blueSelectedPlayer;
 
         internal static GameObject RedFovObject;
 
@@ -38,9 +74,25 @@ namespace Football.Data
             get { return _playerHasBall; }
             set
             {
-                _playerHasBall = value;
-                if(value == false)
+                if (!_playerHasBall && value)
+                    AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position, 100);
+
+                if (!value && _playerHasBall != value)
+                {
+                    foreach (var data in AllPlayers.Where(p => p.name != RedSelectedPlayer.name || p.name != BlueSelectedPlayer.name))
+                        data.WalkSpeed = data.WalkSpeed/1.65f;
+
+                    MatchData.MainCamera.Follow = Ball.transform;
                     MovementController.GetBall();
+                }
+
+                if (value && _playerHasBall != value)
+                {
+                    foreach (var data in AllPlayers)
+                        data.WalkSpeed = (float)CoreViewModel.GetDefaultValue(typeof(PlayerData), nameof(PlayerData.WalkSpeed));
+                }
+
+                _playerHasBall = value;
             }
         }
 

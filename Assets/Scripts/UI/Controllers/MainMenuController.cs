@@ -1,11 +1,12 @@
+
+using MaskTransitions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace UI.Controllers
 {
     internal static class MainMenuController
     {
-        internal static void StartGame() => MainMenuView.Instance.Load();
+        internal static void StartGame() => TransitionManager.Instance.LoadLevel("MainScene");
 
         internal static void ExitGame()
         {

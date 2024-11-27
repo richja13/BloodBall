@@ -56,18 +56,19 @@ namespace ActiveRagdoll
             if (collision.gameObject.CompareTag("Weapon"))
                 AddWeaponToHand(collision.gameObject);
 
-            if (!_attack)
+            if (!_attack) 
                 return;
 
             if (collision.gameObject.CompareTag(TeamTag) && collision.gameObject)
             {
-                collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
                 var data = collision.gameObject.GetComponentInParent<PlayerData>();
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(800 * Time.fixedDeltaTime * -collision.contacts[0].normal, ForceMode.VelocityChange);
+                if (data.KnockedDown || data.Dead) return;
+                collision.gameObject.GetComponentInParent<PhysicsModule>().ActiveRagdoll.ToggleRagdoll(3);
                 data.InvokeDamage(5);
                 data.HitParticles.transform.position = collision.contacts[0].point;
                 data.HitParticles.transform.eulerAngles = -collision.contacts[0].normal;
                 data.HitParticles.Play();
-                collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 200, ForceMode.Impulse);
             }
         }
 

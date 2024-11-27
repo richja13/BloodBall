@@ -1,18 +1,18 @@
-using Core.Data;
 using Football;
 using System;
 using UnityEngine;
+using static Core.Data.MatchData;
 
 namespace UI.Views
 {
-    class UIView : MonoBehaviour
+    internal class UIView : MonoBehaviour
     {
-        void Update()
+        internal static void CustomUpdate()
         {
-            MatchData.UIScore.text = $"{MatchData.BlueScore}:{MatchData.RedScore}";
-            MatchData.Time += (MatchData.MatchStarted) ? Time.deltaTime * 4 : 0;
-            var timespan = TimeSpan.FromSeconds(MatchData.Time);
-            MatchData.UItime.text = string.Format("{0:00}:{1:00}", timespan.TotalMinutes, timespan.Seconds);
+            UIScore.text = $"{BlueScore}:{RedScore}";
+            Timer += (MatchStarted) ? Time.deltaTime * 4 : 0;
+            var timespan = TimeSpan.FromSeconds(Timer);
+            UItime.text = string.Format("{0:00}:{1:00}", timespan.TotalMinutes, timespan.Seconds);
 
             foreach (var data in FootballViewModel.AllPlayers)
             {
@@ -21,7 +21,7 @@ namespace UI.Views
             }
         }
 
-        private void OnDrawGizmos()
+        void OnDrawGizmos()
         {
             foreach(PlayerData data in FootballViewModel.AllPlayers)
             {

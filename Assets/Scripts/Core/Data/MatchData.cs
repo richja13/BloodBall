@@ -2,12 +2,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Core.Enums;
+using Cinemachine;
+using UnityEngine.InputSystem;
+using System.Linq;
+using UnityEngine.InputSystem.DualShock;
+using MaskTransitions;
 
 namespace Core.Data
 {
-    public class MatchData
+    public static class MatchData
     {
-        public static bool localCoop;
+        public static bool LocalCoop
+        {
+            get 
+            {
+                foreach (var device in InputSystem.devices.Where(o => o is DualShockGamepad))
+                    return true;
+
+                return false;
+            }
+        }
 
         public static float RedScore;
 
@@ -17,7 +31,26 @@ namespace Core.Data
 
         public static float BlueScore;
 
-        public static double Time;
+        public static bool BallOut 
+        {
+            get { return _ballOut; } 
+            set
+            {
+                if (value != _ballOut)
+                {
+                    if(value)
+                        TransitionManager.Instance.PlayTransition(2);
+                    
+                    _ballOut = value;
+                }
+            }
+        }
+
+        static bool _ballOut;
+
+        public static bool BallOutSequence;
+
+        public static double Timer;
 
         public static Label UItime;
 
@@ -82,5 +115,7 @@ namespace Core.Data
         public static RectTransform RedIndicator;
 
         public static RectTransform BlueIndicator;
+
+        public static CinemachineVirtualCamera MainCamera;
     }
 }

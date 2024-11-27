@@ -1,3 +1,4 @@
+using MaskTransitions;
 using System.Collections;
 using UI.Data;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class MainMenuView : MonoBehaviour
     IEnumerator LoadScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        TransitionManager.Instance.PlayStartHalfTransition(2);
 
         while (!asyncLoad.isDone)
             yield return null;

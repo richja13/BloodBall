@@ -4,6 +4,8 @@ using Core.Data;
 using Core.Enums;
 using Football.Controllers;
 using Football.Data;
+using System.Collections;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,13 +30,25 @@ public class PlayerData : MonoBehaviour
 
     public Vector3 Movement;
 
+    public bool EnableMovement = false;
+
     public Vector3 Target
     { 
         get { return _target; } 
-        set { if(!Attack) _target = value; } 
-    }
-    public Vector3 _target;
 
+        set 
+        { 
+            if (value != _target)
+            {
+                if (!Attack)
+                    _target = AIController.CheckTarget(this, value);
+
+                AIController.MovePlayers(_target, PlayerPosition, this);
+            }
+        }
+    }
+
+    public Vector3 _target;
 
     public bool Attack;
 
@@ -44,6 +58,9 @@ public class PlayerData : MonoBehaviour
         set
         {
             _knockedDown = value;
+
+            if (value)
+                CanGetBall = false;
 
             if(MovementData.RedSelectedPlayer.transform == this.transform && value == true && MatchData.RedTeamHasBall)
                 MovementController.LoseBall(this);
@@ -60,19 +77,26 @@ public class PlayerData : MonoBehaviour
 
         set 
         {
-            _dead = value;
-
-            if (Dead)
+            if (value != _dead)
             {
                 Destroy(HpBar.gameObject);
                 MovementData.AllPlayers.Remove(this);
+                EnableMovement = false;
+                CanGetBall = false;
             }
+
+            _dead = value;
         }
     }
 
     bool _dead;
 
     public float Speed;
+
+    [DefaultValue(1.2f)]
+    public float WalkSpeed { get { return _walkSpeed; } set { _walkSpeed = value; } }
+
+    float _walkSpeed = 1.2f;
 
     public float MaxKickForce;
 
@@ -114,6 +138,15 @@ public class PlayerData : MonoBehaviour
 
     public WeaponConfig Weapon;
 
+    [DefaultValue(0.2f)]
+    public float ExtraReach
+    {
+        get { return _extraReach; }
+        set { _extraReach = value; }
+    }
+
+    float _extraReach = .2f;
+
     public bool CanGetBall = true;
 
     public async void BallCooldown(int time)
@@ -121,5 +154,42 @@ public class PlayerData : MonoBehaviour
         CanGetBall = false;
         await Task.Delay(time);
         CanGetBall = true;
+    }
+
+    public async void DribbleCooldown(int time)
+    {
+        CanDribble = false;
+        await Task.Delay(time);
+        CanDribble = true;
+    }
+
+    public bool CanDribble = true;
+
+    public IEnumerator CatchBall(Vector3 targetPos)
+    {
+        var taskCompleted = false;
+        var a = 0;
+        while (!taskCompleted) 
+        {
+            EnableMovement = true;
+
+            yield return new WaitForSeconds(0.02f);
+            if(Vector3.Distance(MovementData.Ball.transform.position, PlayerPosition) < 0.65f)
+            {
+                Movement = Vector3.zero;
+                Target = targetPos;
+                var ballRb = MovementData.Ball.GetComponent<Rigidbody>();
+                ballRb.velocity = Vector3.zero;
+                ballRb.angularVelocity = Vector3.zero;
+                Vector3 movementVector = new Vector3(MovementData.Ball.transform.position.x - PlayerPosition.x, 0, MovementData.Ball.transform.position.z - PlayerPosition.z).normalized;
+                Torso.GetComponent<Rigidbody>().AddForce(5.5f * movementVector, ForceMode.VelocityChange);
+                taskCompleted = true;
+            }
+
+            if (a >= 100)
+                taskCompleted = true;
+            else
+                a++;
+        }
     }
 }

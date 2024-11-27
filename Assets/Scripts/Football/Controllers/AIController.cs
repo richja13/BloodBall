@@ -4,7 +4,7 @@ using Core.Enums;
 using Football.Data;
 using System.Collections.Generic;
 using UnityEngine;
-using Football.Views;
+using System.Threading.Tasks;
 
 namespace Football.Controllers
 {
@@ -43,63 +43,45 @@ namespace Football.Controllers
                 foreach (var players in MovementData.BlueTeam)
                     EnemyPlayers.Add(players.GetComponent<PlayerData>());
 
-                SelectedEnemy = MovementData.BlueSelectedPlayer.GetComponent<PlayerData>();
+                SelectedEnemy = MovementData.BlueSelectedPlayer;
             }
             else
             {
                 foreach (var players in MovementData.RedTeam)
                     EnemyPlayers.Add(players.GetComponent<PlayerData>());
-                SelectedEnemy = MovementData.RedSelectedPlayer.GetComponent<PlayerData>();
+                SelectedEnemy = MovementData.RedSelectedPlayer;
             }
 
-            if (MatchData.BlueTeamHasBall || MatchData.RedTeamHasBall)
-            {
                 if (Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position) < 8)
                 {
-                    closestPlayer = MovementController.FindClosestPlayer(EnemyPlayers, data.Torso.transform, out var distance);
+                    closestPlayer = MovementController.FindClosestPlayer(EnemyPlayers, data.Torso.transform, out _);
 
                     closestPlayer.MarkedPlayer ??= data.transform;
 
                     if (closestPlayer == SelectedEnemy)
                     {
                         MovementController.InterceptionDirection(closestPlayer.PlayerPosition,
-                          data.PlayerPosition, closestPlayer.Torso.GetComponent<Rigidbody>().velocity, 3, out var position, out var direction);
-
+                          data.PlayerPosition, closestPlayer.Torso.GetComponent<Rigidbody>().velocity, 3, out var position, out _);
                         data.Target = new Vector3(position.x, 0, position.z);
-                        MovePlayers(data.Target, data.PlayerPosition, data);
                     }
                     else
                     {
                         if (Vector3.Distance(data.PlayerPosition, SelectedEnemy.PlayerPosition) > 10)
-                        {
-                            if (CoreViewModel.CheckVector(data.PlayerPosition, data.SpawnPoint.position, 7))
-                                if (closestPlayer.MarkedPlayer == data.transform)
-                                {
-                                    data.Target = closestPlayer.PlayerPosition;
-                                    data.state = PlayerState.Marking;
-                                }
-                        }
+                            if (CoreViewModel.CheckVector(data.PlayerPosition, data.SpawnPoint.position, 7) && closestPlayer.MarkedPlayer == data.transform)
+                            {
+                                data.Target = closestPlayer.PlayerPosition;
+                                //data.state = PlayerState.Marking;
+                            }
                         else
-                        {
-                            data.Target = MovementData.Ball.transform.position;
                             data.state = PlayerState.GetBall;
-                        }
                     }
                 }
                 else
                 {
                     float ballDistance = Vector3.Distance(data.PlayerPosition, MovementData.Ball.transform.position);
                     float extraDistance = (data.playerTeam == Team.Blue) ? -ballDistance / 5 : ballDistance / 5;
-                    data.Target = new Vector3(data.SpawnPoint.position.x + (extraDistance * AiView.FieldHalf), data.SpawnPoint.position.y, data.SpawnPoint.position.z);
-
-                    MovePlayers(data.Target, data.PlayerPosition, data);
+                    data.Target = new Vector3(data.SpawnPoint.position.x + extraDistance, data.SpawnPoint.position.y, data.SpawnPoint.position.z);
                 }
-            }
-            else
-            {
-                data.Target = MovementData.Ball.transform.position;
-                data.state = PlayerState.GetBall;
-            }
         }
 
         internal static void ManageForward(bool offence)
@@ -127,14 +109,12 @@ namespace Football.Controllers
         internal static void ManageBack()
         {
             foreach (var data in _backPlayers)
-            {
                 data.state = PlayerState.Defence;
-            }
         }
 
         internal static int CheckFieldHalf() => (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = (MatchData.MatchStarted) ? new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized : Vector3.zero;
+        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized;
 
         internal static bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
         {
@@ -148,63 +128,80 @@ namespace Football.Controllers
         {
             Vector3 newVector = new();
             newVector.y = 0;
+
+            float maxHeight = 20;
+            float maxWidth = 12;
+
             if (MatchData.RedTeamHasBall)
             {
-                float maxHeight = playerPosition.z;
-                float maxWidth = -12;
-
-                if (Vector3.Distance(playerPosition, ballPosition) > 1 && Vector3.Distance(playerPosition, ballPosition) < 4)
+                if (Vector3.Distance(playerPosition, ballPosition) > 3 && Vector3.Distance(playerPosition, ballPosition) < 6)
                     newVector.z = ballPosition.z;
                 else
-                    newVector.z = maxHeight;
+                    newVector.z = playerPosition.z;
 
-                newVector.x = Random.Range(ballPosition.x, maxWidth);
+                newVector.x = Random.Range(ballPosition.x, ballPosition.x - maxWidth);
             }
 
             if (MatchData.BlueTeamHasBall)
             {
-                float maxHeight = playerPosition.z;
-                float maxWidth = 12;
-
-                if (Vector3.Distance(playerPosition, ballPosition) > 2 && Vector3.Distance(playerPosition, ballPosition) < 10)
+                if (Vector3.Distance(playerPosition, ballPosition) > 3 && Vector3.Distance(playerPosition, ballPosition) < 6)
                     newVector.z = ballPosition.z;
                 else
                     newVector.z = maxHeight;
 
-                newVector.x = Random.Range(ballPosition.x, maxWidth);
+                newVector.x = Random.Range(ballPosition.x, ballPosition.x + maxWidth);
             }
+
             return newVector;
         }
 
-        internal static void Dirbble(Rigidbody rb)
+        internal async static void Dirbble(PlayerData playerData, Rigidbody rb, int direction, Rigidbody BallRb)
         {
-            var random = Random.Range(-1, 1);
-            rb.AddForce((rb.transform.forward.normalized + Vector3.forward * random * 2) * 10, ForceMode.Impulse);
-            Debug.Log("Dribble");
+            if (!playerData.CanDribble)
+                return;
+            
+            var movementVector = direction * 800 * Time.fixedDeltaTime * rb.transform.right;
+            BallRb.transform.parent = rb.transform;
+            rb.AddForce(movementVector, ForceMode.VelocityChange);
+            BallRb.AddForce(movementVector/5, ForceMode.VelocityChange);
+            playerData.DribbleCooldown(2000);
+            await Task.Delay(300);
+            BallRb.transform.parent = null;
+        }
+
+        internal static Vector3 CheckTarget(PlayerData data, Vector3 target)
+        {
+            float zPos;
+            zPos = (target.z >= 21) ? 20 : (target.z <= -21) ? -20 : target.z; 
+            return new(target.x, target.y, zPos);
         }
 
         internal static void RestartMatch()
         {
             foreach (var data in MovementData.AllPlayers)
             {
-                var playerRb = data.Torso.GetComponent<Rigidbody>();
-                playerRb.isKinematic = true;
-                data.Torso.transform.position = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
-                playerRb.isKinematic = false;
+                Rigidbody playerRb = data.Torso.GetComponent<Rigidbody>();
+                Vector3 pos = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
+                StopRigidbody(playerRb, data.Torso.transform, pos, 1000);
             }
-            MatchData.MatchStarted = false;
-            MovementData.Ball.transform.parent = null;
 
+            MovementController.DisableMovement(MovementData.AllPlayers);
             var rb = MovementData.Ball.GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            MovementData.Ball.transform.position = Vector3.zero;
-            rb.position = Vector3.zero;
+            StopRigidbody(rb, rb.transform, Vector3.zero, 1000);
+
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;
             MatchData.CanScoreGoal = true;
             Time.timeScale = 1.0f;
-            rb.isKinematic = false;
             CoreViewModel.StartMatch();
+        }
+
+        internal static async void StopRigidbody(Rigidbody rb, Transform transform, Vector3 pos, int time)
+        {
+            rb.isKinematic = true;
+            transform.position = pos;
+            await Task.Delay(time);
+            rb.isKinematic = false;
         }
     }
 }

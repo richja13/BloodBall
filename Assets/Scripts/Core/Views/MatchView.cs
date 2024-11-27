@@ -5,18 +5,25 @@ using System.Reflection;
 using System.Threading;
 using System;
 using Core.Data;
+using MaskTransitions;
 
 namespace Core.Views
 {
-    internal class MatchView : MonoBehaviour
+    public class MatchView : MonoBehaviour
     {
-        public static MatchView Instance;
+        internal static MatchView Instance;
 
         void Awake() => Instance = this;
 
         void Start() => MatchController.StartMatch();
 
-        void OnEnable() => MatchData.localCoop = (Input.GetJoystickNames().Length > 1 ) ? true : false;
+        //void OnEnable() => MatchData.LocalCoop = (Input.GetJoystickNames().Length > 1 ) ? true : false;
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+                TransitionManager.Instance.LoadLevel("MainScene");
+        }
 
         internal void LoadPowerBar(ProgressBar powerBar, float highValue, float kickForce)
         {

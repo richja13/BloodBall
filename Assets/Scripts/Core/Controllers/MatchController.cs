@@ -1,5 +1,9 @@
-using Codice.CM.Client.Differences.Graphic;
 using Core.Data;
+using Core.Signal;
+using MaskTransitions;
+using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -24,15 +28,19 @@ namespace Core.Controllers
 
         internal static async void StartMatch()
         {
-            await Task.Delay(5000);
+            TransitionManager.Instance.PlayEndHalfTransition(2);
+            MatchData.MatchStarted = false;
+            MatchData.CanKickBall = false;
+            await Task.Delay(3000);
             MatchData.MatchStarted = true;
             MatchData.CanKickBall = true;
+            Signals.Get<EnableMovementSignal>().Dispatch();
         }
 
         internal static Vector3 RandomFieldVector()
         {
-            float x = Random.Range(-12, 12);
-            float y = Random.Range(-9, 9);
+            float x = UnityEngine.Random.Range(-12, 12);
+            float y = UnityEngine.Random.Range(-9, 9);
             return new Vector3(x, 15, y);
         }
 
@@ -50,21 +58,17 @@ namespace Core.Controllers
             return discriminant > 0 ? 2 : 1;
         }
 
-        internal static void OffscreenIndicator(Camera cam, Vector3 redPlayer, Vector3 bluePlayer)
+        internal static object GetDefaultValue(Type type, string propertyName)
         {
-          /*  Vector3 screenPosBlue = cam.WorldToScreenPoint(bluePlayer);
-            bool isBlueOffScreen = screenPosBlue.x <= 0 || screenPosBlue.x > Screen.width || screenPosBlue.y <= 0 || screenPosBlue.y >= Screen.height;
-
-            if (isBlueOffScreen)
+            PropertyInfo property = type.GetProperty(propertyName);
+            if (property != null)
             {
-                MatchData.BlueIndicator.gameObject.SetActive(true);
-                float x = Mathf.Clamp(screenPosBlue.x, 0, Screen.width);
-                float y = Mathf.Clamp(screenPosBlue.y, 0, Screen.height);
-
-                MatchData.BlueIndicator.transform.position = new Vector2(x, y);
+                var attribute = (DefaultValueAttribute)Attribute.GetCustomAttribute(property, typeof(DefaultValueAttribute));
+                if (attribute != null)
+                    return attribute.Value;
             }
-            else
-                MatchData.BlueIndicator.gameObject.SetActive(false);*/
+
+            return null; 
         }
     }
 }

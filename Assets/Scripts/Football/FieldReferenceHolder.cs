@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Football.Views;
-using Core.Data;
 using Football.Data;
 using Core.Config;
+using Cinemachine;
+using static Football.Data.MovementData;
+using static Core.Data.MatchData;
 
 namespace Football
 {
@@ -69,6 +71,9 @@ namespace Football
         [SerializeField]
         RectTransform _blueIndicator;
 
+        [SerializeField]
+        CinemachineVirtualCamera _cam;
+
         void Awake()
         {
             SelectedRedPlayerMark = _selectedRedPlayerMark;
@@ -76,30 +81,31 @@ namespace Football
             BallHitEffect = _ballHitEffect;
 
             //Movement Data
-            MovementData.RedTeamPlayers = _redTeamPlayers;
-            MovementData.BlueTeamPlayers = _blueTeamPlayers;
-            MovementData.Ball = _ball;
-            MovementData.BasicSpeed = _speed;
-            MovementData.RedFovObject = _redFovObject;
-            MovementData.BlueFovObject = _blueFovObject;
+            RedTeamPlayers = _redTeamPlayers;
+            BlueTeamPlayers = _blueTeamPlayers;
+            Ball = _ball;
+            BasicSpeed = _speed;
+            RedFovObject = _redFovObject;
+            BlueFovObject = _blueFovObject;
             MovementData.Input = new InputActions();
             MovementData.Input.Enable();
 
             //MatchData
-            MatchData.Time = 0;
-            MatchData.UItime = _document.rootVisualElement.Q<Label>(className: "time");
-            MatchData.UIScore = _document.rootVisualElement.Q<Label>(className: "score");
-            MatchData.RedPlayerName = _document.rootVisualElement.Q<Label>(className: "redplayername");
-            MatchData.BluePlayerName = _document.rootVisualElement.Q<Label>(className: "blueplayername");
-            MatchData.RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
-            MatchData.BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "BlueTeamProgressBar");
-            MatchData.LeftSpawnPoints = _leftSpawnPoints;
-            MatchData.RightSpawnPoints = _rightSpawnPoints;
-            MatchData.FieldObject = _fieldObject;
-            MatchData.BlueGoal = _blueGoal;
-            MatchData.RedGoal = _redGoal;
-            MatchData.RedIndicator = _redIndicator;
-            MatchData.BlueIndicator = _blueIndicator;
+            Timer = 0;
+            UItime = _document.rootVisualElement.Q<Label>(className: "time");
+            UIScore = _document.rootVisualElement.Q<Label>(className: "score");
+            RedPlayerName = _document.rootVisualElement.Q<Label>(className: "redplayername");
+            BluePlayerName = _document.rootVisualElement.Q<Label>(className: "blueplayername");
+            RedTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "RedTeamProgressBar");
+            BlueTeamBar = _document.rootVisualElement.Q<ProgressBar>(name: "BlueTeamProgressBar");
+            LeftSpawnPoints = _leftSpawnPoints;
+            RightSpawnPoints = _rightSpawnPoints;
+            FieldObject = _fieldObject;
+            BlueGoal = _blueGoal;
+            RedGoal = _redGoal;
+            RedIndicator = _redIndicator;
+            BlueIndicator = _blueIndicator;
+            MainCamera = _cam;
         }
     }
 }
