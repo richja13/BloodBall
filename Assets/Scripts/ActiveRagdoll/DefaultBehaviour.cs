@@ -24,7 +24,6 @@ namespace ActiveRagdoll
         bool _enableMovement;
         
         Vector2 _movement;
-
         PlayerData _playerData;
 
         [Header("Weapon data")]
@@ -77,7 +76,7 @@ namespace ActiveRagdoll
                 _animationModule.Animator.SetBool("moving", true);
             }
 
-            _animationModule.Animator.SetFloat("speed", _movement.magnitude * 1.2f);
+            _animationModule.Animator.SetFloat("speed", _movement.magnitude * _playerData.WalkSpeed);
             _animationModule.Animator.SetFloat("attackSpeed", _weaponView.AttackSpeed);
 
             if (MatchData.BallOut)

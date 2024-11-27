@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 81419785bbcaed34c81d805f138e9f25, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: abfdd8e144e838846ab5fbe2406be3f7, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -131,13 +131,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 994275921329164892, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4827671400079212814, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_Name
       value: BlueGoal
       objectReference: {fileID: 0}
+    - target: {fileID: 4827671400079212814, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890283179081186502, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4890283179081186502, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_TagString
       value: BlueGoal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090877001964132308, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5311016250052746164, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_LocalScale.x
@@ -454,7 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 316579888}
   - component: {fileID: 316579889}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: RedPlayer
   m_Icon: {fileID: 0}
@@ -2734,6 +2750,63 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.75, y: 0.35, z: 10.000002}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &1421772780
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8746815213132877900, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_Name
+      value: TransitionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8965728007412277684, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60e223b373cd9a347945535b62afe6ed, type: 3}
 --- !u!1 &1476067675
 GameObject:
   m_ObjectHideFlags: 0
@@ -3384,13 +3457,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 994275921329164892, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4827671400079212814, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_Name
       value: RedGoal
       objectReference: {fileID: 0}
+    - target: {fileID: 4827671400079212814, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890283179081186502, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4890283179081186502, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_TagString
       value: RedGoal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090877001964132308, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5311016250052746164, guid: 5fa14f47ae867e0459516e1da413cac7, type: 3}
       propertyPath: m_LocalScale.x
@@ -3471,7 +3560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934626207}
   - component: {fileID: 1934626208}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: BlueGoal
   m_Icon: {fileID: 0}
@@ -5297,7 +5386,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8849,3 +8938,4 @@ SceneRoots:
   - {fileID: 7920974578403034014}
   - {fileID: 50681221}
   - {fileID: 1913136562}
+  - {fileID: 1421772780}

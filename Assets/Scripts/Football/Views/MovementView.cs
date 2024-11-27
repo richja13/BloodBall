@@ -44,7 +44,7 @@ namespace Football.Views
 
             var InputMap = MovementData.Input.GamePlay;
 
-            if(InputMap.Shoot.IsPressed())
+            if(InputMap.Shoot.IsPressed() && !BallOut)
                 LoadKickForce();
 
             _movementVectorRed = InputMap.RedMovement.ReadValue<Vector2>();
@@ -125,6 +125,9 @@ namespace Football.Views
 
         void Shoot(Team team)
         {
+            if (BallOut)
+                return;
+
             ShootR = ShootB = false;
 
             CoreViewModel.LoadPowerBar(RedTeamBar, MAX_KICK_POWER, 0);
@@ -151,11 +154,13 @@ namespace Football.Views
                 var power = (distance < 7) ? 15 * distance / 7 : 15;
                 kickBall?.Invoke(power, vector, data);
                 StartCoroutine(closestPlayer.CatchBall(Position));
-                closestPlayer.ExtraReach = 0.6f;
+                closestPlayer.ExtraReach = 0.4f;
             }
 
             RedTeamHasBall = false;
             BlueTeamHasBall = false;
+
+            if (BallOut) EnableMovement();
 
             await Task.Delay((int)distance * 80);
 

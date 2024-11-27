@@ -1,0 +1,16 @@
+{
+    "name": "MaskTransitions",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8d578e5fb1838c442895e917cb9059b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

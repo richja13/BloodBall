@@ -6,6 +6,7 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.InputSystem.DualShock;
+using MaskTransitions;
 
 namespace Core.Data
 {
@@ -30,7 +31,24 @@ namespace Core.Data
 
         public static float BlueScore;
 
-        public static bool BallOut;
+        public static bool BallOut 
+        {
+            get { return _ballOut; } 
+            set
+            {
+                if (value != _ballOut)
+                {
+                    if(value)
+                        TransitionManager.Instance.PlayTransition(2);
+                    
+                    _ballOut = value;
+                }
+            }
+        }
+
+        static bool _ballOut;
+
+        public static bool BallOutSequence;
 
         public static double Timer;
 

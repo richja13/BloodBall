@@ -13,7 +13,6 @@ namespace Football.Controllers
     {
         internal delegate void HitGoal(Team team);
         internal static event HitGoal hitGoal;
-        internal static bool BallOutSequence;
 
         internal static void CheckGoal(Collision other)
         {
@@ -30,9 +29,9 @@ namespace Football.Controllers
                 return;
 
             if (team == Team.Red)
-                MatchData.RedScore++;
-            else
                 MatchData.BlueScore++;
+            else
+                MatchData.RedScore++;
             MovementData.Ball.GetComponent<Rigidbody>().velocity /= 5;
 
             BallView.Instance.GoalExplosion.transform.position = BallView.Instance.transform.position;
@@ -48,42 +47,40 @@ namespace Football.Controllers
 
         internal static void FieldEndHit(Vector3 collisionPoint, Transform transform)
         {
-
-            if (BallOutSequence)
+            if (MatchData.BallOutSequence)
                 return;
 
-            BallOutSequence = true;
-            PlayerData data = (MatchData.LastBallPossesion == Team.Red) ? MovementData.BlueSelectedPlayer : MovementData.RedSelectedPlayer;
+            MatchData.BallOutSequence = true;
+            PlayerData data = (MatchData.LastBallPossesion != Team.Red) ? MovementData.BlueSelectedPlayer : MovementData.RedSelectedPlayer;
             data.EnableMovement = false;
 
             int collisionZ = (collisionPoint.z < 0) ? - 22 : 22;
-            BallOut(data, collisionPoint, collisionPoint.z > 0);
             data.PlayerRotation = (collisionPoint.z > 0) ? new(0, 180, 0) : new(0, 0, 0);
-            data.Torso.transform.position = new Vector3(collisionPoint.x, .5f, collisionZ);
 
             Vector3 ballPos = new Vector3(collisionPoint.x, .5f, collisionZ);
-            AIController.StopRigidbody(transform.GetComponent<Rigidbody>(), transform, ballPos, 500);
+            BallOut(data, collisionPoint, collisionPoint.z > 0, ballPos);
         }
 
-        internal static void BallOut(PlayerData data, Vector3 collisionPoint, bool FieldTop)
+        internal static async void BallOut(PlayerData data, Vector3 collisionPoint, bool FieldTop, Vector3 ballPos)
         {
             List<PlayerData> list = MovementData.AllPlayers.Where(p => p.name != data.name).ToList();
             MovementController.DisableMovement(list);
             List<PlayerData> teamList = list.Where(p => p.playerTeam == data.playerTeam).ToList();
 
+            await Task.Delay(1000);
             for (int i = 0; i < 3; i++)
-                teamList[i].Torso.transform.position = GenerateNewPosition(collisionPoint, FieldTop);
+                AIController.StopRigidbody(teamList[i].Torso.GetComponent<Rigidbody>(), teamList[i].Torso.transform, GenerateNewPosition(collisionPoint, FieldTop), 1000);
+
+            AIController.StopRigidbody(MovementData.Ball.GetComponent<Rigidbody>(), MovementData.Ball.transform, ballPos, 1000);
+            AIController.StopRigidbody(data.Torso.GetComponent<Rigidbody>(), data.Torso.transform, ballPos, 1000);
         }
 
         internal static bool CheckIfBallOut(Transform transform, out Vector3 collisionPoint)
         {
-            Debug.Log($"{MatchData.BallOut} :Ball out");
-
             if (!MatchData.BallOut)
             {
                 if (transform.position.z > 21.5f || transform.position.z < -21.5f)
                 {
-                    Debug.LogError("Ball out of bounds");
                     collisionPoint = transform.position;
                     return MatchData.BallOut = true;
                 }
@@ -92,7 +89,7 @@ namespace Football.Controllers
             if (transform.position.z < 20 && transform.position.z > -20f)
             {
                 collisionPoint = Vector3.zero;
-                BallOutSequence = false;
+                MatchData.BallOutSequence = false;
                 return MatchData.BallOut = false;
             }
 

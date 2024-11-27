@@ -182,12 +182,12 @@ namespace Football.Controllers
             {
                 Rigidbody playerRb = data.Torso.GetComponent<Rigidbody>();
                 Vector3 pos = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
-                StopRigidbody(playerRb, data.Torso.transform, pos, 100);
+                StopRigidbody(playerRb, data.Torso.transform, pos, 1000);
             }
 
             MovementController.DisableMovement(MovementData.AllPlayers);
             var rb = MovementData.Ball.GetComponent<Rigidbody>();
-            StopRigidbody(rb, rb.transform, Vector3.zero, 100);
+            StopRigidbody(rb, rb.transform, Vector3.zero, 1000);
 
             MatchData.RedTeamHasBall = false;
             MatchData.BlueTeamHasBall = false;

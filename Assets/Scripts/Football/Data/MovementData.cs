@@ -1,7 +1,9 @@
-﻿using Core.Config;
+﻿using Core;
+using Core.Config;
 using Core.Data;
 using Football.Controllers;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Football.Data
@@ -75,16 +77,22 @@ namespace Football.Data
                 if (!_playerHasBall && value)
                     AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position, 100);
 
-                _playerHasBall = value;
-
-                if (!value)
+                if (!value && _playerHasBall != value)
                 {
-                    foreach (var data in AllPlayers)
-                        data.Target = data.PlayerPosition;
+                    foreach (var data in AllPlayers.Where(p => p.name != RedSelectedPlayer.name || p.name != BlueSelectedPlayer.name))
+                        data.WalkSpeed = data.WalkSpeed/1.65f;
 
                     MatchData.MainCamera.Follow = Ball.transform;
                     MovementController.GetBall();
                 }
+
+                if (value && _playerHasBall != value)
+                {
+                    foreach (var data in AllPlayers)
+                        data.WalkSpeed = (float)CoreViewModel.GetDefaultValue(typeof(PlayerData), nameof(PlayerData.WalkSpeed));
+                }
+
+                _playerHasBall = value;
             }
         }
 

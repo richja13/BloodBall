@@ -1,5 +1,6 @@
 using Core.Data;
 using Core.Signal;
+using MaskTransitions;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -27,6 +28,7 @@ namespace Core.Controllers
 
         internal static async void StartMatch()
         {
+            TransitionManager.Instance.PlayEndHalfTransition(2);
             MatchData.MatchStarted = false;
             MatchData.CanKickBall = false;
             await Task.Delay(3000);
@@ -63,10 +65,7 @@ namespace Core.Controllers
             {
                 var attribute = (DefaultValueAttribute)Attribute.GetCustomAttribute(property, typeof(DefaultValueAttribute));
                 if (attribute != null)
-                {
-                    Debug.Log($"Attribute value: {attribute.Value}");
                     return attribute.Value;
-                }
             }
 
             return null; 

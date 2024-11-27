@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System;
 using Core.Data;
+using MaskTransitions;
 
 namespace Core.Views
 {
@@ -17,6 +18,12 @@ namespace Core.Views
         void Start() => MatchController.StartMatch();
 
         //void OnEnable() => MatchData.LocalCoop = (Input.GetJoystickNames().Length > 1 ) ? true : false;
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+                TransitionManager.Instance.LoadLevel("MainScene");
+        }
 
         internal void LoadPowerBar(ProgressBar powerBar, float highValue, float kickForce)
         {

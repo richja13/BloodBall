@@ -64,9 +64,9 @@ namespace Football.Views
         async void BallOut()
         {
             await Task.Delay(2000);
-            if (FindPlayer(out var player))
+            if (FindPlayer(out var player) && MatchData.BallOut)
                 Pass(player);
-            else
+            else if(MatchData.BallOut)
                 MovementData.Ball.GetComponent<Rigidbody>().AddForce(7 * Time.fixedDeltaTime * AIPlayer.Torso.transform.forward, ForceMode.VelocityChange);
 
             await Task.Delay(200);
@@ -127,8 +127,6 @@ namespace Football.Views
                 var vector = new Vector3(Position.x - AIPlayer.PlayerPosition.x, 0, Position.z - AIPlayer.PlayerPosition.z).normalized;
                 kickBall?.Invoke(15, vector, player);
             }
-
-            Debug.Log("Pass to player");
             return true;
         }
 

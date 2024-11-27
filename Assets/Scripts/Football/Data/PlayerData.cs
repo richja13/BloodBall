@@ -93,6 +93,11 @@ public class PlayerData : MonoBehaviour
 
     public float Speed;
 
+    [DefaultValue(1.2f)]
+    public float WalkSpeed { get { return _walkSpeed; } set { _walkSpeed = value; } }
+
+    float _walkSpeed = 1.2f;
+
     public float MaxKickForce;
 
     public float Agility;
@@ -166,8 +171,10 @@ public class PlayerData : MonoBehaviour
         var a = 0;
         while (!taskCompleted) 
         {
+            EnableMovement = true;
+
             yield return new WaitForSeconds(0.02f);
-            if(Vector3.Distance(MovementData.Ball.transform.position, PlayerPosition) < 1)
+            if(Vector3.Distance(MovementData.Ball.transform.position, PlayerPosition) < 0.65f)
             {
                 Movement = Vector3.zero;
                 Target = targetPos;
@@ -175,7 +182,7 @@ public class PlayerData : MonoBehaviour
                 ballRb.velocity = Vector3.zero;
                 ballRb.angularVelocity = Vector3.zero;
                 Vector3 movementVector = new Vector3(MovementData.Ball.transform.position.x - PlayerPosition.x, 0, MovementData.Ball.transform.position.z - PlayerPosition.z).normalized;
-                Torso.GetComponent<Rigidbody>().AddForce(8 * movementVector, ForceMode.VelocityChange);
+                Torso.GetComponent<Rigidbody>().AddForce(5.5f * movementVector, ForceMode.VelocityChange);
                 taskCompleted = true;
             }
 
