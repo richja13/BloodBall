@@ -160,7 +160,7 @@ namespace Football.Controllers
             return closestPlayer;
         }
 
-        internal static void BallAddForce(float power, Vector3 direction, PlayerData player)
+        internal static void BallAddForce(float power, Vector3? direction, PlayerData player)
         {
             if (!CanKickBall)
                 return;
@@ -171,17 +171,17 @@ namespace Football.Controllers
             player.BallCooldown(300);
             var rigidbody = Ball.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(power * direction, ForceMode.Impulse);
+            rigidbody.AddForce(power * direction.Value, ForceMode.Impulse);
             FieldReferenceHolder.BallHitEffect.transform.position = Ball.transform.position;
             FieldReferenceHolder.BallHitEffect.Play();
-            BallController.BallParticles(MovementData.Ball.GetComponent<BallView>().BallParticles);
+            BallController.BallParticles(Ball.GetComponent<BallView>().BallParticles);
             Signals.Get<BallShootSignal>().Dispatch();
         }
 
         internal static void GetBall()
         {
-            var closestPlayer = FindClosestPlayer(AllPlayers.Where(p => p.CanGetBall).ToList(), Ball.transform, out var distance);
-            if (distance < 0.2f + closestPlayer.ExtraReach && (!closestPlayer.KnockedDown || !closestPlayer.Dead))
+            var closestPlayer = FindClosestPlayer(AllPlayers?.Where(p => p.CanGetBall && !p.KnockedDown && !p.Dead).ToList(), Ball.transform, out var distance);
+            if (distance < 0.2f + closestPlayer.ExtraReach)
             {
                 if (closestPlayer.playerTeam is Team.Red)
                 {
@@ -198,13 +198,7 @@ namespace Football.Controllers
 
                 var ballRb = Ball.GetComponent<Rigidbody>();
 
-                if (closestPlayer.Movement == Vector3.zero)
-                {
-                    ballRb.angularVelocity = Vector3.zero;
-                    ballRb.velocity = Vector3.zero;
-                }
-
-                if (closestPlayer.name == RedSelectedPlayer.name || closestPlayer.name == BlueSelectedPlayer.name)
+                if ((closestPlayer.name == RedSelectedPlayer.name || closestPlayer.name == BlueSelectedPlayer.name) && (!Corner && !BallOut))
                     ballRb.AddForce(2.5f * closestPlayer.Target.normalized, ForceMode.VelocityChange);
                 
                 closestPlayer.BallCooldown(300);
@@ -213,12 +207,15 @@ namespace Football.Controllers
                 AIController.ManageCentre(AiView.Offence);
                 AIController.ManageForward(AiView.Offence);
             }
+
+            if(((RedTeamHasBall && RedSelectedPlayer.Movement == Vector3.zero) || (BlueTeamHasBall && BlueSelectedPlayer.Movement == Vector3.zero)) && (!BallOut && !Corner))
+                AIController.StopRigidbody(Ball.GetComponent<Rigidbody>(), Ball.transform, Ball.transform.position, 10);
         }
 
         internal static void AttackEnemy(PlayerData data)
         {
-            foreach (PlayerData enemy in AllPlayers.Where(enemy => enemy.playerTeam != data.playerTeam))
-                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1.1f) && (!enemy.KnockedDown || !enemy.Dead))
+            foreach (PlayerData enemy in AllPlayers.Where(enemy => enemy.playerTeam != data.playerTeam && !enemy.KnockedDown && !enemy.Dead))
+                if (CoreViewModel.CheckVector(data.PlayerPosition, enemy.PlayerPosition, 1.1f))
                 {
                     data.InvokeAttack();
                     data.Target = enemy.PlayerPosition;

@@ -1,4 +1,5 @@
 using Football;
+using Football.Data;
 using System;
 using UnityEngine;
 using static Core.Data.MatchData;
@@ -16,8 +17,11 @@ namespace UI.Views
 
             foreach (var data in FootballViewModel.AllPlayers)
             {
-                data.HpBar.transform.rotation = Camera.main.transform.rotation;
-                data.HpBar.transform.position = new Vector3(data.PlayerPosition.x, data.HpBar.transform.position.y, data.PlayerPosition.z);
+                if (data.HpBar != null)
+                {
+                    data.HpBar.transform.rotation = Camera.main.transform.rotation;
+                    data.HpBar.transform.position = new Vector3(data.PlayerPosition.x, data.HpBar.transform.position.y, data.PlayerPosition.z);
+                }
             }
         }
 

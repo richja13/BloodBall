@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using ActiveRagdoll.Modules;
 using Football;
+using Football.Data;
 using Core.Signal;
 using Core.Data;
 
@@ -56,21 +57,15 @@ namespace ActiveRagdoll
         {
             _enableMovement = _playerData.EnableMovement;
 
-            if (!MatchData.MatchStarted)
-                return;
-
             _movement = new Vector2(_playerData.Movement.x, _playerData.Movement.z);
             UpdateMovement();
         }
 
         void UpdateMovement()
         {
-
-
-
             if (_movement == Vector2.zero || !_enableMovement)
                 _animationModule.Animator.SetBool("moving", false);
-            else if(!MatchData.BallOut)
+            else if(!MatchData.BallOut && _enableMovement)
             {
                 _physicsModule.TargetDirection = FootballViewModel.Rotation(_movement);
                 _animationModule.Animator.SetBool("moving", true);

@@ -35,7 +35,7 @@ namespace Football.Views
             if (MovementData.PlayerHasBall)
                 foreach (var data in MovementData.AllPlayers)
                 {
-                    if (data.name == MovementData.RedSelectedPlayer.name)
+                    if ((data?.name == MovementData.RedSelectedPlayer?.name))
                         continue;
 
                     if (!MatchData.LocalCoop)
@@ -72,9 +72,9 @@ namespace Football.Views
                 }
             else
             {
-                var redPlayersList = MovementData.AllPlayers.Where(o => o.playerTeam == Team.Red && o.name != MovementData.RedSelectedPlayer.name && !o.KnockedDown).ToList();
+                var redPlayersList = MovementData.AllPlayers?.Where(o => o.playerTeam == Team.Red && o.name != MovementData.RedSelectedPlayer.name && !o.KnockedDown).ToList();
 
-                var bluePlayersList = (MatchData.LocalCoop) ? MovementData.AllPlayers.Where(o => o.playerTeam == Team.Blue && o.name != MovementData.BlueSelectedPlayer.name && !o.KnockedDown).ToList() : 
+                var bluePlayersList = (MatchData.LocalCoop) ? MovementData.AllPlayers?.Where(o => o.playerTeam == Team.Blue && o.name != MovementData.BlueSelectedPlayer.name && !o.KnockedDown).ToList() : 
                     MovementData.AllPlayers.Where(o => o.playerTeam == Team.Blue && !o.KnockedDown).ToList();
 
                 PlayerData redPlayer = MovementController.FindClosestPlayer(redPlayersList, MovementData.Ball.transform, out _);

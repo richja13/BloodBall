@@ -18,7 +18,7 @@ namespace Football.Data
             {
                 if (MatchData.RedTeamHasBall)
                 {
-                    var playertransform = value.Torso.transform;
+                    var playertransform = value.Torso?.transform;
                     MatchData.MainCamera.Follow = playertransform;
                     MatchData.MainCamera.LookAt = playertransform;
 
@@ -35,7 +35,7 @@ namespace Football.Data
             {
                 if (MatchData.BlueTeamHasBall)
                 {
-                    var playertransform = value.Torso.transform;
+                    var playertransform = value.Torso?.transform;
                     MatchData.MainCamera.Follow = playertransform;
                     MatchData.MainCamera.LookAt = playertransform;
                 }

@@ -19,7 +19,7 @@ namespace Football.Views
         Vector2 _movementVectorRed;
         Vector2 _movementVectorBlue;
         const float MAX_KICK_POWER = 4;
-        internal delegate void KickBall(float power, Vector3 direction, PlayerData player);
+        internal delegate void KickBall(float power, Vector3? direction, PlayerData player);
         internal static event KickBall kickBall;
 
         void Awake() => Instance = this;
@@ -27,13 +27,11 @@ namespace Football.Views
         void Start()
         {
             InitializeControllers(LocalCoop, MovementData.Input);
-
+            SpawnController.SpawnPlayers();
             kickBall += BallAddForce;
 
             Signals.Get<EnableMovementSignal>().AddListener(EnableMovement);
         }
-
-        void OnEnable() => SpawnController.SpawnPlayers();
 
         internal void CustomUpdate()
         {
@@ -44,7 +42,7 @@ namespace Football.Views
 
             var InputMap = MovementData.Input.GamePlay;
 
-            if(InputMap.Shoot.IsPressed() && !BallOut)
+            if(InputMap.Shoot.IsPressed() && (!BallOut || Corner))
                 LoadKickForce();
 
             _movementVectorRed = InputMap.RedMovement.ReadValue<Vector2>();
@@ -64,10 +62,6 @@ namespace Football.Views
             {
                 data.Movement = new Vector3(_movementVectorRed.x, 0, _movementVectorRed.y);
             }
-
-       /*     //Sprint
-           if(data.Movement != Vector3.zero)
-                data.Torso.GetComponent<Rigidbody>().AddForce(new Vector3(data.Torso.transform.forward.x, 0, data.Torso.transform.forward.z)* 5, ForceMode.Impulse);*/
 
             if (LocalCoop)
             {
@@ -90,6 +84,10 @@ namespace Football.Views
                 }
             }
 
+            /*     //Sprint
+     if(data.Movement != Vector3.zero)
+          data.Torso.GetComponent<Rigidbody>().AddForce(new Vector3(data.Torso.transform.forward.x, 0, data.Torso.transform.forward.z)* 5, ForceMode.Impulse);*/
+
 #if UNITY_EDITOR
             ShowAvailablePlayers();
 #endif
@@ -111,7 +109,7 @@ namespace Football.Views
 
         void LoadKickForce()
         {
-            if (!PlayerHasBall)
+            if (!PlayerHasBall && !Corner)
                 return;
 
             _kickPower += (_kickPower < MAX_KICK_POWER) ? Time.deltaTime * 3 : 0;
@@ -125,7 +123,7 @@ namespace Football.Views
 
         void Shoot(Team team)
         {
-            if (BallOut)
+            if (BallOut && !Corner)
                 return;
 
             ShootR = ShootB = false;
@@ -134,7 +132,9 @@ namespace Football.Views
             CoreViewModel.LoadPowerBar(BlueTeamBar, MAX_KICK_POWER, 0);
 
             PlayerData data = (RedTeamHasBall) ? RedSelectedPlayer : (BlueTeamHasBall) ? BlueSelectedPlayer : null;
-            Vector3 shootVector = (data.Movement != Vector3.zero) ? new(data.Movement.x, .2f, data.Movement.z) : data.Torso.transform.forward;
+            Vector3? shootVector = (data?.Movement != Vector3.zero) ? new(data.Target.x, .2f, data.Target.z) : data?.Torso.transform.forward;
+
+            if (Corner) EnableMovement();
 
             if (data.playerTeam == team)
             {
@@ -153,7 +153,7 @@ namespace Football.Views
                 Vector3 vector = new Vector3(Position.x - data.PlayerPosition.x, 0, Position.z - data.PlayerPosition.z).normalized;
                 var power = (distance < 7) ? 15 * distance / 7 : 15;
                 kickBall?.Invoke(power, vector, data);
-                StartCoroutine(closestPlayer.CatchBall(Position));
+                StartCoroutine(closestPlayer.CatchBall(Position, distance));
                 closestPlayer.ExtraReach = 0.4f;
             }
 

@@ -18,7 +18,7 @@ namespace Football.Views
         bool _isPathClear;
         bool _canShoot = true;
 
-        delegate void KickBall(float power, Vector3 direction, PlayerData data);
+        delegate void KickBall(float power, Vector3? direction, PlayerData data);
         event KickBall kickBall;
 
         void Awake() => Instance = this;
@@ -51,7 +51,7 @@ namespace Football.Views
                             Pass(player);
                         else
                         {
-                            var direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
+                            int direction = (enemyData.PlayerPosition.x > AIPlayer.PlayerPosition.x) ? 1 : -1;
                             Dirbble(AIPlayer, AIPlayer.Torso.GetComponent<Rigidbody>(), direction, MovementData.Ball.GetComponent<Rigidbody>());
                         }
                     }
@@ -64,10 +64,21 @@ namespace Football.Views
         async void BallOut()
         {
             await Task.Delay(2000);
-            if (FindPlayer(out var player) && MatchData.BallOut)
-                Pass(player);
-            else if(MatchData.BallOut)
-                MovementData.Ball.GetComponent<Rigidbody>().AddForce(7 * Time.fixedDeltaTime * AIPlayer.Torso.transform.forward, ForceMode.VelocityChange);
+
+            if (!MatchData.Corner)
+            {
+                if (FindPlayer(out var player) && MatchData.BallOut)
+                    Pass(player);
+                else if (MatchData.BallOut)
+                    MovementData.Ball.GetComponent<Rigidbody>().AddForce(7 * Time.fixedDeltaTime * AIPlayer.Torso.transform.forward, ForceMode.VelocityChange);
+            }
+            else
+            {
+                MatchData.BlueTeamHasBall = false;
+                Vector3 direction = (MovementData.Ball.transform.position.z > 0) ? new(-.3f, .8f, -1f) : new(.3f, .8f, 1f);
+                direction = (MovementData.Ball.transform.position.x > 0) ? new(-.3f, direction.y, direction.z) : new(.3f, direction.y, direction.z);
+                MovementData.Ball.GetComponent<Rigidbody>().AddForce(16.5f * Time.fixedDeltaTime * direction, ForceMode.VelocityChange);
+            }
 
             await Task.Delay(200);
             MovementController.EnableMovement();
@@ -89,7 +100,7 @@ namespace Football.Views
 
                 if (distance < 10 && _canShoot && MatchData.BlueTeamHasBall)
                 {
-                    kickBall?.Invoke(17, AIPlayer.Target, AIPlayer);
+                    kickBall?.Invoke(19, AIPlayer.Torso.transform.forward, AIPlayer);
                     KickReset(200);
                 }
             }
@@ -136,5 +147,7 @@ namespace Football.Views
             await Task.Delay(time);
             _canShoot = true;
         }
+
+        void OnDestroy() => kickBall -= MovementController.BallAddForce;            
     }
 }

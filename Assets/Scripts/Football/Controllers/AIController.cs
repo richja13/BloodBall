@@ -70,7 +70,6 @@ namespace Football.Controllers
                             if (CoreViewModel.CheckVector(data.PlayerPosition, data.SpawnPoint.position, 7) && closestPlayer.MarkedPlayer == data.transform)
                             {
                                 data.Target = closestPlayer.PlayerPosition;
-                                //data.state = PlayerState.Marking;
                             }
                         else
                             data.state = PlayerState.GetBall;
@@ -114,7 +113,7 @@ namespace Football.Controllers
 
         internal static int CheckFieldHalf() => (MovementData.Ball.transform.position.x < 0) ? -1 : 1;
 
-        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized;
+        internal static void MovePlayers(Vector3 target, Vector3 playerPos, PlayerData data) => data.Movement = (MatchData.MatchStarted) ? new Vector3(target.x - playerPos.x, 0, target.z - playerPos.z).normalized : Vector3.zero;
 
         internal static bool CheckYPosition(Vector3 playerPos, Vector3 target, float distance)
         {
@@ -183,10 +182,12 @@ namespace Football.Controllers
                 Rigidbody playerRb = data.Torso.GetComponent<Rigidbody>();
                 Vector3 pos = new(data.SpawnPoint.position.x, 1.5f, data.SpawnPoint.position.z);
                 StopRigidbody(playerRb, data.Torso.transform, pos, 1000);
+                data.Movement = Vector3.zero;
+                data.Target = data.PlayerPosition;
             }
 
             MovementController.DisableMovement(MovementData.AllPlayers);
-            var rb = MovementData.Ball.GetComponent<Rigidbody>();
+            Rigidbody rb = MovementData.Ball.GetComponent<Rigidbody>();
             StopRigidbody(rb, rb.transform, Vector3.zero, 1000);
 
             MatchData.RedTeamHasBall = false;
@@ -198,6 +199,9 @@ namespace Football.Controllers
 
         internal static async void StopRigidbody(Rigidbody rb, Transform transform, Vector3 pos, int time)
         {
+            if (rb.velocity == Vector3.zero)
+                return;
+
             rb.isKinematic = true;
             transform.position = pos;
             await Task.Delay(time);

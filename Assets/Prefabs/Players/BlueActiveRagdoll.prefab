@@ -7846,7 +7846,6 @@ MonoBehaviour:
   _activeRagdoll: {fileID: 4450393246265212374}
   _physicsModule: {fileID: 2854787977675961954}
   _animationModule: {fileID: 364569348136535134}
-  _enableMovement: 0
   _weaponView: {fileID: 6615365601500186482}
 --- !u!1 &6317635066889134066
 GameObject:

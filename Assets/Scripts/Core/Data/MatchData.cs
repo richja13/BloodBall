@@ -45,6 +45,7 @@ namespace Core.Data
                 }
             }
         }
+        public static bool Corner;
 
         static bool _ballOut;
 

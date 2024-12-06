@@ -3,6 +3,7 @@ using ActiveRagdoll.Modules;
 using System.Threading.Tasks;
 using Core.Enums;
 using System.Linq;
+using Football.Data;
 
 namespace ActiveRagdoll
 {
@@ -86,5 +87,7 @@ namespace ActiveRagdoll
             collisionObj.gameObject.GetComponent<MeshRenderer>().material = WeaponMaterial;
             collisionObj.gameObject.GetComponent<BoxCollider>().enabled = true;
         }
+
+        void OnDestroy() => Controller.OnWeaponAttack -= Attack;
     }
 }

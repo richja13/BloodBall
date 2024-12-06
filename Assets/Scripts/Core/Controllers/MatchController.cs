@@ -31,7 +31,7 @@ namespace Core.Controllers
             TransitionManager.Instance.PlayEndHalfTransition(2);
             MatchData.MatchStarted = false;
             MatchData.CanKickBall = false;
-            await Task.Delay(3000);
+            await Task.Delay(3500);
             MatchData.MatchStarted = true;
             MatchData.CanKickBall = true;
             Signals.Get<EnableMovementSignal>().Dispatch();

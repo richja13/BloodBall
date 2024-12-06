@@ -2,6 +2,7 @@
 using UnityEngine;
 using ActiveRagdoll.Modules;
 using System.Threading.Tasks;
+using Football.Data;
 
 namespace ActiveRagdoll {
     // Author: Sergio Abreu García | https://sergioabreu.me
